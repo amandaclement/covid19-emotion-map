@@ -1,8 +1,7 @@
-
 // import packages 
 const express = require('express');
 const natural = require("natural");
-const stopword = require("stopword");
+const stopwords = require("n-stopwords")(['en']); // set stopword language to english
 const mongoose = require("mongoose");
 
 // port and host
@@ -93,19 +92,19 @@ const AirplaneCrashesModule = require("./DBSchema.js");
 mongoose.connect(url);
 let db = mongoose.connection;
 
-let testVar = 5;
+// let testVar = 5;
 
-// use async keyword to enable asynchronous, promise-based behavior 
-// (a promise being an object representing the eventual completion or failure of an asynchronous operation)
-db.once("open", async function() {
-  // logs the total number of recorded crashes (so # of entries in dataset)
-  AirplaneCrashesModule.count().then((totalCrashes)=>{
-    console.log("TOTAL AIRPLANE CRASHES RECORDED BETWEEN 1908-2019:");
-    console.log(totalCrashes);
-    console.log("\n");
-    testVar = totalCrashes; 
-  })
-})
+// // use async keyword to enable asynchronous, promise-based behavior 
+// // (a promise being an object representing the eventual completion or failure of an asynchronous operation)
+// db.once("open", async function() {
+//   // logs the total number of recorded crashes (so # of entries in dataset)
+//   AirplaneCrashesModule.count().then((totalCrashes)=>{
+//     console.log("TOTAL AIRPLANE CRASHES RECORDED BETWEEN 1908-2019:");
+//     console.log(totalCrashes);
+//     console.log("\n");
+//     testVar = totalCrashes; 
+//   })
+// })
 
 // needed for handling POST requests
 // Express provides the middleware to deal with the (incoming) data (object) in the body of the request
@@ -114,11 +113,11 @@ db.once("open", async function() {
 // app.use("/",express.static(__dirname + "/public"));
 
 // run a test to see if testVar is updated and passed successfully
-app.post("/testing",(request,response)=>{
-  response.status(200).json({
-    myVar: testVar // does this always work? or does testVar sometimes keep value 5 if loading not done sequentially?
-  })
-});
+// app.post("/testing",(request,response)=>{
+//   response.status(200).json({
+//     myVar: testVar // does this always work? or does testVar sometimes keep value 5 if loading not done sequentially?
+//   })
+// });
 
 // the next lines are used for language processing (the filtering of the data)
 // tutorial followed: https://www.geeksforgeeks.org/how-to-create-sentiment-analysis-application-using-node-js/ 
@@ -147,38 +146,113 @@ const removeNonAlpha = text => {
     return text.replace(/[^a-zA-Z\s]+/g, '');   // replaces all non alphabets with empty string
 }
 
-// a test sentence
-const testSentence = "covid restrictions are great";
+let testSentences = [
+    "i'm always happy",
+    "i'm incredibly happy",
+    "i'm never not happy",
+    "i'm so very happy", // so = very
+    "i'm really happy",  // really is more intense than very?
+    "i'm happy", 
+    "i'm quite happy",
+    "i'm kind of happy",
+    "i'm barely happy",
+    "i'm not very happy",
+    "i'm not really happy",
+    "i'm not quite happy",
+    "i'm not happy",
+    "i'm really not happy",
+    "i'm never happy",
+    "i'm not sad, I'm happy",
+    "i'm not not happy",
+    "i'm not not sad, but not happy",
+    "i'm not happy, nor sad",
+    "i'm unhappy"  ,
+    "i'm not unhappy but i'm not sad either",
+    "i'm not usually unhappy but i'm now happy",
+    "i'm not often unhappy but right now i am unhappy",
+    "i'm not usually unhappy but i am now"
+];
 
-// NLP Logic: converts all data to its standard form
-const lexData = convertToStandard(testSentence);
-console.log("Lexed Data: ", lexData);
+// return a list of all stopwords
+// console.log(stopwords.getStopWords());
+// check if a word is a stopword
+// console.log(stopwords.isStopWord("never"));
+// remove a word from the stopword list
+// stopwords.remove("never");
+            
+// array of common negation words
+ const negationWords = [
+    "not",
+    "never",
+    "neither", 
+    "nor",     
+    "barely",
+    "hardly",
+    "rarely",
+    "scarcely",
+    "seldom",
+    "no longer",
+    "isn't"
+ ];
+  
+// negation words are significant to the meaning of the sentence so remove them as stopwords
+for (let i = 0; i < negationWords.length; i++)
+    stopwords.remove(negationWords[i]);
 
-// convert all data to lowercase
-const lowerCaseData = convertTolowerCase(lexData);
-console.log("LowerCase Format: ", lowerCaseData);
-    
-// remove non alphabets and special characters
-const onlyAlpha = removeNonAlpha(lowerCaseData);
-console.log("OnlyAlpha: ", onlyAlpha);
-    
-// tokenize the sentence: break the string up into words (tokens)
-const tokenConstructor = new natural.WordTokenizer();
-const tokenizedData = tokenConstructor.tokenize(onlyAlpha);
-console.log("Tokenized Data: ", tokenizedData);
-    
-// remove stopwords using Stopword npm package
-// stopwords are words that are so frequent that they can be safely removed from a text without altering its meaning (e.g. "the", "is", "are", "a")
-const filteredData = stopword.removeStopwords(tokenizedData);
-console.log("After removing stopwords: ", filteredData);
+// const testSentence = "i'm not not sad, but I'm not happy";
+for (let i = 0; i < testSentences.length; i++)
+{
+    // NLP Logic: converts all data to its standard form
+    const lexData = convertToStandard(testSentences[i]);
+    console.log("Lexed Data: ", lexData);
 
-// After all this data filtration code, we use a Natural package, SentimentAnalyzer, from Natural that creates a sentiment score from the user's review
-// The sentiment analysis algorithm from Natural library uses AFINN: a lexicon of English words rated for valence using an integer beteen -5 (negative) and 5 (positive).
-// The algorithm works by summing the polarity of each token (word) and normalizing it using the text's length. If the algorithm returns a negative value it represents 
-// a negative sentiment, if it returns a positive value it represents a positive sentiment and if it returns 0 this represents a neutral sentiment.
-const SentiAnalyzer = new natural.SentimentAnalyzer('English', natural.PorterStemmer, 'afinn');
-const analysis_score = SentiAnalyzer.getSentiment(filteredData);
-console.log("Sentiment Score: ", analysis_score);
+    // convert all data to lowercase
+    const lowerCaseData = convertTolowerCase(lexData);
+    console.log("LowerCase Format: ", lowerCaseData);
+        
+    // remove non alphabets and special characters
+    const onlyAlpha = removeNonAlpha(lowerCaseData);
+    console.log("OnlyAlpha: ", onlyAlpha);
+
+    // remove stopwords (e.g. "the", "is", "a", "are") using n-stopwords package before tokenizing
+    const filteredData = stopwords.cleanText(onlyAlpha);
+    console.log("After removing stopwords: ", filteredData);
+        
+    // tokenize the sentence: break the string up into words (tokens)
+    const tokenConstructor = new natural.WordTokenizer();
+    let tokenizedData = tokenConstructor.tokenize(filteredData);
+    console.log("Tokenized Data: ", tokenizedData);
+
+    // handle negations
+    // when faced with a negation word, remove it along with its consecutive word which may be another negation word or a different significant words
+    // e.g. not sad -> inconclusive since "not sad" doesn't necessarily mean happy or any other particular emotion
+    // e.g. not not happy -> happy
+    // e.g. never happy, just sad -> sad
+    // e.g. not not sad, but not happy -> sad
+    // e.g. not happy, not sad -> inconclusive as we can't derive a particular emotion from this text
+    for (let j = 0; j < tokenizedData.length - 1; j++)
+    {
+      for (let k = 0; k < negationWords.length; k++)
+        if (tokenizedData[j] == negationWords[k])
+        {
+          tokenizedData.splice(j, 2);
+          j = j - 2; // decrement by two since as the array was shifted two positions
+                    // so we need to recheck the new values in these positions
+        }
+    }
+
+    // display the tokenized data again after negations have been considered
+    console.log("Tokenized Data (negations applied): ", tokenizedData);
+
+    // After all this data filtration code, use SentimentAnalyzer from Natural package to generate a sentiment score for the text
+    // The sentiment analysis algorithm from Natural library uses AFINN: a lexicon of English words rated for valence using an integer beteen -5 (negative) and 5 (positive).
+    // The algorithm works by summing the polarity of each token (word) and normalizing it using the text's length. If the algorithm returns a negative value it represents 
+    // a negative sentiment, if it returns a positive value it represents a positive sentiment and if it returns 0 this represents a neutral sentiment.
+    const SentiAnalyzer = new natural.SentimentAnalyzer('English', natural.PorterStemmer, 'afinn');
+    const analysis_score = SentiAnalyzer.getSentiment(tokenizedData);
+    console.log("Sentiment Score: ", analysis_score);
+    console.log("\n");
+}
 
 // send this sentiment score as a response, via POST request, along /custom route to be used in main.js
 app.post("/custom",(request,response)=>{

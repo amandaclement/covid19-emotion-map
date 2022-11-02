@@ -1,4 +1,4 @@
-// This file contains functions for writing/drawing to the HTML page.
+// this file contains functions for writing/drawing to the HTML page
 
 // sentiment counters
 let positiveCount = 0;
@@ -9,45 +9,41 @@ let negativeCount = 0;
 const sentiment = document.querySelector(".sentiment");
 
 // submit_button.addEventListener("click",()=>{
-        // Send POST request to server
-        const options = {
-            method : "POST",
-            headers : new Headers({
-                'Content-Type' : "application/json"
-            })
-        }
-
-        // use fetch to request server
-        fetch("/custom", options)
-        .then(res=>res.json())
-        .then((response)=>{
-            console.log("hi" + response.sentiment_score);
-  
-            const score = response.sentiment_score;
-  
-            // separate responses according to sentiment_score
-            if (score > 0)
-            {
-                sentiment.innerHTML = "<p>Positive</p>";
-                // increment positiveCount to add a positive-sentiment ellipse
-                positiveCount++;
-
-            }
-            else if (score === 0)
-            {
-                sentiment.innerHTML = "<p>Neutral</p>";
-                // increment neutralCount to add a neutral-sentiment ellipse
-                neutralCount++;
-            }
-
-            else {
-                sentiment.innerHTML = "<p>Negative</p>";
-                // increment negativeCount to add a negative-sentiment ellipse
-                negativeCount++;
-            }
-  
+    // Send POST request to server
+    const options = {
+        method : "POST",
+        headers : new Headers({
+            'Content-Type' : "application/json"
         })
-        .catch(err=>console.error("Error: ", err));
+    }
+
+    // use fetch to request server
+    fetch("/custom", options)
+    .then(res=>res.json())
+    .then((response)=>{
+        console.log(response.sentiment_score);
+  
+        const score = response.sentiment_score;
+  
+        // separate responses according to sentiment_score
+        if (score > 0)
+        {
+            sentiment.innerHTML = "<p>Positive</p>";
+            positiveCount++; // increment positiveCount to add a positive-sentiment ellipse
+        }
+        else if (score === 0)
+        {
+            sentiment.innerHTML = "<p>Neutral</p>";
+            neutralCount++;  // increment neutralCount to add a neutral-sentiment ellipse
+        }
+        else 
+        {
+            sentiment.innerHTML = "<p>Negative</p>";
+            negativeCount++; // increment negativeCount to add a negative-sentiment ellipse
+        }
+  
+    })
+    .catch(err=>console.error("Error: ", err));
 // });
 
 // use p5 to draw the ellipses
