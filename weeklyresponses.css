@@ -1,0 +1,92 @@
+html, body {
+  background-color: #FFF;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
+  font-weight: 600;
+  background-color: #000;
+  border-radius: 40px;
+  display: inline;
+  padding: 10px 20px;
+  position: fixed;
+  left: 25px;
+  bottom: 0;
+  height: 20px;
+  color: #FFF;
+}
+
+#container {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+#container .project {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 20px;
+  font-weight: 500;
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1.5px solid #000;
+  line-height: 55px;
+  background-color: #FFF;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+#container .title {
+  padding-top: 15px;
+  width: 100%;
+  display: inline-block;
+}
+
+#container .content {
+  width: 90%;
+  padding-bottom: 50px;
+  /* height: 400px; */
+  display: none;
+  margin: 0 auto;
+}
+
+.title-left {
+  float: left;
+  display: inline;
+  padding-left: 35px;
+}
+
+h3 {
+  padding-right: 140px;
+}
+
+h4 {
+  float: right;
+  padding-right: 35px;
+}
+
+h3, h4{
+  display: inline;
+  font-weight: 500;
+  font-size: 20px;
+  margin: 0;
+}
+
+.content p {
+  font-size: 15px;
+  line-height: 22px;
+  color: #404040;
+  font-family: 'Rubik', sans-serif;
+  width: 90%;
+  margin: 10px auto;
+}
+
+#bio img {
+  text-align: center;
+  width: 275px;
+  display: block;
+  margin: 0 auto;
+}

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300;0,400;1,300;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="weeklyresponses.css" />
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+
+  <script>
+    $(document).ready(function() {
+      // set to false when project is closed, set to true when project is open
+      let openStatus = false;
+
+      // handles opening/closing of projects when one is clicked or when window is resized
+      function handleProj() {
+        // if openStatus is 0, means project is not currently open hence we show the project info
+        // we also change the + symbol in the project title bar to a - symbol to signify it's open
+        if (!openStatus) {
+          $(this).children('.content').delay(150).fadeIn(300);
+          $(this).children('.title').children('.title-left').children('h3').html('-');
+          openStatus = true;
+        }
+        // else if openStatus is 1, means project is already open hence we hide the project info
+        // we also change the - symbol in the project title bar to a + symbol to signify it's closed
+        else {
+          $(this).children('.content').hide();
+          $(this).children('.title').children('.title-left').children('h3').html('+');
+          openStatus = false;
+        }
+      }
+
+      // handles when user clicks on a project title bar
+      $('.project').click(handleProj);
+
+      // handles when user resizes window width
+      $(window).resize(function() {
+        // close (reset) projects so that we can adjust projects' heights based on new width
+        $('.project').children('.content').hide();
+        $('.project').children('.title').children('.title-left').children('h3').html('+');
+        openStatus = false;
+      });
+
+      // handles when user hovers over a project title bar
+      $('.project').hover(
+        // this function is run when user hovers mouse over project title bar, causing it to slightly expand
+        function() {
+          $(this).animate({
+            'padding-bottom': '12px'
+          }, 200);
+        },
+        // this function is run when user removes mouse from a project title bar, causing it to reset to normal (remove expansion)
+        function() {
+          $(this).animate({
+            'padding-bottom': '0px'
+          }, 200);
+        }
+      );
+    });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+
+    <div class="project" id="project1">
+      <div class="title">
+        <div class="title-left">
+          <h3>+</h3>Short Bio
+        </div>
+        <h4> WEEK 2</h4>
+      </div> <!-- closing title div -->
+      <div class="content" id="bio">
+        <img src="weeklyresponses_img/apple.jpg" alt="apple">
+        <p>
+          I introduce myself with a photo of an apple as I believe we share a lot in common.<br><br>
+
+          Like an apple, I come in many flavours ranging from computer science, to design, to the creative arts. We can both stand alone but can also be an asset to a team, as an apple is to an apple pie, when looking to make something a little more
+          complex and exciting. We both prioritize user-friendliness: apples do so in their portability, ease of storage and ease of consumption, while I aim to design systems that are clean, reliable and intuitive (and hopefully also somewhat
+          interesting, engaging or entertaining). Similar to apple trees that take on average 4 to 10 years to mature, I’m roughly 3 years into my practice and am still very much growing and maturing as a student and as a designer. <br><br>
+
+          All that to say that I have always found writing biographies to be challenging and stressful. Somehow this exercise felt less daunting when comparing myself to a fruit.
+        </p>
+      </div> <!-- closing content div -->
+    </div> <!-- closing project div -->
+
+    <div class="project" id="project2">
+      <div class="title">
+        <div class="title-left">
+          <h3>+</h3>Crowdsourcing
+        </div>
+        <h4> WEEK 3</h4>
+      </div> <!-- closing title div -->
+      <div class="content">
+        <p>
+          Besides the primary reading <i>The Rise of Crowdsourcing</i> by Jeff Howe, the two additional projects I explored are <i>Dead Drops</i> by Aram Bartholl and <i>Your World of Text</i> by Andrew Badr. As they all relate to crowdsourcing, we
+          are presented with the power of reaching a large, diverse user-base to create content and solve problems across various disciplines, at a remarkably reduced fee.<br><br>
+
+          Despite the advantages offered by crowdsourcing, asking users to generate content, and in more extreme cases to manage the distribution of content, can be harmful. Howe explicitly presents some of these consequences, ranging from the
+          decline in work and pay for professional photographers, to users trying to scam companies who pay them to complete tasks, to the necessity of filtering user-generated content submitted for television shows. Diving further into the latter,
+          the content submitted may simply be boring or bad clips but may also include disturbing, abusive or illegal content. The same goes for the user-generated content for <i>Dead Drops</i> and <i>Your World of Text</i>, where the responsibility
+          falls on the users to use the technology appropriately.<br><br>
+
+          In the case of reviewing content for a television show, the filtering process is presumably quite extensive considering the rules that govern the type of content that can be broadcasted on television. Should an inappropriate clip be
+          submitted, the editors can simply choose not to air it. In the case of <i>Dead Drops</i> and <i>Your World of Text</i>, on the other hand, the online world is less regulated as it is far more difficult to enforce rules, especially when
+          anonymity is involved. And by allowing the contributing users to remain anonymous, there is also the concern of who is to blame if the technology gets misused or abused. This is especially problematic in the case of Bartholl’s project since
+          users are able to install their own Dead Drops, hence they are not just contributors but also managers of the technology.<br><br>
+
+          However, what makes <i>Dead Drops</i> and <i>Your World of Text</i> successful projects is perhaps the lack of intervention by the creator. Since users can both contribute and delete content, they, in a sense, become responsible for
+          regulating the projects. Just as users can add hateful or inappropriate text, users can also remove hateful or inappropriate text. The users become both the producers and the editors.<br><br>
+
+          Moreover, considering how a Dead Drop could theoretically be installed on any public building in any city and anyone with access to the Internet could use <i>Your World of Text</i>, this results in a very diverse audience contributing to
+          the projects in interesting and unexpected ways. This parallels Howe's explanation of how InnoCentive’s “solvers”, many of whom are hobbyists, were surprisingly able to come up with solutions to problems outside of their disciplines,
+          showing the immense potential of crowdsourcing.
+
+        </p>
+      </div> <!-- closing content div -->
+    </div> <!-- closing project div -->
+
+    <div class="project" id="project3">
+      <div class="title">
+        <div class="title-left">
+          <h3>+</h3>Project Proposal
+        </div>
+        <h4> WEEK 4</h4>
+      </div> <!-- closing title div -->
+      <div class="content">
+        <p>
+          <a href=proposal/proposal.pdf target="_blank">LINK TO PROPOSAL</a>
+        </p>
+      </div> <!-- closing content div -->
+    </div> <!-- closing project div -->
+
+    <div class="project" id="project4">
+      <div class="title">
+        <div class="title-left">
+          <h3>+</h3>Experiential Data Visualization
+        </div>
+        <h4> WEEK 6</h4>
+      </div> <!-- closing title div -->
+      <div class="content">
+        <p>
+          The work I explored is <i>The Wall Of Sound</i>, which is an interactive and collaborative audio visualization installation by panGenerator. This project serves as an open platform for music expression that allows users to record and play
+          sounds across a series of nodes and links displayed in a hexagonal module on the wall. Sounds are projected from the nodes, and flashes of light appear on the links to show how the sequencer travels through the sounds. Just as users may
+          contribute sounds to the installation, they may also set the direction of each one, which may restrict or expand the sound’s path, essentially filtering the audio emitted by the sequencer.<br><br>
+
+          <i>The Wall of Sound</i> is an <i>experiential data visualization</i> as it is brought to life through a dialogue with its audience which is continuously evolving as new users contribute new sounds and change the sequences. This immersive
+          interaction with individual items of data is what Sepandar Kamvar and Jonathan Harris classify as experiential data visualization in <i>We Feel Fine and Searching the Emotional Web</i>.<br><br>
+
+          Similar to the findings surrounding user experiences with <i>We Feel Fine</i>, the increased sense of connection to others and feeling of belonging to the world around them is (presumably) also how one feels after interacting with <i>The
+          Wall of Sound</i> as their unique sound(s) contribute to a larger, collective musical piece. However, the experience one has with the latter is much more narrow and curated (not by the installation’s creator, but by the previous user).
+          For instance, due to the limited number of nodes used in the installation, a single user could record a sound for each node. As such, the data comes from a single user and all previous contributors’ sounds are lost. With <i>We Feel
+          Fine</i>, the data is crowdsourced and continuously updated, making it impossible for one user to control the visualization.<br><br>
+
+          Another difference between one’s interaction with the two works involves the user’s own self-awareness. With Kamvar and Harris’ work, users were apt to discuss how the data affected them on a personal level. Although there is no user
+          feedback of this nature provided with panGenerator’s project, I doubt that this same sense of heightened self-awareness comes from one’s interaction with panGenerator’s installation (although it’s worth noting that this may not have been
+          their intention, either). I believe that this elevated understanding of one’s self in <i>We Feel Fine</i> mainly stems from the user’s ability to browse the data at a micro-level as they can view, read and relate to individual stories. This
+          is not a possibility with <i>The Wall of Sound</i> as the user cannot easily isolate a sound to analyze it on an individual level (although they may interact with each sound on an item-level). I also think this difference is largely due to
+          text and images being easier to analyze and relate to than sounds for most users.<br><br>
+
+          Links to projects:<br>
+          <a href="http://www.wefeelfine.org/wefeelfine.pdf" target_"blank">wefeelfine.org/wefeelfine.pdf</a><br>
+          <a href="https://pangenerator.com/projects/the-wall-of-sound/" target_"blank">pangenerator.com/projects/the-wall-of-sound/</a>
+        </p>
+      </div> <!-- closing content div -->
+    </div> <!-- closing project div -->
+
+    <div class="project" id="project5">
+      <div class="title">
+        <div class="title-left">
+          <h3>+</h3>Edge Impulse Report
+        </div>
+        <h4> WEEK 8</h4>
+      </div> <!-- closing title div -->
+      <div class="content">
+        <p>
+          <a href="weeklyresponses_files/edgeImpulseReport.pdf" target_"blank">Link to PDF</a><br>
+        </p>
+      </div> <!-- closing content div -->
+    </div> <!-- closing project div -->
+
+    <div class="project" id="project6">
+      <div class="title">
+        <div class="title-left">
+          <h3>+</h3>::
+        </div>
+        <h4> WEEK 9</h4>
+      </div> <!-- closing title div -->
+      <div class="content">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed nunc dignissim, rutrum magna id, elementum urna. Curabitur placerat tempor enim quis feugiat. Duis sem nisi, laoreet non condimentum sit amet, venenatis sit amet ipsum.
+          Phasellus fringilla lacus nulla, quis ullamcorper velit imperdiet sit amet. Aliquam erat volutpat. Aliquam tellus ex, ultricies tempor libero nec, tincidunt lacinia libero. Nullam nec mollis velit, vitae efficitur massa. Aenean posuere a
+          metus eget imperdiet. Pellentesque scelerisque, lacus a maximus tristique, nisl odio accumsan massa, ac eleifend neque mi eget elit. Pellentesque non hendrerit urna.<br><br>
+          Maecenas et luctus ipsum, nec ultrices velit. Sed at blandit enim. Proin tempus tincidunt euismod. Proin neque elit, posuere auctor dui nec, volutpat ornare dui. Mauris eget condimentum dui. Curabitur congue luctus nulla, sed ultrices mi
+          placerat sit amet. Maecenas efficitur eleifend arcu, eget rutrum augue finibus ut. Integer mauris ante, consequat vel sagittis sed, ultricies at urna. Integer rhoncus ultrices nulla non feugiat. Praesent quis dapibus ante. Morbi a velit a
+          nulla vestibulum interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Suspendisse porttitor velit imperdiet, finibus lacus eu, congue turpis.
+        </p>
+      </div> <!-- closing content div -->
+    </div> <!-- closing project div -->
+
+    <div class="project" id="project7">
+      <div class="title">
+        <div class="title-left">
+          <h3>+</h3>::
+        </div>
+        <h4> WEEK 10</h4>
+      </div> <!-- closing title div -->
+      <div class="content">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed nunc dignissim, rutrum magna id, elementum urna. Curabitur placerat tempor enim quis feugiat. Duis sem nisi, laoreet non condimentum sit amet, venenatis sit amet ipsum.
+          Phasellus fringilla lacus nulla, quis ullamcorper velit imperdiet sit amet. Aliquam erat volutpat. Aliquam tellus ex, ultricies tempor libero nec, tincidunt lacinia libero. Nullam nec mollis velit, vitae efficitur massa. Aenean posuere a
+          metus eget imperdiet. Pellentesque scelerisque, lacus a maximus tristique, nisl odio accumsan massa, ac eleifend neque mi eget elit. Pellentesque non hendrerit urna.<br><br>
+          Maecenas et luctus ipsum, nec ultrices velit. Sed at blandit enim. Proin tempus tincidunt euismod. Proin neque elit, posuere auctor dui nec, volutpat ornare dui. Mauris eget condimentum dui. Curabitur congue luctus nulla, sed ultrices mi
+          placerat sit amet. Maecenas efficitur eleifend arcu, eget rutrum augue finibus ut. Integer mauris ante, consequat vel sagittis sed, ultricies at urna. Integer rhoncus ultrices nulla non feugiat. Praesent quis dapibus ante. Morbi a velit a
+          nulla vestibulum interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Suspendisse porttitor velit imperdiet, finibus lacus eu, congue turpis.
+        </p>
+      </div> <!-- closing content div -->
+    </div> <!-- closing project div -->
+
+    <div class="project" id="project8">
+      <div class="title">
+        <div class="title-left">
+          <h3>+</h3>::
+        </div>
+        <h4> WEEK 11</h4>
+      </div> <!-- closing title div -->
+      <div class="content">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed nunc dignissim, rutrum magna id, elementum urna. Curabitur placerat tempor enim quis feugiat. Duis sem nisi, laoreet non condimentum sit amet, venenatis sit amet ipsum.
+          Phasellus fringilla lacus nulla, quis ullamcorper velit imperdiet sit amet. Aliquam erat volutpat. Aliquam tellus ex, ultricies tempor libero nec, tincidunt lacinia libero. Nullam nec mollis velit, vitae efficitur massa. Aenean posuere a
+          metus eget imperdiet. Pellentesque scelerisque, lacus a maximus tristique, nisl odio accumsan massa, ac eleifend neque mi eget elit. Pellentesque non hendrerit urna.<br><br>
+          Maecenas et luctus ipsum, nec ultrices velit. Sed at blandit enim. Proin tempus tincidunt euismod. Proin neque elit, posuere auctor dui nec, volutpat ornare dui. Mauris eget condimentum dui. Curabitur congue luctus nulla, sed ultrices mi
+          placerat sit amet. Maecenas efficitur eleifend arcu, eget rutrum augue finibus ut. Integer mauris ante, consequat vel sagittis sed, ultricies at urna. Integer rhoncus ultrices nulla non feugiat. Praesent quis dapibus ante. Morbi a velit a
+          nulla vestibulum interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Suspendisse porttitor velit imperdiet, finibus lacus eu, congue turpis.
+        </p>
+      </div> <!-- closing content div -->
+    </div> <!-- closing project div -->
+
+    <div class="project" id="project9">
+      <div class="title">
+        <div class="title-left">
+          <h3>+</h3>::
+        </div>
+        <h4> WEEK 12-13</h4>
+      </div> <!-- closing title div -->
+      <div class="content">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed nunc dignissim, rutrum magna id, elementum urna. Curabitur placerat tempor enim quis feugiat. Duis sem nisi, laoreet non condimentum sit amet, venenatis sit amet ipsum.
+          Phasellus fringilla lacus nulla, quis ullamcorper velit imperdiet sit amet. Aliquam erat volutpat. Aliquam tellus ex, ultricies tempor libero nec, tincidunt lacinia libero. Nullam nec mollis velit, vitae efficitur massa. Aenean posuere a
+          metus eget imperdiet. Pellentesque scelerisque, lacus a maximus tristique, nisl odio accumsan massa, ac eleifend neque mi eget elit. Pellentesque non hendrerit urna.<br><br>
+          Maecenas et luctus ipsum, nec ultrices velit. Sed at blandit enim. Proin tempus tincidunt euismod. Proin neque elit, posuere auctor dui nec, volutpat ornare dui. Mauris eget condimentum dui. Curabitur congue luctus nulla, sed ultrices mi
+          placerat sit amet. Maecenas efficitur eleifend arcu, eget rutrum augue finibus ut. Integer mauris ante, consequat vel sagittis sed, ultricies at urna. Integer rhoncus ultrices nulla non feugiat. Praesent quis dapibus ante. Morbi a velit a
+          nulla vestibulum interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Suspendisse porttitor velit imperdiet, finibus lacus eu, congue turpis.
+        </p>
+      </div> <!-- closing content div -->
+    </div> <!-- closing project div -->
+
+    <h1>CART 451: WEEKLY RESPONSES BY AMANDA CLEMENT</h1>
+
+  </div> <!-- closing container div -->
+</body>
+
+</html>
