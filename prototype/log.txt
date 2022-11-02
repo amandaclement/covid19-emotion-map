@@ -1,0 +1,405 @@
+_______________________________________________________________
+
+TEST 1: used stopword library without modification
+
+i'm always happy
+Lexed Data:  I am always happy
+Tokenized Data:  [ 'i', 'am', 'always', 'happy' ]
+After removing stopwords:  [ 'always', 'happy' ]
+Sentiment Score:  1.5
+
+i'm incredibly happy
+Lexed Data:  I am incredibly happy
+Tokenized Data:  [ 'i', 'am', 'incredibly', 'happy' ]
+After removing stopwords:  [ 'incredibly', 'happy' ]
+Sentiment Score:  1.5
+
+i'm never not happy
+Lexed Data:  I am never not happy
+Tokenized Data:  [ 'i', 'am', 'never', 'not', 'happy' ]
+After removing stopwords:  [ 'not', 'happy' ]
+Sentiment Score:  -1.5
+
+i'm so very happy
+Lexed Data:  I am so very happy
+Tokenized Data:  [ 'i', 'am', 'so', 'very', 'happy' ]
+After removing stopwords:  [ 'so', 'happy' ]
+Sentiment Score:  1.5
+
+i'm really happy
+Lexed Data:  I am really happy
+Tokenized Data:  [ 'i', 'am', 'really', 'happy' ]
+After removing stopwords:  [ 'really', 'happy' ]
+Sentiment Score:  1.5
+
+i'm happy
+Lexed Data:  I am happy
+Tokenized Data:  [ 'i', 'am', 'happy' ]
+After removing stopwords:  [ 'happy' ]
+Sentiment Score:  3
+
+i'm quite happy
+Lexed Data:  I am quite happy
+Tokenized Data:  [ 'i', 'am', 'quite', 'happy' ]
+After removing stopwords:  [ 'quite', 'happy' ]
+Sentiment Score:  1.5
+
+i'm kind of happy
+Lexed Data:  I am kind of happy
+Tokenized Data:  [ 'i', 'am', 'kind', 'of', 'happy' ]
+After removing stopwords:  [ 'kind', 'happy' ]
+Sentiment Score:  2.5
+
+i'm barely happy
+Lexed Data:  I am barely happy
+Tokenized Data:  [ 'i', 'am', 'barely', 'happy' ]
+After removing stopwords:  [ 'barely', 'happy' ]
+Sentiment Score:  1.5
+
+I'm not very happy
+Lexed Data:  I am not very happy
+Tokenized Data:  [ 'i', 'am', 'not', 'very', 'happy' ]
+After removing stopwords:  [ 'not', 'happy' ]
+Sentiment Score:  -1.5
+
+i'm not really happy
+Lexed Data:  I am not really happy
+Tokenized Data:  [ 'i', 'am', 'not', 'really', 'happy' ]
+After removing stopwords:  [ 'not', 'really', 'happy' ]
+Sentiment Score:  -1
+
+i'm not quite happy
+Lexed Data:  I am not quite happy
+Tokenized Data:  [ 'i', 'am', 'not', 'quite', 'happy' ]
+After removing stopwords:  [ 'not', 'quite', 'happy' ]
+Sentiment Score:  -1
+
+i'm not happy
+Lexed Data:  I am not happy
+Tokenized Data:  [ 'i', 'am', 'not', 'happy' ]
+After removing stopwords:  [ 'not', 'happy' ]
+Sentiment Score:  -1.5
+
+i'm really not happy
+Lexed Data:  I am really not happy
+Tokenized Data:  [ 'i', 'am', 'really', 'not', 'happy' ]
+After removing stopwords:  [ 'really', 'not', 'happy' ]
+Sentiment Score:  -1
+
+i'm never happy
+Lexed Data:  I am never happy
+Tokenized Data:  [ 'i', 'am', 'never', 'happy' ]
+After removing stopwords:  [ 'happy' ]
+Sentiment Score:  3
+
+Notes:
+- library isn't very flexible: cannot easily add to or remove from the list of stopwords
+- negation terms not handled properly
+    - i.e. "never" is considered to be a stopword which is problematic since "i am never happy" is filtered to "happy" and therefore gets a positive rating
+_______________________________________________________________
+
+TEST 2: used n-stopwords library without modification
+
+i'm always happy
+Lexed Data:  I am always happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Sentiment Score:  3
+
+i'm incredibly happy
+Lexed Data:  I am incredibly happy
+After removing stopwords:  incredibly happy
+Tokenized Data:  [ 'incredibly', 'happy' ]
+Sentiment Score:  1.5
+
+i'm never not happy
+Lexed Data:  I am never not happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Sentiment Score:  3
+
+i'm so very happy
+Lexed Data:  I am so very happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Sentiment Score:  3
+
+i'm really happy
+Lexed Data:  I am really happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Sentiment Score:  3
+
+i'm happy
+Lexed Data:  I am happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Sentiment Score:  3
+
+i'm quite happy
+Lexed Data:  I am quite happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Sentiment Score:  3
+
+i'm kind of happy
+Lexed Data:  I am kind of happy
+After removing stopwords:  kind happy
+Tokenized Data:  [ 'kind', 'happy' ]
+Sentiment Score:  2.5
+
+i'm barely happy
+Lexed Data:  I am barely happy
+After removing stopwords:  barely happy
+Tokenized Data:  [ 'barely', 'happy' ]
+Sentiment Score:  1.5
+
+I'm not very happy
+Lexed Data:  I am not very happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Sentiment Score:  3
+
+i'm not really happy
+Lexed Data:  I am not really happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Sentiment Score:  3
+
+i'm not quite happy
+Lexed Data:  I am not quite happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Sentiment Score:  3
+
+i'm not happy
+Lexed Data:  I am not happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Sentiment Score:  3
+
+i'm really not happy
+Lexed Data:  I am really not happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Sentiment Score:  3
+
+i'm never happy
+Lexed Data:  I am never happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Sentiment Score:  3
+
+Notes:
+- n-stopwords library has more flexibility than stopwords library
+    - i.e. can add/remove stopwords, check if a word is a stopword, display all stopwords in the list
+- negation terms still problematic
+    - i.e. "never" is considered to be a stopword which is problematic since "i am never happy" is filtered to "happy" and therefore gets a positive rating
+
+_______________________________________________________________
+
+TEST 3: used n-stopwords library with modifications made to consider negation words
+
+Lexed Data:  I am always happy
+LowerCase Format:  i am always happy
+OnlyAlpha:  i am always happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Tokenized Data (negations applied):  [ 'happy' ]
+Sentiment Score:  3
+
+Lexed Data:  I am incredibly happy
+LowerCase Format:  i am incredibly happy
+OnlyAlpha:  i am incredibly happy
+After removing stopwords:  incredibly happy
+Tokenized Data:  [ 'incredibly', 'happy' ]
+Tokenized Data (negations applied):  [ 'incredibly', 'happy' ]
+Sentiment Score:  1.5
+
+Lexed Data:  I am never not happy
+LowerCase Format:  i am never not happy
+OnlyAlpha:  i am never not happy
+After removing stopwords:  never not happy
+Tokenized Data:  [ 'never', 'not', 'happy' ]
+Tokenized Data (negations applied):  [ 'happy' ]
+Sentiment Score:  3
+
+Lexed Data:  I am so very happy
+LowerCase Format:  i am so very happy
+OnlyAlpha:  i am so very happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Tokenized Data (negations applied):  [ 'happy' ]
+Sentiment Score:  3
+
+Lexed Data:  I am really happy
+LowerCase Format:  i am really happy
+OnlyAlpha:  i am really happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Tokenized Data (negations applied):  [ 'happy' ]
+Sentiment Score:  3
+
+Lexed Data:  I am happy
+LowerCase Format:  i am happy
+OnlyAlpha:  i am happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Tokenized Data (negations applied):  [ 'happy' ]
+Sentiment Score:  3
+
+Lexed Data:  I am quite happy
+LowerCase Format:  i am quite happy
+OnlyAlpha:  i am quite happy
+After removing stopwords:  happy
+Tokenized Data:  [ 'happy' ]
+Tokenized Data (negations applied):  [ 'happy' ]
+Sentiment Score:  3
+
+Lexed Data:  I am kind of happy
+LowerCase Format:  i am kind of happy
+OnlyAlpha:  i am kind of happy
+After removing stopwords:  kind happy
+Tokenized Data:  [ 'kind', 'happy' ]
+Tokenized Data (negations applied):  [ 'kind', 'happy' ]
+Sentiment Score:  2.5
+
+Lexed Data:  I am barely happy
+LowerCase Format:  i am barely happy
+OnlyAlpha:  i am barely happy
+After removing stopwords:  barely happy
+Tokenized Data:  [ 'barely', 'happy' ]
+Tokenized Data (negations applied):  []
+Sentiment Score:  NaN
+
+Lexed Data:  I am not very happy
+LowerCase Format:  i am not very happy
+OnlyAlpha:  i am not very happy
+After removing stopwords:  not happy
+Tokenized Data:  [ 'not', 'happy' ]
+Tokenized Data (negations applied):  []
+Sentiment Score:  NaN
+
+Lexed Data:  I am not really happy
+LowerCase Format:  i am not really happy
+OnlyAlpha:  i am not really happy
+After removing stopwords:  not happy
+Tokenized Data:  [ 'not', 'happy' ]
+Tokenized Data (negations applied):  []
+Sentiment Score:  NaN
+
+Lexed Data:  I am not quite happy
+LowerCase Format:  i am not quite happy
+OnlyAlpha:  i am not quite happy
+After removing stopwords:  not happy
+Tokenized Data:  [ 'not', 'happy' ]
+Tokenized Data (negations applied):  []
+Sentiment Score:  NaN
+
+Lexed Data:  I am not happy
+LowerCase Format:  i am not happy
+OnlyAlpha:  i am not happy
+After removing stopwords:  not happy
+Tokenized Data:  [ 'not', 'happy' ]
+Tokenized Data (negations applied):  []
+Sentiment Score:  NaN
+
+Lexed Data:  I am really not happy
+LowerCase Format:  i am really not happy
+OnlyAlpha:  i am really not happy
+After removing stopwords:  not happy
+Tokenized Data:  [ 'not', 'happy' ]
+Tokenized Data (negations applied):  []
+Sentiment Score:  NaN
+
+Lexed Data:  I am never happy
+LowerCase Format:  i am never happy
+OnlyAlpha:  i am never happy
+After removing stopwords:  never happy
+Tokenized Data:  [ 'never', 'happy' ]
+Tokenized Data (negations applied):  []
+Sentiment Score:  NaN
+
+Lexed Data:  I am not sad, I am happy
+LowerCase Format:  i am not sad, i am happy
+OnlyAlpha:  i am not sad i am happy
+After removing stopwords:  not sad happy
+Tokenized Data:  [ 'not', 'sad', 'happy' ]
+Tokenized Data (negations applied):  [ 'happy' ]
+Sentiment Score:  3
+
+Lexed Data:  I am not not happy
+LowerCase Format:  i am not not happy
+OnlyAlpha:  i am not not happy
+After removing stopwords:  not not happy
+Tokenized Data:  [ 'not', 'not', 'happy' ]
+Tokenized Data (negations applied):  [ 'happy' ]
+Sentiment Score:  3
+
+Lexed Data:  I am not not sad, but not happy
+LowerCase Format:  i am not not sad, but not happy
+OnlyAlpha:  i am not not sad but not happy
+After removing stopwords:  not not sad not happy
+Tokenized Data:  [ 'not', 'not', 'sad', 'not', 'happy' ]
+Tokenized Data (negations applied):  [ 'sad' ]
+Sentiment Score:  -2
+
+Lexed Data:  I am not happy, nor sad
+LowerCase Format:  i am not happy, nor sad
+OnlyAlpha:  i am not happy nor sad
+After removing stopwords:  not happy nor sad
+Tokenized Data:  [ 'not', 'happy', 'nor', 'sad' ]
+Tokenized Data (negations applied):  []
+Sentiment Score:  NaN
+
+Lexed Data:  I am unhappy
+LowerCase Format:  i am unhappy
+OnlyAlpha:  i am unhappy
+After removing stopwords:  unhappy
+Tokenized Data:  [ 'unhappy' ]
+Tokenized Data (negations applied):  [ 'unhappy' ]
+Sentiment Score:  -2
+
+Lexed Data:  I am not unhappy but I am not sad either
+LowerCase Format:  i am not unhappy but i am not sad either
+OnlyAlpha:  i am not unhappy but i am not sad either
+After removing stopwords:  not unhappy not sad
+Tokenized Data:  [ 'not', 'unhappy', 'not', 'sad' ]
+Tokenized Data (negations applied):  []
+Sentiment Score:  NaN
+
+Lexed Data:  I am not usually unhappy but I am now happy
+LowerCase Format:  i am not usually unhappy but i am now happy
+OnlyAlpha:  i am not usually unhappy but i am now happy
+After removing stopwords:  not unhappy happy
+Tokenized Data:  [ 'not', 'unhappy', 'happy' ]
+Tokenized Data (negations applied):  [ 'happy' ]
+Sentiment Score:  3
+
+Lexed Data:  I am not often unhappy but right now i am unhappy
+LowerCase Format:  i am not often unhappy but right now i am unhappy
+OnlyAlpha:  i am not often unhappy but right now i am unhappy
+After removing stopwords:  not unhappy unhappy
+Tokenized Data:  [ 'not', 'unhappy', 'unhappy' ]
+Tokenized Data (negations applied):  [ 'unhappy' ]
+Sentiment Score:  -2
+
+Lexed Data:  I am not usually unhappy but i am now
+LowerCase Format:  i am not usually unhappy but i am now
+OnlyAlpha:  i am not usually unhappy but i am now
+After removing stopwords:  not unhappy
+Tokenized Data:  [ 'not', 'unhappy' ]
+Tokenized Data (negations applied):  []
+Sentiment Score:  NaN
+
+Notes:
+- negation terms working as desired
+    - i.e. single negations cancel next significant (tokenized) word, double negations cancel each other
+- passed all test cases except the last one: "I am not usually unhappy but i am now" came out inconclusive, although it would better be categorized as a negative sentiment ("unhappy")
+    - however this is not a huge deal because at least it's not an incorrect result (i.e. a positive rating) so for now inconclusive is an acceptable outcome
+- the intensity of the extracted emotion isn't important for the visualization, unless it negates the meaning
+    - e.g. "happy", "very happy" and "extremely happy" -> happiness
+    - e.g. "barely happy", "rarely happy" -> inconclusive (to be barely happy is not a form of happiness)
+    - e.g. "not happy", "never happy" -> inconclusive (not happy doesn't necessarily mean sad or any other particular emotion)
+    - e.g. "not happy nor sad" -> inconclusive
+    - e.g. "not not happy" -> happiness (double negation so the "not"s cancel each other out)
