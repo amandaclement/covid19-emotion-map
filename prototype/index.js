@@ -1,29 +1,25 @@
-// tutorial followed: https://www.geeksforgeeks.org/how-to-create-sentiment-analysis-application-using-node-js/
-
-// SUMMARY
-// Sentiment analysis using Natural: the sentiment analysis algorithm from Natural library uses AFINN which is a 
-// lexicon of English words rated for valence with an integer between -5 (negative) and 5 (positive). Calculating
-// the sum of the polarity of each word in a piece of text and normalizing it with the length of a sentence is how 
-// the algorithm works. If the algorithm returns a negative value, that means the sentiment is negative and if it 
-// returns a positive value, that means the sentiment is positive. Zero indicates neutral.
-
-// DATA FILTRATION STEPS
-// The /custom route is used as the communication route. The steps/functions involved in the language processing:
-// convertToStandard(): converts all words to standard form (e.g. "you're" to "you are")
-// convertToLowerCase(): makes all textual data lowercase (e.g. "FUnnY" and "funny" are equivalent)
-// removeNonAlpha(): removes all special characters and numerical tokens as we consider them noise
-// Then, we tokenize the data and remove stopwords using the stopword npm package
-// After all this data filtration code, we use a Natural package, SentimentAnalyzer, from Natural that creates a sentiment score from the user's review
-// Lastly, we send this sentiment score based on our analysis as a response to the user
 
 // import packages 
-let express = require('express');
+const express = require('express');
 const natural = require("natural");
 const stopword = require("stopword");
+const mongoose = require("mongoose");
+
+// port and host
+const portNumber = 5500;
+const host = "127.0.0.1";
+
+// initializing the app
+const app = express();
+
+// server
+const server = require("http").createServer(app);
+require("dotenv").config();
 
 // for conversion of contractions to standard lexicon
+// initial list taken from: https://www.geeksforgeeks.org/how-to-create-sentiment-analysis-application-using-node-js/
 // add some for abbreviations and word like "ur" "u r"
-const wordDict = {
+const dictionary = {
     "aren't": "are not",
     "can't": "cannot",
     "couldn't": "could not",
@@ -84,23 +80,12 @@ const wordDict = {
     "didn't": "did not"
 }
 
-// port and host
-const portNumber = 5500;
-const host = "127.0.0.1";
-
-// initializing the app
-const app = express();
-
-// added 
-const server = require("http").createServer(app);
-require("dotenv").config();
-const mongoose = require("mongoose");
-
+// provide middleware for parsing JSON, Text, URL-encoded and raw data sets over an HTTP request body
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());                         // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-// app.use('/varsToMongo', handleGetVars);
 
+// .env file holds URL to connect to database via mongoDB compass
 const url = process.env.MONGODB_URI;
 const AirplaneCrashesModule = require("./DBSchema.js");
 
@@ -109,40 +94,45 @@ mongoose.connect(url);
 let db = mongoose.connection;
 
 let testVar = 5;
-let something = "happy";
 
-  db.once("open", async function() {
-    // logs the total number of recorded crashes (so # of entries in dataset)
-    AirplaneCrashesModule.count().then((totalCrashes)=>{
-      console.log("TOTAL AIRPLANE CRASHES RECORDED BETWEEN 1908-2019:");
-      console.log(totalCrashes);
-      console.log("\n");
-      testVar = totalCrashes; 
-    })
+// use async keyword to enable asynchronous, promise-based behavior 
+// (a promise being an object representing the eventual completion or failure of an asynchronous operation)
+db.once("open", async function() {
+  // logs the total number of recorded crashes (so # of entries in dataset)
+  AirplaneCrashesModule.count().then((totalCrashes)=>{
+    console.log("TOTAL AIRPLANE CRASHES RECORDED BETWEEN 1908-2019:");
+    console.log(totalCrashes);
+    console.log("\n");
+    testVar = totalCrashes; 
   })
+})
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use("/",express.static(__dirname + "/public"));
+// needed for handling POST requests
+// Express provides the middleware to deal with the (incoming) data (object) in the body of the request
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
+// app.use("/",express.static(__dirname + "/public"));
 
+// run a test to see if testVar is updated and passed successfully
 app.post("/testing",(request,response)=>{
   response.status(200).json({
-    myVar: testVar, // does this always work? or does testVar sometimes keep value 5 if loading not done sequentially?
-    someText: something
-})
+    myVar: testVar // does this always work? or does testVar sometimes keep value 5 if loading not done sequentially?
+  })
 });
 
-// convertToStandard(): converts all words to standard form (e.g. "you're" to "you are")
+// the next lines are used for language processing (the filtering of the data)
+// tutorial followed: https://www.geeksforgeeks.org/how-to-create-sentiment-analysis-application-using-node-js/ 
+
+// convertToStandard(): converts all words to standard form (e.g. "you're" to "you are") using the dictionary array
 const convertToStandard = text => {
     const data = text.split(' ');
     data.forEach((word, index) => {
-        Object.keys(wordDict).forEach(key => {
+        Object.keys(dictionary).forEach(key => {
             if (key === word.toLowerCase()) {
-                data[index] = wordDict[key]
+                data[index] = dictionary[key]
             };
         });
     });
-  
     return data.join(' ');
 }
 
@@ -151,51 +141,51 @@ const convertTolowerCase = text => {
     return text.toLowerCase();
 }
 
-// removeNonAlpha: removes all special characters and numerical tokens as we consider them noise
+// removeNonAlpha: removes all special characters and numerical tokens as we consider them noise 
+// (although they aren't truly just noise, but still need to decide how to handle them)
 const removeNonAlpha = text => {
-    // this Regex means that replace all non alphabets with empty string
-    return text.replace(/[^a-zA-Z\s]+/g, '');
+    return text.replace(/[^a-zA-Z\s]+/g, '');   // replaces all non alphabets with empty string
 }
 
-// default route
-app.get("/", function (req, res) {
-  res.send("<h1>Default Page</h1>");
+// a test sentence
+const testSentence = "covid restrictions are great";
+
+// NLP Logic: converts all data to its standard form
+const lexData = convertToStandard(testSentence);
+console.log("Lexed Data: ", lexData);
+
+// convert all data to lowercase
+const lowerCaseData = convertTolowerCase(lexData);
+console.log("LowerCase Format: ", lowerCaseData);
+    
+// remove non alphabets and special characters
+const onlyAlpha = removeNonAlpha(lowerCaseData);
+console.log("OnlyAlpha: ", onlyAlpha);
+    
+// tokenize the sentence: break the string up into words (tokens)
+const tokenConstructor = new natural.WordTokenizer();
+const tokenizedData = tokenConstructor.tokenize(onlyAlpha);
+console.log("Tokenized Data: ", tokenizedData);
+    
+// remove stopwords using Stopword npm package
+// stopwords are words that are so frequent that they can be safely removed from a text without altering its meaning (e.g. "the", "is", "are", "a")
+const filteredData = stopword.removeStopwords(tokenizedData);
+console.log("After removing stopwords: ", filteredData);
+
+// After all this data filtration code, we use a Natural package, SentimentAnalyzer, from Natural that creates a sentiment score from the user's review
+// The sentiment analysis algorithm from Natural library uses AFINN: a lexicon of English words rated for valence using an integer beteen -5 (negative) and 5 (positive).
+// The algorithm works by summing the polarity of each token (word) and normalizing it using the text's length. If the algorithm returns a negative value it represents 
+// a negative sentiment, if it returns a positive value it represents a positive sentiment and if it returns 0 this represents a neutral sentiment.
+const SentiAnalyzer = new natural.SentimentAnalyzer('English', natural.PorterStemmer, 'afinn');
+const analysis_score = SentiAnalyzer.getSentiment(filteredData);
+console.log("Sentiment Score: ", analysis_score);
+
+// send this sentiment score as a response, via POST request, along /custom route to be used in main.js
+app.post("/custom",(request,response)=>{
+  response.status(200).json({
+    sentiment_score: analysis_score
+  })
 });
-
-      const testSentence = "covid restrictions are great";
-
-      // NLP Logic: convert all data to its standard form
-      const lexData = convertToStandard(testSentence);
-      console.log("Lexed Data: ", lexData);
-
-      // converts all data to lowercase
-      const lowerCaseData = convertTolowerCase(lexData);
-      console.log("LowerCase Format: ", lowerCaseData);
-    
-      // removes non alphabets and special characters
-      const onlyAlpha = removeNonAlpha(lowerCaseData);
-      console.log("OnlyAlpha: ", onlyAlpha);
-    
-      // tokenization
-      const tokenConstructor = new natural.WordTokenizer();
-      const tokenizedData = tokenConstructor.tokenize(onlyAlpha);
-      console.log("Tokenized Data: ", tokenizedData);
-    
-      // removes stopwords
-      const filteredData = stopword.removeStopwords(tokenizedData);
-      console.log("After removing stopwords: ", filteredData);
-    
-      // stemming
-      const Sentianalyzer = new natural.SentimentAnalyzer('English', natural.PorterStemmer, 'afinn');
-      const analysis_score = Sentianalyzer.getSentiment(filteredData);
-      console.log("MYYY Sentiment Score: ", analysis_score);
-
-      // "pass" the result (analysis_score) to main.js via the route /custom
-      app.post("/custom",(request,response)=>{
-        response.status(200).json({
-          sentiment_score: analysis_score
-        })
-      });
 
 // connecting frontend with our server, this means all our static HTML, CSS and JS files will be served at / route
 app.use("/", express.static(__dirname + "/public"));
