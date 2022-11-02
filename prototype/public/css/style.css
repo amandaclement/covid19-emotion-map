@@ -1,0 +1,15 @@
+* 
+{
+    margin: 0;
+    padding: 0;
+}
+
+.sentiment
+{
+    position: absolute;
+    width: 100%;
+    color: blue;
+    text-align: center;
+    margin-top: 60px;
+    font-family: 'M PLUS 1 Code', sans-serif;
+}
