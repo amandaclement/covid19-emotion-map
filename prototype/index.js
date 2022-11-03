@@ -147,31 +147,79 @@ const removeNonAlpha = text => {
 }
 
 let testSentences = [
-    "i'm always happy",
-    "i'm incredibly happy",
-    "i'm never not happy",
-    "i'm so very happy", // so = very
-    "i'm really happy",  // really is more intense than very?
-    "i'm happy", 
-    "i'm quite happy",
-    "i'm kind of happy",
-    "i'm barely happy",
-    "i'm not very happy",
-    "i'm not really happy",
-    "i'm not quite happy",
-    "i'm not happy",
-    "i'm really not happy",
-    "i'm never happy",
-    "i'm not sad, I'm happy",
-    "i'm not not happy",
-    "i'm not not sad, but not happy",
-    "i'm not happy, nor sad",
-    "i'm unhappy"  ,
-    "i'm not unhappy but i'm not sad either",
-    "i'm not usually unhappy but i'm now happy",
-    "i'm not often unhappy but right now i am unhappy",
-    "i'm not usually unhappy but i am now"
+    "Crazy that the world has come to this but as Americans we will fight to get through this!",            // want +, got -1
+    "Together as One! #Covid19 #EconomicRecovery",                                                          // want +, got ~
+    "Hospital cleaners, porters &amp; catering staff are unsung #COVID19 heroes.",                          // want +, got +0.2     
+    "We Shall Over Come! With victory in our minds in our #FightAgainstCorona",                             // want +, got +1
+    "It will be awesome ‼️ @rihanna please try and consider a collaboration with @TiwaSavage .",             // want +, got +1
+    "The savior of humanity will come",                                                                     // want +, got +1
+    "Man, you get better. At least your sense of humor, is all good.",                                      // want +, got +1.25
+    "I love You !!!",                                                                                       // want +, got +2
+    "My new #facemask from @chicagotheband makes me smile! Mask up, friends! Stay safe and well.",          // want +, got +0.5
+    "So good to be sitting out, enjoying one of our pre #COVID19 haunts @chief_coffee",                     // want +, got +0.6
+    "The community is the best part of a country. I love my country. Covid 19 helping team. Love you all",  // want +, got +0.7
+    "Good day Beautiful People, this to wish you all a refreshing weekend.",                                // want +, got +1
+    "Yesterday I had the pleasure of shooting Corinne and Pedro’s wedding at Hendon Town Hall",             // want +, got +0.2
+    "Appreciation for being the front liner in COVID ICU SHL.",                                             // want +, got +0.3
+    "So excited about this Book! Number one seller on Education &amp; Covid right now on Amazon!",          // want +, got +0.375   
+
+    "So he can spread lies, hate, sexual violence, and murder?",                                            // want -, got -1.7
+    "The anxiety surrounding COVID-19 has caused Bipolar and Chron’s Disease to flare up quite badly",      // want -, got -0.7
+    "It so brilliant to see people awake and not accepting the #COVID19 mainstream narrative.",             // want -, got +0.7
+    "This government was too slow to act, and even they now admit that. They followed and did not lead!",   // want -, got -0.25
+    "If you think I’m buying any of these rumours of us being locked down or restricted for up to 2 years", // want -, got -0.3
+    "Oh for fvck’s sake @CNN @sarahcwestwood STOP WITH THE BS.",                                            // want -, got -0.17
+    "Yes Green it is your fault. Next time put your foot down and say heck no!",                            // want -, got ~
+    "#America has a problem and IT IS NOT #COVID19 Shocked? #MarxistBLM brought America to its knees!",     // want -, got -0.6
+    "I'm not even worried about myself- if I have it I've exposed my elderly grandmother",                  // want -, got -0.3
+    "This is exactly what I was afraid would happen.",                                                      // want -, got -1
+    "I’m done with you. Just more lies and propaganda",                                                     // want -, got -1.3
+    "The mental health of our community is of concern with #COVID19.",                                      // want -, got -0.4
+    "Seriously...Holy sh!t America, I want off this ride. It's not fun anymore. This is toxic.",            // want -, got -0.5
+    "@realDonaldTrump This is who should be banned. He is a menace to the American Society.",               // want -, got -0.8
+    "Not being able to be there for a loved one during one of the worst times of their life HURTS",         // want -, got -1.25
+    "This is heartbreaking. Kuching FA football player Joseph Kalang Tie had to be quarantined at home",    // want -, got -0.3
+    "To the lady on the train applying her makeup and not wearing a mask.... Shame on you",                 // want -, got -0.3
+    "STOP This Nonsense!!!",                                                                                // want -, got -1.5
+    "This is truly frightening. Playing such outrageous conspiracy theories on TV",                         // want -, got -1.5
+
+    "Think the link between 5G and #COVID19 is the stuff of loony conspiracy-theories?",                    // want ~, got ~
+    "Learn new things during this period 2d and 3d animations training ongoing...",                         // want ~, got ~
+    "ALERT: Parents decide whether to send kids back to school as coronavirus spreads faster than ever",    // want ~, got ~
+    "A surfer walks at Recreio dos Bandeirantes beach, amid the coronavirus disease (COVID-19) outbreak",   // want ~, got -0.27
+    "Just in: 1,142 new #COVID19 cases were reported in #Delhi in the past 24 hours",                       // want ~, got ~
+    "How #COVID19 Causes Smell Loss - Neuroscience News https://t.co/OG0gIhyctD",                           // want ~, got -0.5
+    "Corona Alert | Four arrivals from Chennai tested positive for Covid-19",                               // want ~, got 0.14
+    "Passengers cheer as ‘Karen’ is kicked off flight for refusing to wear mask #airlines #coronavirus",    // want ~, got ~
+    "Coronavirus can infect people 26 FEET away in cold moving air",                                        // want ~, got -0.3
+    "If you bought a face mask with an air valve during the bushfires, DO NOT use it during #COVID19",      // want ~, got ~
+    "#USA deaths top 1,100 for third day in a row as #India sees 49,000 new cases",                         // want ~, got ~
+    "Indonesian has received 100 ventilators from the Australian Government for COVID-19 handling",         // want ~, got ~
+    "The total number of #COVID19 infections worldwide is quickly nearing 16 million",                      // want ~, got -0.25
+    "So gyms are reopening today...wonder how many people will be back working up a sweat",                 // want ~, got 0.14
+    "Parents ask their #COVID19 questions about #backtoschool",                                             // want ~, got -0.25
+    "Establishing triage stations at healthcare facilities is very important to protect health workers"     // want ~, got +0.3
 ];
+
+// a list of words that I consider to be more neutral than emotional when used in discussions surrounding COVID-19, 
+// so ensure SentimentAnalyzer algorithm gives these words a neutral (0) value 
+let neutralWords = [
+    "disease", "diseases", "outbreak","outbreaks", "virus", "viruses", "pandemic", "pandemics",
+    "sick", "ill", "illness",
+    "spread", "spreads", "spreading",
+    "infect", "infects", "infected", "infection", "infections", 
+    "contamine", "contaminates", "contaminated", "contaminating",
+    "loss", "lose", "loses", "lost", // often used in non-emotionl context i.e. "lost my sense of smell"
+    "positive", "negative",          // often used in non-emotional context i.e. "i tested positive"
+    "death", "deaths",               // often used in non-emotional context i.e. "500 new COVID-19 related deaths reported"    
+    "question", "questions", "questioning", // SentimentAnalyzer gives these a negative score 
+    "alert", "alerts", "alerted", "alerting", // often used in non-emotional context i.e. "Alert: 300 new COVID-19 cases reported in Montreal"   
+    "top", "back"  // some random words the SentimentAnalyzer gives a positive or negative score to, that should just be neutral    
+];
+
+// so if the sentence contains one of these neutral words, track the rating it gets and normalize it 
+// i.e. if "disease" = -2, add 2 to the result before averaging
+// AFTER removing stopwords and considering negations, if one of these words is present, remove it before applying sentiment analyzer algorithm
 
 // return a list of all stopwords
 // console.log(stopwords.getStopWords());
@@ -179,9 +227,11 @@ let testSentences = [
 // console.log(stopwords.isStopWord("never"));
 // remove a word from the stopword list
 // stopwords.remove("never");
+
+
             
 // array of common negation words
- const negationWords = [
+const negationWords = [
     "not",
     "never",
     "neither", 
@@ -193,7 +243,7 @@ let testSentences = [
     "seldom",
     "no longer",
     "isn't"
- ];
+]; 
   
 // negation words are significant to the meaning of the sentence so remove them as stopwords
 for (let i = 0; i < negationWords.length; i++)
@@ -208,20 +258,20 @@ for (let i = 0; i < testSentences.length; i++)
 
     // convert all data to lowercase
     const lowerCaseData = convertTolowerCase(lexData);
-    console.log("LowerCase Format: ", lowerCaseData);
+    // console.log("LowerCase Format: ", lowerCaseData);
         
     // remove non alphabets and special characters
     const onlyAlpha = removeNonAlpha(lowerCaseData);
-    console.log("OnlyAlpha: ", onlyAlpha);
+    // console.log("OnlyAlpha: ", onlyAlpha);
 
     // remove stopwords (e.g. "the", "is", "a", "are") using n-stopwords package before tokenizing
     const filteredData = stopwords.cleanText(onlyAlpha);
-    console.log("After removing stopwords: ", filteredData);
+    // console.log("After removing stopwords: ", filteredData);
         
     // tokenize the sentence: break the string up into words (tokens)
     const tokenConstructor = new natural.WordTokenizer();
     let tokenizedData = tokenConstructor.tokenize(filteredData);
-    console.log("Tokenized Data: ", tokenizedData);
+    // console.log("Tokenized Data: ", tokenizedData);
 
     // handle negations
     // when faced with a negation word, remove it along with its consecutive word which may be another negation word or a different significant words
@@ -230,19 +280,35 @@ for (let i = 0; i < testSentences.length; i++)
     // e.g. never happy, just sad -> sad
     // e.g. not not sad, but not happy -> sad
     // e.g. not happy, not sad -> inconclusive as we can't derive a particular emotion from this text
-    for (let j = 0; j < tokenizedData.length - 1; j++)
+    for (let j = 0; j < tokenizedData.length; j++)
     {
       for (let k = 0; k < negationWords.length; k++)
         if (tokenizedData[j] == negationWords[k])
         {
           tokenizedData.splice(j, 2);
-          j = j - 2; // decrement by two since as the array was shifted two positions
-                    // so we need to recheck the new values in these positions
+          j = j - 2; // decrement by two as the tokenizedData array elements were shifted by two positions
+                     // so we need to recheck the new values in these positions
         }
     }
 
     // display the tokenized data again after negations have been considered
-    console.log("Tokenized Data (negations applied): ", tokenizedData);
+    // console.log("Tokenized Data (negations applied): ", tokenizedData);
+
+    // handle neutral words (those in neutralWords array) by removing them from the tokenizedData array if they are found in it
+    // so that they don't affect the score assigned by the SentimentAnalyzer algorithm
+    for (let j = 0; j < tokenizedData.length; j++)
+    {
+      for (let k = 0; k < neutralWords.length; k++)
+        if (tokenizedData[j] == neutralWords[k])
+        {
+          tokenizedData.splice(j, 1);
+          j--;      // decrement as the tokenizedData array elements were shifted by a position
+                  // so we need to recheck the new value in this same position
+        }
+    }
+
+    // display the tokenized data again after neutral words have been removed
+    console.log("Tokenized Data (neutral words removed): ", tokenizedData);
 
     // After all this data filtration code, use SentimentAnalyzer from Natural package to generate a sentiment score for the text
     // The sentiment analysis algorithm from Natural library uses AFINN: a lexicon of English words rated for valence using an integer beteen -5 (negative) and 5 (positive).
