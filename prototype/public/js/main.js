@@ -21,9 +21,12 @@ const sentiment = document.querySelector(".sentiment");
     fetch("/custom", options)
     .then(res=>res.json())
     .then((response)=>{
-        console.log(response.sentiment_score);
-  
-        const score = response.sentiment_score;
+        // console.log(response.sentiment_score);
+        // const score = response.sentiment_score;
+        // console.log(response.sentiment_score);
+        // const score = response.sentiment_score;
+        const score = response.myVar;
+        console.log(score);
   
         // separate responses according to sentiment_score
         if (score > 0)

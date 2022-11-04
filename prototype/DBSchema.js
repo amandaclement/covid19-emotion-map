@@ -1,25 +1,16 @@
 const mongoose = require("mongoose");
-const AirplaneCrashSchema = new mongoose.Schema({
 
-    // _id: new ObjectId("63391df67fde488d6961496a"),
-    Date:String,
-    Time:String,
-    Location:String,
-    Operator:String,
-    FlightNo:String,
-    Route:String,
-    ACType:String,
-    Registration:String,
-    cn:Number,
-    Aboard:Number,
-    AboardPassengers:Number,
-    AboardCrew:Number,
-    Fatalities:Number,
-    FatalitiesPassengers:Number,
-    FatalitiesCrew:Number,
-    Ground:Number,
-    Summary:String
+// https://www.kaggle.com/datasets/gpreda/covid19-tweets
+
+const TweetSchema = new mongoose.Schema({
+    user_location:String,
+    user_description:String,
+    user_created:String,
+    user_followers:Number,
+    user_friends:Number,
+    date:String,
+    text:String
 })
 
-const AirplaneCrashes = mongoose.model("AILINECRASHENTRY", AirplaneCrashSchema, "AirplaneCrashes");
-module.exports = AirplaneCrashes;
+const Tweets = mongoose.model("TWEET", TweetSchema, "COVID19Tweets");
+module.exports = Tweets;
