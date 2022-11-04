@@ -5,7 +5,7 @@ const stopwords = require("n-stopwords")(['en']); // set stopword language to en
 const mongoose = require("mongoose");
 
 // port and host
-const portNumber = 4000;
+const portNumber = 4300;
 const host = "127.0.0.1";
 
 // initializing the app
@@ -93,44 +93,8 @@ const { MongoClient } = require('mongodb');
 mongoose.connect(url);
 let db = mongoose.connection;
 
-// for testing
-let total = 0;
-
-// declare promise
-var myPromise = () => (
-  new Promise((resolve, reject) => {
-      TweetsModule.count().then((response)=>{
-          console.log(response);
-          total = response;
-      })
-  })
-);
-
-// make the call
-myPromise().then(function(result) {
-  client.close();
-
-  // process final result before sending it to front end
-  res.json(result);
-  console.log(result);
-  // total = res.json(result);
-});
-
-// needed for handling POST requests
-// Express provides the middleware to deal with the (incoming) data (object) in the body of the request
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
-// app.use("/",express.static(__dirname + "/public"));
-
-// run a test to see if testVar is updated and passed successfully
-app.post("/custom",(request,response)=>{
-  response.status(200).json({
-    myVar: total // does this always work? or does testVar sometimes keep value 5 if loading not done sequentially?
-  })
-});
-
 // the next lines are used for language processing (the filtering of the data)
-// tutorial followed: https://www.geeksforgeeks.org/how-to-create-sentiment-analysis-application-using-node-js/ 
+// tutorial followed: https://www.geeksforgeeks.org/how-to-create-sentiment-analysis-application-using-node-js/ with modifications made by me
 
 // convertToStandard(): converts all words to standard form (e.g. "you're" to "you are") using the dictionary array
 const convertToStandard = text => {
@@ -156,64 +120,9 @@ const removeNonAlpha = text => {
     return text.replace(/[^a-zA-Z\s]+/g, '');   // replaces all non alphabets with empty string
 }
 
-let testSentences = [
-    // "Crazy that the world has come to this but as Americans we will fight to get through this!",            // want +, got -1
-    // "Together as One! #Covid19 #EconomicRecovery",                                                          // want +, got ~
-    // "Hospital cleaners, porters &amp; catering staff are unsung #COVID19 heroes.",                          // want +, got +0.2     
-    // "We Shall Over Come! With victory in our minds in our #FightAgainstCorona",                             // want +, got +1
-    // "It will be awesome ‼️ @rihanna please try and consider a collaboration with @TiwaSavage .",             // want +, got +1
-    // "The savior of humanity will come",                                                                     // want +, got +1
-    // "Man, you get better. At least your sense of humor, is all good.",                                      // want +, got +1.25
-    // "I love You !!!",                                                                                       // want +, got +2
-    // "My new #facemask from @chicagotheband makes me smile! Mask up, friends! Stay safe and well.",          // want +, got +0.5
-    // "So good to be sitting out, enjoying one of our pre #COVID19 haunts @chief_coffee",                     // want +, got +0.6
-    // "The community is the best part of a country. I love my country. Covid 19 helping team. Love you all",  // want +, got +0.7
-    // "Good day Beautiful People, this to wish you all a refreshing weekend.",                                // want +, got +1
-    // "Yesterday I had the pleasure of shooting Corinne and Pedro’s wedding at Hendon Town Hall",             // want +, got +0.2
-    // "Appreciation for being the front liner in COVID ICU SHL.",                                             // want +, got +0.3
-    // "So excited about this Book! Number one seller on Education &amp; Covid right now on Amazon!",          // want +, got +0.375   
-
-    // "So he can spread lies, hate, sexual violence, and murder?",                                            // want -, got -1.7
-    // "The anxiety surrounding COVID-19 has caused Bipolar and Chron’s Disease to flare up quite badly",      // want -, got -0.7
-    // "It so brilliant to see people awake and not accepting the #COVID19 mainstream narrative.",             // want -, got +0.7
-    // "This government was too slow to act, and even they now admit that. They followed and did not lead!",   // want -, got -0.25
-    // "If you think I’m buying any of these rumours of us being locked down or restricted for up to 2 years", // want -, got -0.3
-    // "Oh for fvck’s sake @CNN @sarahcwestwood STOP WITH THE BS.",                                            // want -, got -0.17
-    // "Yes Green it is your fault. Next time put your foot down and say heck no!",                            // want -, got ~
-    // "#America has a problem and IT IS NOT #COVID19 Shocked? #MarxistBLM brought America to its knees!",     // want -, got -0.6
-    // "I'm not even worried about myself- if I have it I've exposed my elderly grandmother",                  // want -, got -0.3
-    // "This is exactly what I was afraid would happen.",                                                      // want -, got -1
-    // "I’m done with you. Just more lies and propaganda",                                                     // want -, got -1.3
-    // "The mental health of our community is of concern with #COVID19.",                                      // want -, got -0.4
-    // "Seriously...Holy sh!t America, I want off this ride. It's not fun anymore. This is toxic.",            // want -, got -0.5
-    // "@realDonaldTrump This is who should be banned. He is a menace to the American Society.",               // want -, got -0.8
-    // "Not being able to be there for a loved one during one of the worst times of their life HURTS",         // want -, got -1.25
-    // "This is heartbreaking. Kuching FA football player Joseph Kalang Tie had to be quarantined at home",    // want -, got -0.3
-    // "To the lady on the train applying her makeup and not wearing a mask.... Shame on you",                 // want -, got -0.3
-    // "STOP This Nonsense!!!",                                                                                // want -, got -1.5
-    // "This is truly frightening. Playing such outrageous conspiracy theories on TV",                         // want -, got -1.5
-
-    // "Think the link between 5G and #COVID19 is the stuff of loony conspiracy-theories?",                    // want ~, got ~
-    // "Learn new things during this period 2d and 3d animations training ongoing...",                         // want ~, got ~
-    // "ALERT: Parents decide whether to send kids back to school as coronavirus spreads faster than ever",    // want ~, got ~
-    // "A surfer walks at Recreio dos Bandeirantes beach, amid the coronavirus disease (COVID-19) outbreak",   // want ~, got -0.27
-    // "Just in: 1,142 new #COVID19 cases were reported in #Delhi in the past 24 hours",                       // want ~, got ~
-    // "How #COVID19 Causes Smell Loss - Neuroscience News https://t.co/OG0gIhyctD",                           // want ~, got -0.5
-    // "Corona Alert | Four arrivals from Chennai tested positive for Covid-19",                               // want ~, got 0.14
-    // "Passengers cheer as ‘Karen’ is kicked off flight for refusing to wear mask #airlines #coronavirus",    // want ~, got ~
-    // "Coronavirus can infect people 26 FEET away in cold moving air",                                        // want ~, got -0.3
-    // "If you bought a face mask with an air valve during the bushfires, DO NOT use it during #COVID19",      // want ~, got ~
-    // "#USA deaths top 1,100 for third day in a row as #India sees 49,000 new cases",                         // want ~, got ~
-    // "Indonesian has received 100 ventilators from the Australian Government for COVID-19 handling",         // want ~, got ~
-    // "The total number of #COVID19 infections worldwide is quickly nearing 16 million",                      // want ~, got -0.25
-    // "So gyms are reopening today...wonder how many people will be back working up a sweat",                 // want ~, got 0.14
-    // "Parents ask their #COVID19 questions about #backtoschool",                                             // want ~, got -0.25
-    // "Establishing triage stations at healthcare facilities is very important to protect health workers"     // want ~, got +0.3
-];
-
 // a list of words that I consider to be more neutral than emotional when used in discussions surrounding COVID-19, 
 // so ensure SentimentAnalyzer algorithm gives these words a neutral (0) value 
-let neutralWords = [
+const neutralWords = [
     "disease", "diseases", "outbreak","outbreaks", "virus", "viruses", "pandemic", "pandemics",
     "sick", "ill", "illness",
     "spread", "spreads", "spreading",
@@ -246,83 +155,93 @@ const negationWords = [
 for (let i = 0; i < negationWords.length; i++)
     stopwords.remove(negationWords[i]);
 
-// const testSentence = "i'm not not sad, but I'm not happy";
-for (let i = 0; i < testSentences.length; i++)
-{
-    // NLP Logic: converts all data to its standard form
-    const lexData = convertToStandard(testSentences[i]);
-    console.log("Lexed Data: ", lexData);
+// declare Promise to handle asynchronous processing of database info in a more synchronous fashion
+var promise = new Promise((resolve, reject) => {
+  // get the text field value from each Tweet, store the response in a TweetObjects variable, then map these objects into an array (TweetList)
+  TweetsModule.find({}, { text: 1, _id: 0 }).then((response)=>{ 
+    const TweetObjects = response;
+    const TweetList = TweetObjects.map(
+      (tweet) => tweet.text
+    );
+    // TweetList array is what gets returned by the Promise (if resolved)
+    resolve(TweetList);
+  })
+});
 
-    // convert all data to lowercase
-    const lowerCaseData = convertTolowerCase(lexData);
-    // console.log("LowerCase Format: ", lowerCaseData);
-        
-    // remove non alphabets and special characters
-    const onlyAlpha = removeNonAlpha(lowerCaseData);
-    // console.log("OnlyAlpha: ", onlyAlpha);
+// once Promise has returned (i.e. resolved or rejected), process each Tweet to extract a sentiment
+// and store the correspondings sentiment scores in an array (sentiments) to be passed along /custom route via POST request, to be used in main.js
+promise.then((value) => {
+  console.log("Promise returned");
+  let sentiments = []; // a new array to hold the sentiment scores
 
-    // remove stopwords (e.g. "the", "is", "a", "are") using n-stopwords package before tokenizing
-    const filteredData = stopwords.cleanText(onlyAlpha);
-    // console.log("After removing stopwords: ", filteredData);
-        
-    // tokenize the sentence: break the string up into words (tokens)
-    const tokenConstructor = new natural.WordTokenizer();
-    let tokenizedData = tokenConstructor.tokenize(filteredData);
-    // console.log("Tokenized Data: ", tokenizedData);
+  // iterating over the array of tweets to process each one's text to extract a sentiment from it
+  for (let i = 0; i < 500; i++)
+  {
+      // NLP Logic: convert all data to its standard form
+      const lexData = convertToStandard(value[i]);
+      
+      // convert all data to lowercase
+      const lowerCaseData = convertTolowerCase(lexData);
+              
+      // remove non alphabets and special characters
+      const onlyAlpha = removeNonAlpha(lowerCaseData);
+      
+      // remove stopwords (e.g. "the", "is", "a", "are") using n-stopwords package before tokenizing
+      const filteredData = stopwords.cleanText(onlyAlpha);
+              
+      // tokenize the sentence: break the string up into words (tokens)
+      const tokenConstructor = new natural.WordTokenizer();
+      let tokenizedData = tokenConstructor.tokenize(filteredData);
+      
+      // handle negations and neutral words
+      // when faced with a negation word, remove it along with its consecutive word which may be another negation word or a different significant words
+        // e.g. not sad -> inconclusive since "not sad" doesn't necessarily mean happy or any other particular emotion
+        // e.g. not not happy -> happy
+        // e.g. never happy, just sad -> sad
+        // e.g. not not sad, but not happy -> sad
+        // e.g. not happy, not sad -> inconclusive as we can't derive a particular emotion from this text
+      // when faced with a neutral word (i.e. positive, outbreak, infect), remove it from the tokenizedData array 
+      // so that they don't affect the score assigned by the SentimentAnalyzer algorithm
+      for (let j = 0; j < tokenizedData.length; j++)
+      {
+        // handle negation words
+        for (let k = 0; k < negationWords.length; k++)
+          if (tokenizedData[j] == negationWords[k])
+          {
+            tokenizedData.splice(j, 2);
+            j = j - 2; // decrement by two as the tokenizedData array elements were shifted by two positions
+                       // so we need to recheck the new values in these positions
+          }
+        // handle neutral words
+        for (let k = 0; k < neutralWords.length; k++)
+          if (tokenizedData[j] == neutralWords[k])
+          {
+            tokenizedData.splice(j, 1);
+            j--;      // decrement as the tokenizedData array elements were shifted by a position
+                      // so we need to recheck the new value in this same position
+          }
+      }
+      
+      // after all this data filtration code, use SentimentAnalyzer from Natural package to generate a sentiment score for the text.
+      // the sentiment analysis algorithm from Natural library uses AFINN: a lexicon of English words rated for valence using an integer beteen -5 (negative) and 5 (positive).
+      // the algorithm works by summing the polarity of each token (word) and normalizing it using the text's length. If the algorithm returns a negative value it represents 
+      // a negative sentiment, if it returns a positive value it represents a positive sentiment and if it returns 0 this represents a neutral sentiment.
+      const SentiAnalyzer = new natural.SentimentAnalyzer('English', natural.PorterStemmer, 'afinn');
+      const analysis_score = SentiAnalyzer.getSentiment(tokenizedData);
 
-    // handle negations
-    // when faced with a negation word, remove it along with its consecutive word which may be another negation word or a different significant words
-    // e.g. not sad -> inconclusive since "not sad" doesn't necessarily mean happy or any other particular emotion
-    // e.g. not not happy -> happy
-    // e.g. never happy, just sad -> sad
-    // e.g. not not sad, but not happy -> sad
-    // e.g. not happy, not sad -> inconclusive as we can't derive a particular emotion from this text
-    for (let j = 0; j < tokenizedData.length; j++)
-    {
-      for (let k = 0; k < negationWords.length; k++)
-        if (tokenizedData[j] == negationWords[k])
-        {
-          tokenizedData.splice(j, 2);
-          j = j - 2; // decrement by two as the tokenizedData array elements were shifted by two positions
-                     // so we need to recheck the new values in these positions
-        }
-    }
-
-    // display the tokenized data again after negations have been considered
-    // console.log("Tokenized Data (negations applied): ", tokenizedData);
-
-    // handle neutral words (those in neutralWords array) by removing them from the tokenizedData array if they are found in it
-    // so that they don't affect the score assigned by the SentimentAnalyzer algorithm
-    for (let j = 0; j < tokenizedData.length; j++)
-    {
-      for (let k = 0; k < neutralWords.length; k++)
-        if (tokenizedData[j] == neutralWords[k])
-        {
-          tokenizedData.splice(j, 1);
-          j--;      // decrement as the tokenizedData array elements were shifted by a position
-                  // so we need to recheck the new value in this same position
-        }
-    }
-
-    // display the tokenized data again after neutral words have been removed
-    console.log("Tokenized Data (neutral words removed): ", tokenizedData);
-
-    // After all this data filtration code, use SentimentAnalyzer from Natural package to generate a sentiment score for the text
-    // The sentiment analysis algorithm from Natural library uses AFINN: a lexicon of English words rated for valence using an integer beteen -5 (negative) and 5 (positive).
-    // The algorithm works by summing the polarity of each token (word) and normalizing it using the text's length. If the algorithm returns a negative value it represents 
-    // a negative sentiment, if it returns a positive value it represents a positive sentiment and if it returns 0 this represents a neutral sentiment.
-    const SentiAnalyzer = new natural.SentimentAnalyzer('English', natural.PorterStemmer, 'afinn');
-    const analysis_score = SentiAnalyzer.getSentiment(tokenizedData);
-    console.log("Sentiment Score: ", analysis_score);
-    console.log("\n");
+      // store resulting sentiment score in sentiments array
+      sentiments[i] = analysis_score;
 }
 
-// send this sentiment score as a response, via POST request, along /custom route to be used in main.js
-// app.post("/custom",(request,response)=>{
-//   response.status(200).json({
-//     sentiment_score: analysis_score
-//   })
-// });
+console.log("Populated sentiments array");
+
+  // now that sentiments have been extracted, pass resulting array along /custom route via POST request, to be used in main.js
+  app.post("/custom",(request,response)=>{
+    response.status(200).json({
+      sentimentsArray: sentiments // sentiments is an array
+    })
+  });
+});
 
 // connecting frontend with our server, this means all our static HTML, CSS and JS files will be served at / route
 app.use("/", express.static(__dirname + "/public"));
