@@ -5,7 +5,7 @@ const stopwords = require("n-stopwords")(['en']); // set stopword language to en
 const mongoose = require("mongoose");
 
 // port and host
-const portNumber = 4300;
+const portNumber = 4000;
 const host = "127.0.0.1";
 
 // initializing the app
@@ -175,7 +175,7 @@ promise.then((value) => {
   let sentiments = []; // a new array to hold the sentiment scores
 
   // iterating over the array of tweets to process each one's text to extract a sentiment from it
-  for (let i = 0; i < 500; i++)
+  for (let i = 0; i < 5000; i++)
   {
       // NLP Logic: convert all data to its standard form
       const lexData = convertToStandard(value[i]);

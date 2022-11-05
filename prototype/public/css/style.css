@@ -2,13 +2,134 @@
 {
     margin: 0;
     padding: 0;
+    font-family: 'Karla', sans-serif;
 }
 
-.sentiment
+header 
 {
     position: absolute;
     width: 100%;
-    color: blue;
-    text-align: center;
-    margin-top: 60px;
+}
+
+h1 
+{
+    font-size: 55px;
+    color: #000;
+    margin-left: 35px;
+    margin-top: -15px;
+    float: left;
+}
+
+h2 
+{
+    float: right;
+    text-align: right;
+    margin-top: -10px;
+    margin-right: 35px;
+    font-size: 19px;
+}
+
+#myCanvas 
+{
+    width: 700px;
+    height: 700px;
+    margin: 50px auto;
+}
+
+#buttonPositive, #buttonNegative, #buttonNeutral 
+{
+    background-color: transparent;
+    border: 0;
+    border-radius: 10px;
+    width: 130px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFF;
+}
+#buttonPositive
+{
+    background-color: rgb(255, 204, 100);
+    border: 2px solid rgb(255, 204, 100);
+}
+#buttonPositive:hover
+{
+    transition: 0.2s;
+    color: rgb(255, 204, 100);
+    background-color: #FFF;
+}
+#buttonNegative
+{
+    background-color: rgb(152, 204, 255);
+    border: 2px solid rgb(152, 204, 255);
+}
+#buttonNegative:hover
+{
+    transition: 0.2s;
+    color: rgb(152, 204, 255);
+    background-color: #FFF;
+}
+#buttonNeutral
+{
+    background-color: rgb(192, 192, 192);
+    border: 2px solid rgb(192, 192, 192);
+}
+#buttonNeutral:hover
+{
+    transition: 0.2s;
+    color: rgb(192, 192, 192);
+    background-color: #FFF;
+}
+#reset 
+{
+    position: absolute;
+    left: 35px;
+    bottom: 25px;
+}
+#buttonReset
+{
+    border: 0;
+    background-color: transparent;
+    color: #C3C3C3;
+}
+#buttonReset:hover
+{
+    transition: 0.2s;
+    color: #292929;
+}
+
+#legend 
+{
+    font-size: 14px;
+    position: absolute;
+    right: 35px;
+    bottom: 25px;
+    line-height: 25px;
+    text-align: right;
+    font-weight: 600;
+}
+
+#positive 
+{
+    color: rgb(255, 204, 100);
+}
+
+#negative
+{
+    color: rgb(152, 204, 255);
+}
+
+#neutral
+{
+    color: rgb(192, 192, 192);
+}
+
+#sampleInfo
+{
+    font-size: 14px;
+    transform: rotate(90deg);
+    position: absolute;
+    right: 0;
+    top: 350px;
+    margin-right: -55px;;
 }
