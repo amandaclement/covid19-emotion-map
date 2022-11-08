@@ -19,8 +19,15 @@
 
 <body>
     <header>
+        <div id="overlay">
+            <button onclick="hideAbout()" id="x">x</button>
+            <h2>About the<br>Project</h2>
+            <p>This prototype is an interactive data visualization that illustrates sentiment-based trends related to the COVID-19 pandemic. The data surrounding this global crisis, such as reported cases and death tolls, is predominantly numerical. This quantitative data, although crucial to our understanding of the virus’ spread, can be difficult to engage with and to relate to, and gives no information about the public’s emotional response to the pandemic. As such, my goal is to explore and analyze the collective sentiments associated with the COVID-19 crisis by extracting sentiment scores from Twitter posts. By organizing this data into an interactive visualization, I aim to make the findings more approachable and digestible than numerical statistics.</p><br>
+            <p>A paragraph about the data - where it comes from, why it was collected, who collected it, when it was collected, how/why I manipulated it in the ways that I did (this paragraph is not yet written as the dataset is subject to change).</p><br>
+            <p id="tip">Note: Press and hold down on an ellipse to view the associated Tweet.</p>
+        </div>
         <h1>COVID-19<br>Sentiment<br>Analysis</h1>
-        <h2>About the<br>Project</h2>
+        <button onclick="showAbout()" id="about">About the<br>Project</button>
     </header>   
     <div id="legend">
         <div id="positive"></div>
@@ -30,6 +37,7 @@
 
     <!-- to hold P5 canvas -->
     <div id="myCanvas"></div>
+    <div><div id="tweetText"></div>
     <div id="sampleInfo"></div>
     <div id="reset"></div>
      

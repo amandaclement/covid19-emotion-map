@@ -15,6 +15,8 @@ const app = express();
 const server = require("http").createServer(app);
 require("dotenv").config();
 
+const numTweetsToProcess = 5000;
+
 // for conversion of contractions to standard lexicon
 // initial list taken from: https://www.geeksforgeeks.org/how-to-create-sentiment-analysis-application-using-node-js/
 // add some for abbreviations and word like "ur" "u r"
@@ -130,10 +132,14 @@ const neutralWords = [
     "contamine", "contaminates", "contaminated", "contaminating",
     "loss", "lose", "loses", "lost", // often used in non-emotionl context i.e. "lost my sense of smell"
     "positive", "negative",          // often used in non-emotional context i.e. "i tested positive"
-    "death", "deaths",               // often used in non-emotional context i.e. "500 new COVID-19 related deaths reported"    
+    "death", "deaths", "fatality", "fatalities",  // often used in non-emotional context i.e. "500 new COVID-19 related deaths reported"    
     "question", "questions", "questioning", // SentimentAnalyzer gives these a negative score 
     "alert", "alerts", "alerted", "alerting", // often used in non-emotional context i.e. "Alert: 300 new COVID-19 cases reported in Montreal"   
-    "top", "back"  // some random words the SentimentAnalyzer gives a positive or negative score to, that should just be neutral    
+    "top", "back",  // some random words the SentimentAnalyzer gives a positive or negative score to, that should just be neutral  
+    "isolate", "isolated", "isolates", "isolating",
+    "new", "news", "right",
+    "increase", "increases", "increased", "increasing",
+    "decrease", "decreases", "decreased", "decreasing"
 ];
        
 // array of common negation words
@@ -172,11 +178,15 @@ var promise = new Promise((resolve, reject) => {
 // and store the correspondings sentiment scores in an array (sentiments) to be passed along /custom route via POST request, to be used in main.js
 promise.then((value) => {
   console.log("Promise returned");
+  let posts = [];
   let sentiments = []; // a new array to hold the sentiment scores
 
   // iterating over the array of tweets to process each one's text to extract a sentiment from it
-  for (let i = 0; i < 5000; i++)
+  for (let i = 0; i < numTweetsToProcess; i++)
   {
+      // populating the posts array with the Tweets' text
+      posts[i] = value[i];
+
       // NLP Logic: convert all data to its standard form
       const lexData = convertToStandard(value[i]);
       
@@ -221,7 +231,6 @@ promise.then((value) => {
                       // so we need to recheck the new value in this same position
           }
       }
-      
       // after all this data filtration code, use SentimentAnalyzer from Natural package to generate a sentiment score for the text.
       // the sentiment analysis algorithm from Natural library uses AFINN: a lexicon of English words rated for valence using an integer beteen -5 (negative) and 5 (positive).
       // the algorithm works by summing the polarity of each token (word) and normalizing it using the text's length. If the algorithm returns a negative value it represents 
@@ -238,6 +247,7 @@ console.log("Populated sentiments array");
   // now that sentiments have been extracted, pass resulting array along /custom route via POST request, to be used in main.js
   app.post("/custom",(request,response)=>{
     response.status(200).json({
+      postsArray: posts,
       sentimentsArray: sentiments // sentiments is an array
     })
   });
