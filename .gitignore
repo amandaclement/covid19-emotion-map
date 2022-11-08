@@ -3602,3 +3602,8 @@ prototype/package-lock.json
 prototype/package.json
 prototype/public/js/main.js
 prototype/.env
+prototype/documentation/diagram.png
+prototype/documentation/Prototype PDF.pdf
+prototype/documentation/.DS_Store
+prototype/.DS_Store
+prototype/documentation/log.txt
