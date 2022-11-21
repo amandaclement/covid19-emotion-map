@@ -75,7 +75,25 @@ h3, h4{
   margin: 0;
 }
 
-.content p {
+.content p, ol {
+  font-size: 15px;
+  line-height: 22px;
+  color: #404040;
+  font-family: 'Rubik', sans-serif;
+  width: 90%;
+  margin: 10px auto;
+}
+
+ol {
+  margin-left: 80px;
+}
+
+ol .sub {
+  margin-left: 40px;
+  font-style: italic;
+}
+
+.regText {
   font-size: 15px;
   line-height: 22px;
   color: #404040;

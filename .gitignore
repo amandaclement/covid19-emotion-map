@@ -3607,3 +3607,4 @@ prototype/documentation/Prototype PDF.pdf
 prototype/documentation/.DS_Store
 prototype/.DS_Store
 prototype/documentation/log.txt
+prototype/node_modules/.bin/fxparser

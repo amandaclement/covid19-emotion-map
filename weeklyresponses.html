@@ -216,18 +216,68 @@
     <div class="project" id="project7">
       <div class="title">
         <div class="title-left">
-          <h3>+</h3>::
+          <h3>+</h3>Exercise II: NPL Visualization
         </div>
         <h4> WEEK 10</h4>
       </div> <!-- closing title div -->
       <div class="content">
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed nunc dignissim, rutrum magna id, elementum urna. Curabitur placerat tempor enim quis feugiat. Duis sem nisi, laoreet non condimentum sit amet, venenatis sit amet ipsum.
-          Phasellus fringilla lacus nulla, quis ullamcorper velit imperdiet sit amet. Aliquam erat volutpat. Aliquam tellus ex, ultricies tempor libero nec, tincidunt lacinia libero. Nullam nec mollis velit, vitae efficitur massa. Aenean posuere a
-          metus eget imperdiet. Pellentesque scelerisque, lacus a maximus tristique, nisl odio accumsan massa, ac eleifend neque mi eget elit. Pellentesque non hendrerit urna.<br><br>
-          Maecenas et luctus ipsum, nec ultrices velit. Sed at blandit enim. Proin tempus tincidunt euismod. Proin neque elit, posuere auctor dui nec, volutpat ornare dui. Mauris eget condimentum dui. Curabitur congue luctus nulla, sed ultrices mi
-          placerat sit amet. Maecenas efficitur eleifend arcu, eget rutrum augue finibus ut. Integer mauris ante, consequat vel sagittis sed, ultricies at urna. Integer rhoncus ultrices nulla non feugiat. Praesent quis dapibus ante. Morbi a velit a
-          nulla vestibulum interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Suspendisse porttitor velit imperdiet, finibus lacus eu, congue turpis.
+          VISUALIZATION DESCRIPTION<br>
+          The idea behind my visualization is to highlight the words that are at high risk of getting discarded during language processing. Using the lyrics from seven Radiohead songs, I ran the text through several layers of processing to analyze which words get rejected along the way. The resulting visualization shows all unique words from the lyrics scattered across the screen in the foreground (black text on white background), while the words that got deleted during the text's processing are in the background (white text on white background). The user can reveal these "rejected" words by hovering over them with their cursor.<br><br>
+        </p>
+        <p>
+          LANGUAGE PROCESSING STEPS<br>
+          The lyrics are copied into two strings.
+          The first string, representing the full set of lyrics, is subject to the following processing steps:
+        </p>
+          <ol>
+              <li>Tokenization (using Natural's tokenizer)</li>
+                  <span class="sub">- To analyze the individual words within the corpus</span>
+              <li>Conversion to lowercase</li>
+                  <span class="sub">- To help normalize the words, for maintaing consistency (e.g. "You" == "you")</span>
+              <li>Removal of duplicate tokens</li>
+                  <span class="sub">- To work with a more condensed set of words</span>
+              <li>POS tagging (using Natural's BrillPOSTagger)</li>
+          </ol>
+
+          <p>
+            The second string, representing the "rejected" words, is subject to the following processing steps:
+          </p>
+          <ol>
+              <li>Splitting the string into an array, each position holding the lyrics from one song</li>
+              <li>Tokenization</li>
+                  <span class="sub">- To analyze the individual words within the corpus</span>
+              <li>Stemming (using Natural's PorterStemmer)</li>
+                  <span class="sub">- To prepare the tokens for the next processing steps (to try to maintain consistency)</span>
+              <li>Counting word frequencies</li>
+                  <span class="sub">- Although this isn't directly reflected in the final result, it was helpful to study the text</span>
+              <li>TF-IDF (using Natural's TF-IDF)</li>
+                  <span class="sub">- Each set of song lyrics, which has been tokenized and stemmed, is added as a document</span><br>
+                  <span class="sub">- Any document that is considered to be "important" relative to the corpus is filtered out</span>
+              <li>Removal of non-stopwords (using n-stopwords package)</li>
+                  <span class="sub">- Instead of removing stopwords, every token that isn't considered to be a stopword is removed</span>
+              <li>Conversion to lowercase</li>
+                  <span class="sub">- To help normalize the words, for maintaing consistency (e.g. "You" == "you")</span>
+              <li>Removal of duplicates</li>
+                  <span class="sub">- To work with a more condensed set of words</span>
+              <li>POS tagging (using Natural's BrillPOSTagger)</li>
+              <li>Removal of tokens that have a Word Net definition (using Natural's WordNet)</li>
+                  <span class="sub">- Within this context, I'm considering words with a Word Net definition to be more "important" than those without one. Hence, words with a definition are removed</span>
+          </ol>
+
+          <p style="margin-top:37px;">
+          FURTHER DESCRIPTION & INFERENCES<br>
+          The array derived from the processing of the first string represents the full set of lyrics. The only step from that process that discards words is the removal of duplicates, which is only done to have a more condensed set of words to display in the visualization without actually filtering out distinct words. The words from this array are those in the foreground (black text) of the visualization.
+          <br><br>
+          The array derived from the processing of the second string represents the "rejected" words, being the ones that might easily be discarded by a language processing algorithm. Although the effects of some of these steps is not directly shown in the resulting visualization, they contribute to deciding which words are at high risk of being rejected. For instance, Natural's TF-IDF is used to remove words that are considered to be important relative to the corpus, n-stopwords is used to remove non-stopwords, and Word Net is used to remove words without a definition. The words from this array are those in the background (white text) of the visualization.
+          <br><br>
+          One processing step that has an apparent effect on the visualization is POS tagging, which determines the font applied to each word. Along with the two arrays holding the tokenized lyrics, another two arrays are used to hold the corresponding tags. These varying fonts gives an idea of which types of words (e.g. determiner, noun) tend to be discarded during language processing. What I observed from this process is that pronouns and prepositions are quite susceptible to being discarded, while nouns are much less likely to be discarded. Also, many verbs were rejected, which I found surprising as I would think these are often crucial to the meaning of a sentence.
+          <br><br>
+          Another interesting area for analysis of this tagging process is to see which tag is assigned to words that can be classified under multiple categories (e.g. "thought" is both a verb and a noun). Although this exercise made me reflect on this idea, I could not identify any patterns that gave me enough insight on this topic to make any valuable inferences.
+          <br><br>
+          Overall, I found that a very high number of words were discarded through the language processing algorithms I used. The resulting visualization made this clear to me, as I expected only a few words to be in the background, but it's actually quite populated with discarded words. Of 288 unique words found in the lyrics from 7 songs, 89 words were rejected. Although my approach to processing the text is very rudimentary and a more sophisticated approach might preserve a greater number of words, these methods, at their core, appear to filter the text in such a way that eliminates a whole lot of content, which can easily lead to misrepresentations of the original text. As such, caution should certainly be taken during natural language processing to avoid accidentally distorting or destroying the meaning behind a text.</span><br><br>
+
+          <a href="exercise2/index.html " target="_blank">Link to visualization</a><br>
         </p>
       </div> <!-- closing content div -->
     </div> <!-- closing project div -->
