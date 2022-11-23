@@ -1,5 +1,9 @@
 // this file contains functions for writing/drawing to the HTML page
 
+
+// perhaps make the placement of the ellipses and their size/speed based on the score
+// so map the scores to values between x and y and position them in the ring based on that score
+
 // counters
 let totalCount = 0;
 let positiveCount = 0;
@@ -8,9 +12,6 @@ let negativeCount = 0;
 let positiveText = [];
 let negativeText = [];
 let neutralText = [];
-  
-// to store results
-// const sentiment = document.querySelector(".sentiment");
 
 // Send POST request to server
 const options = {
@@ -88,10 +89,10 @@ function Circle(tweetText)
     
     // for managing movement of ellipses
     this.angle = 0;
-    this.angleIncrement = random(0.01, 0.09);
+    this.angleIncrement = random(0.01, 0.1);
     this.scalar = random(0.06, 0.3);
     this.direction = random([-1, 1]); // always returns -1 or 1 for determining if ellipse rotates clockwise or counterclock wise
-    this.defaultSpeed = random(0.05, 0.5);
+    this.defaultSpeed = random(0.07, 0.9);
     this.speed = this.defaultSpeed;
     this.text = tweetText;
 
