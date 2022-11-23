@@ -8,35 +8,37 @@ LANGUAGE PROCESSING STEPS
 
 The lyrics are copied into two strings. 
 The first string, representing the full set of lyrics, is subject to the following processing steps:
+
     1. Tokenization (using Natural's tokenizer)
-        - To analyze the individual words within the corpus
+        - To analyze the individual words within the corpus 
     2. Conversion to lowercase
-        - To help normalize the words, for maintaing consistency (e.g. "You" == "you")
+        - To help normalize the words, for maintaing consistency (e.g. "You" == "you")   
     3. Removal of duplicate tokens
         - To work with a more condensed set of words
     4. POS tagging (using Natural's BrillPOSTagger)
+    
 
 The second string, representing the "rejected" words, is subject to the following processing steps:
+
     1. Splitting the string into an array, each position holding the lyrics from one song
     2. Tokenization
         - To analyze the individual words within the corpus
     3. Stemming (using Natural's PorterStemmer) 
         - To prepare the tokens for the next processing steps (to try to maintain consistency)
     4. Counting word frequencies
-        - Although this isn't directly reflected in the final result, it was helpful to study the text
+        - Although this isn't directly reflected in the final result, it was helpful to study the text 
     5. TF-IDF (using Natural's TF-IDF)
         - Each set of song lyrics, which has been tokenized and stemmed, is added as a document
         - Any document that is considered to be "important" relative to the corpus is filtered out
     6. Removal of non-stopwords (using n-stopwords package)
         - Instead of removing stopwords, every token that isn't considered to be a stopword is removed
     7. Conversion to lowercase
-        - To help normalize the words, for maintaing consistency (e.g. "You" == "you")
+        - To help normalize the words, for maintaining consistency (e.g. "You" == "you")
     8. Removal of duplicates
         - To work with a more condensed set of words
     9. POS tagging (using Natural's BrillPOSTagger)
     10. Removal of tokens that have a Word Net definition (using Natural's WordNet)
         - Within this context, I'm considering words with a Word Net definition to be more "important" than those without one. Hence, words with a definition are removed
-
 
 
 FURTHER DESCRIPTION & INFERENCES
