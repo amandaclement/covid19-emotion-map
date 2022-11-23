@@ -37,7 +37,6 @@ prophylactic	1
 importance	1
 ultimate	1
 stripped	1
-money	1
 shopping	1
 trepidation	1
 rescue	1
@@ -85,7 +84,6 @@ vote	1
 fate	1
 progress	1
 ominous	1
-happy	1
 surprisingly	1
 revolution	1
 foreboding	1
@@ -148,7 +146,6 @@ cove	1
 wizard	1
 untold	1
 conspirator	1
-mother	1
 morn	1
 bloom	1
 regatta	1
@@ -163,7 +160,6 @@ ballot	1
 excitation	1
 proceeding	1
 disposed	1
-football	1
 heyday	1
 unpublished	1
 invitation	1
@@ -173,7 +169,6 @@ chant	1
 plan	1
 owing	1
 depend	1
-priesthood	1
 lettered	1
 sanctify	1
 superstitious	1
@@ -300,10 +295,8 @@ revere	1
 transcendence	1
 momentum	1
 verge	1
-salary	1
 respect	1
 paragon	1
-clown	1
 ripen	1
 glide	1
 overdue	1
@@ -328,7 +321,6 @@ champion	1
 engulf	1
 restorative	1
 unfulfilled	1
-art	1
 preparedness	1
 award	1
 sundial	1
@@ -367,7 +359,6 @@ litigate	1
 crescendo	1
 speculative	1
 achievement	1
-neighborhood	1
 shining	1
 courtship	1
 virginity	1
@@ -564,7 +555,6 @@ marriage	1
 symphony	1
 harbinger	1
 submit	1
-rail	1
 unresolved	1
 signify	1
 rapture	1
@@ -590,7 +580,6 @@ invite	1
 plump	1
 prophet	1
 endanger	1
-worm	1
 roulette	1
 remedy	1
 excite	1
@@ -628,7 +617,6 @@ explore	1
 judiciary	1
 cautious	1
 towering	1
-homeless	1
 triumph	1
 representing	1
 prophetic	1
@@ -814,12 +802,9 @@ bonus	1
 succeeding	1
 interminable	1
 liberation	1
-bruise	1
 revival	1
-top	1
 mediator	1
 draft	1
-start	1
 bountiful	1
 exhaustion	1
 confession	1

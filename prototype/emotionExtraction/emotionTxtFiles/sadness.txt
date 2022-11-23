@@ -62,7 +62,6 @@ inability	1
 retribution	1
 theocratic	1
 antisocial	1
-weight	1
 overpriced	1
 adversity	1
 hate	1
@@ -139,7 +138,6 @@ sorrow	1
 discolored	1
 scar	1
 concussion	1
-strip	1
 hindering	1
 flog	1
 inferior	1
@@ -190,8 +188,6 @@ wrongly	1
 expire	1
 veal	1
 mangle	1
-mug	1
-mad	1
 starvation	1
 deceased	1
 horrors	1
@@ -209,7 +205,6 @@ hurtful	1
 indigent	1
 unexplained	1
 unequal	1
-lovely	1
 manslaughter	1
 ravenous	1
 wither	1
@@ -222,7 +217,6 @@ derogatory	1
 banished	1
 doomed	1
 abyss	1
-tolerate	1
 homicide	1
 cataract	1
 desert	1
@@ -248,7 +242,6 @@ alcoholism	1
 sinner	1
 battled	1
 deceitful	1
-error	1
 weariness	1
 insolvent	1
 kidnap	1
@@ -272,7 +265,6 @@ disagreeing	1
 unsuccessful	1
 devastate	1
 intolerant	1
-esteem	1
 insurmountable	1
 hanging	1
 atrophy	1
@@ -283,11 +275,9 @@ belittle	1
 setback	1
 hatred	1
 frighten	1
-fortress	1
 savor	1
 vegetative	1
 dying	1
-lawsuit	1
 pernicious	1
 depression	1
 helpless	1
@@ -304,7 +294,6 @@ segregate	1
 stretcher	1
 emptiness	1
 distraught	1
-opera	1
 inter	1
 destroying	1
 unwell	1
@@ -314,7 +303,6 @@ steal	1
 unpaid	1
 bomb	1
 sorrowful	1
-lush	1
 tribulation	1
 dispossessed	1
 sentence	1
@@ -354,7 +342,6 @@ confiscate	1
 undertaker	1
 subsidence	1
 slaughterhouse	1
-income	1
 resigned	1
 fruitless	1
 nutritious	1
@@ -363,7 +350,6 @@ confined	1
 hobo	1
 dementia	1
 pathetic	1
-lower	1
 elimination	1
 bigoted	1
 inefficient	1
@@ -410,14 +396,11 @@ wretch	1
 depart	1
 surgery	1
 precarious	1
-bitch	1
-musical	1
 tyrant	1
 affront	1
 confinement	1
 murderous	1
 leukemia	1
-quiet	1
 rejects	1
 infamy	1
 terrible	1
@@ -536,7 +519,6 @@ pessimist	1
 withdraw	1
 scrapie	1
 seriousness	1
-fall	1
 limited	1
 defeated	1
 probation	1
@@ -557,12 +539,10 @@ exclusion	1
 difficulty	1
 ulcer	1
 tragedy	1
-liquor	1
 sin	1
 decomposed	1
 endless	1
 diminish	1
-negro	1
 runaway	1
 prosecute	1
 cry	1
@@ -634,7 +614,6 @@ snort	1
 darken	1
 loss	1
 willful	1
-lace	1
 insult	1
 jurisprudence	1
 adultery	1
@@ -652,7 +631,6 @@ divorce	1
 thief	1
 injurious	1
 inhospitable	1
-shrink	1
 tumour	1
 endocarditis	1
 coffin	1
@@ -732,7 +710,6 @@ weeping	1
 grief	1
 delirium	1
 urn	1
-couch	1
 crying	1
 incompatible	1
 disqualified	1
@@ -800,10 +777,8 @@ spinster	1
 trickery	1
 sterile	1
 deport	1
-art	1
 abandon	1
 slaughter	1
-stillness	1
 disillusionment	1
 unfulfilled	1
 imprisoned	1
@@ -841,13 +816,11 @@ shipwreck	1
 ugliness	1
 miserably	1
 ridicule	1
-leave	1
 ailing	1
 bugaboo	1
 captive	1
 missing	1
 wallow	1
-harry	1
 famine	1
 cage	1
 timid	1
@@ -906,7 +879,6 @@ sympathy	1
 dictatorship	1
 lockup	1
 misery	1
-napkin	1
 gonorrhea	1
 vainly	1
 disagreement	1
@@ -919,7 +891,6 @@ morbid	1
 discriminate	1
 plague	1
 flounder	1
-lax	1
 injure	1
 malicious	1
 ultimate	1
@@ -983,7 +954,6 @@ cumbersome	1
 disturbance	1
 plight	1
 abandonment	1
-weeds	1
 consecration	1
 anxiety	1
 inflict	1
@@ -1012,7 +982,6 @@ vote	1
 coma	1
 perilous	1
 condescension	1
-orchestra	1
 oppress	1
 indifference	1
 trash	1
@@ -1042,7 +1011,6 @@ disparage	1
 damage	1
 unpublished	1
 wan	1
-beating	1
 scold	1
 moody	1
 owing	1
@@ -1052,9 +1020,7 @@ woeful	1
 horrid	1
 sanctify	1
 tearful	1
-priesthood	1
 beggar	1
-mother	1
 slave	1
 sedition	1
 funk	1
@@ -1174,7 +1140,6 @@ unaccountable	1
 shriek	1
 invade	1
 deterioration	1
-abortion	1
 perdition	1
 necessity	1
 die	1

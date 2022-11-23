@@ -1,4 +1,3 @@
-parachute	1
 horrified	1
 hopeless	1
 validity	1
@@ -20,38 +19,29 @@ crouching	1
 tempest	1
 obliterate	1
 atherosclerosis	1
-procedure	1
 abandoned	1
 malaria	1
 dangerous	1
 cyst	1
-shot	1
 terrorist	1
 flog	1
 missile	1
 scare	1
-hospital	1
 slam	1
 aggressor	1
 indoctrination	1
-sweat	1
-cliff	1
 powerfully	1
 mutiny	1
 confine	1
-confidence	1
 shank	1
 failure	1
 pestilence	1
 romance	1
 blindfold	1
-mug	1
 starvation	1
-mad	1
 intrigue	1
 horrors	1
 angina	1
-military	1
 mortuary	1
 despair	1
 crucifixion	1
@@ -103,9 +93,7 @@ concerned	1
 defendant	1
 cruel	1
 avoid	1
-bee	1
 repulsion	1
-fire	1
 vehement	1
 confession	1
 slavery	1
@@ -117,7 +105,6 @@ pessimism	1
 intolerance	1
 mysterious	1
 confusion	1
-change	1
 derogatory	1
 indefensible	1
 abyss	1
@@ -126,7 +113,6 @@ banished	1
 homicide	1
 cataract	1
 desert	1
-expose	1
 vengeful	1
 shame	1
 perishing	1
@@ -157,7 +143,6 @@ anarchism	1
 battlefield	1
 slayer	1
 sultan	1
-loyal	1
 explosive	1
 alcoholism	1
 combatant	1
@@ -188,11 +173,9 @@ villainous	1
 wicked	1
 grounded	1
 masochism	1
-loom	1
 disable	1
 violently	1
 revolting	1
-shell	1
 chasm	1
 uncanny	1
 deportation	1
@@ -218,7 +201,6 @@ combative	1
 hydrocephalus	1
 risky	1
 incite	1
-cross	1
 indict	1
 collapse	1
 chaff	1
@@ -297,7 +279,6 @@ woe	1
 contagious	1
 abomination	1
 mishap	1
-elf	1
 spear	1
 constraint	1
 repent	1
@@ -328,7 +309,6 @@ force	1
 frigate	1
 punish	1
 catastrophe	1
-case	1
 hate	1
 giant	1
 apache	1
@@ -342,8 +322,6 @@ depraved	1
 robber	1
 opium	1
 yelp	1
-uphill	1
-descent	1
 assassin	1
 fluctuation	1
 cyanide	1
@@ -378,7 +356,6 @@ resisting	1
 darkened	1
 dike	1
 glare	1
-infant	1
 discrimination	1
 afflict	1
 irrational	1
@@ -387,7 +364,6 @@ poisoned	1
 fiend	1
 desecration	1
 aghast	1
-policeman	1
 crash	1
 manifestation	1
 picket	1
@@ -560,7 +536,6 @@ seriousness	1
 serpent	1
 scrapie	1
 probation	1
-buzz	1
 revolver	1
 relapse	1
 destroying	1
@@ -596,11 +571,8 @@ unjustifiable	1
 stretcher	1
 frantic	1
 snare	1
-opera	1
 blackmail	1
 subversion	1
-mighty	1
-lines	1
 poverty	1
 lion	1
 slaughterhouse	1
@@ -623,7 +595,6 @@ hemorrhage	1
 shackle	1
 burke	1
 uncertain	1
-obey	1
 tramp	1
 outsider	1
 examination	1
@@ -645,7 +616,6 @@ dagger	1
 unbridled	1
 carnivorous	1
 panic	1
-iris	1
 annihilation	1
 grope	1
 delusion	1
@@ -660,7 +630,6 @@ surprise	1
 bunker	1
 stealing	1
 shatter	1
-treat	1
 infarct	1
 repellant	1
 aga	1
@@ -675,7 +644,6 @@ cautionary	1
 lightning	1
 alarming	1
 ruin	1
-watch	1
 molestation	1
 avoidance	1
 xenophobia	1
@@ -685,7 +653,6 @@ speculation	1
 sneak	1
 surveillance	1
 embolism	1
-delay	1
 pneumonia	1
 heighten	1
 tactics	1
@@ -693,7 +660,6 @@ unhealthy	1
 smash	1
 adverse	1
 edict	1
-pray	1
 plea	1
 mace	1
 standoff	1
@@ -799,12 +765,9 @@ agonizing	1
 slaughter	1
 abandon	1
 alien	1
-stillness	1
 intercede	1
 imprisoned	1
 radioactive	1
-marry	1
-rod	1
 avalanche	1
 punishment	1
 mortgage	1
@@ -813,7 +776,6 @@ wrangling	1
 grizzly	1
 shaky	1
 languishing	1
-birth	1
 dubious	1
 mob	1
 reluctant	1
@@ -934,7 +896,6 @@ perish	1
 entangled	1
 hostilities	1
 skid	1
-diseased	1
 locust	1
 nasty	1
 prosecute	1
@@ -965,7 +926,6 @@ adrift	1
 peril	1
 darken	1
 radon	1
-lace	1
 loss	1
 abuse	1
 premeditated	1
@@ -991,14 +951,11 @@ leprosy	1
 aftermath	1
 offender	1
 brute	1
-mum	1
 inferno	1
 restriction	1
 mandamus	1
 worse	1
 raid	1
-gang	1
-banger	1
 averse	1
 raging	1
 bloody	1
@@ -1042,7 +999,6 @@ tumour	1
 jaundice	1
 distressed	1
 coffin	1
-honest	1
 courageous	1
 refutation	1
 belligerent	1
@@ -1150,7 +1106,6 @@ intelligence	1
 shanghai	1
 animosity	1
 euthanasia	1
-medical	1
 traitor	1
 distress	1
 noxious	1
@@ -1158,7 +1113,6 @@ varicella	1
 whirlwind	1
 casket	1
 gladiator	1
-clashing	1
 doom	1
 obstruct	1
 excruciating	1
@@ -1172,7 +1126,6 @@ witchcraft	1
 unsurpassed	1
 foreclose	1
 cove	1
-disease	1
 devastating	1
 wrecked	1
 buried	1
@@ -1206,7 +1159,6 @@ insanity	1
 accuser	1
 forced	1
 difficult	1
-erase	1
 appendicitis	1
 tumultuous	1
 injured	1
@@ -1234,7 +1186,6 @@ bacteria	1
 sabotage	1
 vendetta	1
 thrash	1
-cop	1
 madman	1
 persecution	1
 wound	1
@@ -1247,8 +1198,6 @@ forbidding	1
 butcher	1
 shriek	1
 perdition	1
-abortion	1
-lawyer	1
 deterioration	1
 extermination	1
 invade	1
@@ -1258,7 +1207,6 @@ disaster	1
 die	1
 court	1
 warfare	1
-swim	1
 alerts	1
 undecided	1
 bankrupt	1
@@ -1418,21 +1366,17 @@ overt	1
 intimately	1
 oppress	1
 perilous	1
-blob	1
 restrained	1
 indifference	1
-newcomer	1
 cursed	1
 shrill	1
 anxious	1
-fight	1
 deplorable	1
 deflation	1
 rejection	1
 warlock	1
 corrupting	1
 suspect	1
-god	1
 incendiary	1
 martyr	1
 cardiomyopathy	1
@@ -1454,19 +1398,15 @@ comatose	1
 chargeable	1
 stranger	1
 repellent	1
-epidemic	1
-parade	1
 omen	1
 conflagration	1
 suppression	1
 thirteenth	1
 caution	1
-react	1
 usurped	1
 brimstone	1
 hallucination	1
 dire	1
-synonymous	1
 outpost	1
 exacerbation	1
 ghostly	1

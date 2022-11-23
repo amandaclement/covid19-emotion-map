@@ -78,8 +78,6 @@ quickness	1
 chimera	1
 chicane	1
 blessings	1
-youth	1
-death	1
 dolphin	1
 score	1
 urgency	1
@@ -161,7 +159,6 @@ exciting	1
 rapid	1
 reward	1
 feeling	1
-spa	1
 majestic	1
 postponement	1
 leave	1
@@ -187,7 +184,6 @@ astonishingly	1
 rejoicing	1
 ecstatic	1
 tumult	1
-jerk	1
 conjure	1
 raffle	1
 inheritance	1
@@ -256,7 +252,6 @@ playground	1
 labor	1
 aspiration	1
 crowning	1
-sweet	1
 sally	1
 wildfire	1
 surprising	1
@@ -314,7 +309,6 @@ dawn	1
 buck	1
 excite	1
 palpable	1
-worm	1
 astonishment	1
 blitz	1
 raving	1
@@ -332,7 +326,6 @@ lawsuit	1
 frightened	1
 purity	1
 frantic	1
-opera	1
 alarm	1
 saintly	1
 defy	1
@@ -346,7 +339,6 @@ prick	1
 gift	1
 complement	1
 uncertain	1
-mouth	1
 rekindle	1
 daemon	1
 deal	1
@@ -369,7 +361,6 @@ improvise	1
 allure	1
 sneak	1
 musical	1
-pray	1
 murderous	1
 sun	1
 warned	1
@@ -479,7 +470,6 @@ anomaly	1
 bewilderment	1
 weight	1
 veracity	1
-tree	1
 immerse	1
 attacking	1
 zany	1

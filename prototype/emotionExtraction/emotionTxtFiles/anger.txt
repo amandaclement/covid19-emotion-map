@@ -23,18 +23,15 @@ suicide	1
 diabolical	1
 blasphemy	1
 destroyer	1
-gnome	1
 fierce	1
 selfish	1
 stolen	1
 slander	1
-tripping	1
 unforgiving	1
 insurrection	1
 wrangling	1
 shaky	1
 grudge	1
-latent	1
 scandalous	1
 mob	1
 exaggerate	1
@@ -46,20 +43,16 @@ dissension	1
 harshness	1
 litigate	1
 profane	1
-thump	1
 carnage	1
 punishing	1
 dishonor	1
-intense	1
 powerless	1
 noisy	1
-execution	1
 anathema	1
 hell	1
 banish	1
 scorn	1
 malign	1
-ridiculous	1
 mule	1
 censor	1
 murderer	1
@@ -71,7 +64,6 @@ assassinate	1
 disreputable	1
 lunatic	1
 gore	1
-morals	1
 disqualified	1
 troll	1
 bang	1
@@ -88,14 +80,12 @@ ill	1
 aggressive	1
 sectarian	1
 savagery	1
-challenge	1
 antagonistic	1
 insufficiency	1
 frenzied	1
 sordid	1
 remand	1
 slur	1
-soldier	1
 killing	1
 duress	1
 recidivism	1
@@ -114,7 +104,6 @@ loath	1
 wasteful	1
 restitution	1
 inhuman	1
-fleece	1
 bigot	1
 discontent	1
 disrespectful	1
@@ -125,11 +114,8 @@ escalate	1
 bugaboo	1
 row	1
 infraction	1
-harry	1
 badger	1
-politics	1
 ridicule	1
-feeling	1
 traumatic	1
 intractable	1
 mislead	1
@@ -170,7 +156,6 @@ raid	1
 bout	1
 decry	1
 gang	1
-aftermath	1
 deflate	1
 offender	1
 disagree	1
@@ -185,11 +170,9 @@ bloodthirsty	1
 displaced	1
 greed	1
 spanking	1
-buffet	1
 sinful	1
 delusional	1
 ruined	1
-birthplace	1
 frustration	1
 entangled	1
 hostilities	1
@@ -222,7 +205,6 @@ accused	1
 vent	1
 illegitimate	1
 displeased	1
-storm	1
 prosecute	1
 paralysis	1
 assailant	1
@@ -281,7 +263,6 @@ bloody	1
 hunting	1
 disgruntled	1
 fuss	1
-misunderstanding	1
 storming	1
 clamor	1
 disappoint	1
@@ -308,7 +289,6 @@ traitor	1
 incompetent	1
 provocation	1
 inoperative	1
-hit	1
 guillotine	1
 nag	1
 abhorrent	1
@@ -317,7 +297,6 @@ involution	1
 animosity	1
 reproach	1
 obstacle	1
-boxing	1
 fallacious	1
 bombardment	1
 distrust	1
@@ -325,7 +304,6 @@ conspirator	1
 oust	1
 communism	1
 shoddy	1
-disease	1
 aggravated	1
 devastating	1
 myopia	1
@@ -337,11 +315,9 @@ fits	1
 hysterical	1
 riotous	1
 thoughtless	1
-witchcraft	1
 clashing	1
 dictatorial	1
 obstruct	1
-gun	1
 argue	1
 excitation	1
 humbug	1
@@ -382,7 +358,6 @@ pervert	1
 smite	1
 perdition	1
 harassing	1
-lawyer	1
 invade	1
 deterioration	1
 extermination	1
@@ -410,10 +385,8 @@ profanity	1
 subversive	1
 bitterly	1
 noncompliance	1
-belt	1
 agitation	1
 perpetrator	1
-grab	1
 antagonism	1
 discord	1
 prejudicial	1
@@ -441,7 +414,6 @@ scolding	1
 incense	1
 complicate	1
 homicidal	1
-hood	1
 sinister	1
 alienation	1
 tumultuous	1
@@ -453,7 +425,6 @@ death	1
 pow	1
 criminality	1
 lunacy	1
-counsellor	1
 barb	1
 crushed	1
 cruelty	1
@@ -520,7 +491,6 @@ dictatorship	1
 torpedo	1
 despicable	1
 gonorrhea	1
-playful	1
 misery	1
 busted	1
 muff	1
@@ -539,7 +509,6 @@ obnoxious	1
 asshole	1
 defect	1
 duplicity	1
-money	1
 denunciation	1
 stripped	1
 incendiary	1
@@ -561,14 +530,11 @@ indifference	1
 huff	1
 cussed	1
 exacerbation	1
-vote	1
 grumpy	1
 brazen	1
 altercation	1
 conflagration	1
 suppression	1
-caution	1
-react	1
 usurped	1
 brimstone	1
 bickering	1
@@ -597,7 +563,6 @@ dupe	1
 shock	1
 gruff	1
 defamatory	1
-hot	1
 denounce	1
 cursing	1
 inflict	1
@@ -608,7 +573,6 @@ legalized	1
 revolution	1
 exasperation	1
 abandonment	1
-lash	1
 troublesome	1
 intolerable	1
 scorpion	1
@@ -620,7 +584,6 @@ misplace	1
 canker	1
 vindictive	1
 treason	1
-tease	1
 unsympathetic	1
 hurtful	1
 ravenous	1
@@ -634,7 +597,6 @@ despair	1
 crucifixion	1
 oppressor	1
 usurp	1
-mug	1
 mad	1
 destruction	1
 rave	1
@@ -648,7 +610,6 @@ disdain	1
 eruption	1
 touchy	1
 strangle	1
-claw	1
 eschew	1
 scoundrel	1
 antipathy	1
@@ -663,12 +624,7 @@ accusation	1
 foe	1
 abandoned	1
 depreciate	1
-shot	1
-rocket	1
-words	1
 riot	1
-beast	1
-celebrity	1
 sue	1
 suppress	1
 inappropriate	1
@@ -678,8 +634,6 @@ shove	1
 obliterate	1
 assail	1
 aggravating	1
-deserve	1
-furnace	1
 eradicate	1
 sneer	1
 pare	1
@@ -759,7 +713,6 @@ retaliate	1
 compulsion	1
 defendant	1
 cruel	1
-bee	1
 inequality	1
 damnation	1
 stone	1
@@ -785,7 +738,6 @@ oblivion	1
 disclaim	1
 intolerance	1
 antisocial	1
-tree	1
 adversity	1
 defiance	1
 standstill	1
@@ -816,7 +768,6 @@ duel	1
 hoot	1
 hostile	1
 intimidation	1
-pirate	1
 ruthless	1
 exile	1
 misrepresented	1
@@ -840,7 +791,6 @@ malignant	1
 negation	1
 bothering	1
 revolting	1
-shell	1
 frustrated	1
 deportation	1
 annoying	1
@@ -920,13 +870,11 @@ consternation	1
 crazed	1
 maniac	1
 broken	1
-cancer	1
 backbone	1
 concealment	1
 madden	1
 contradict	1
 abomination	1
-elf	1
 spear	1
 constraint	1
 fluctuation	1
@@ -1016,9 +964,7 @@ remove	1
 morbidity	1
 deranged	1
 bully	1
-rail	1
 confront	1
-tiff	1
 senseless	1
 disastrous	1
 underpaid	1
@@ -1027,11 +973,9 @@ terrible	1
 stifled	1
 provoking	1
 demonic	1
-blast	1
 sin	1
 berserk	1
 hiss	1
-kick	1
 endless	1
 difficulty	1
 detainee	1
@@ -1056,7 +1000,6 @@ fuming	1
 taunt	1
 hating	1
 nepotism	1
-excite	1
 wreak	1
 punitive	1
 ringer	1
@@ -1075,9 +1018,7 @@ unsettled	1
 advocacy	1
 tremor	1
 manipulation	1
-elbow	1
 anarchist	1
-avenger	1
 rabble	1
 expulsion	1
 talons	1
@@ -1124,7 +1065,6 @@ disapproving	1
 confiscate	1
 poverty	1
 screwed	1
-injury	1
 unhappy	1
 horrific	1
 harass	1
@@ -1146,7 +1086,6 @@ paucity	1
 raving	1
 bomb	1
 psychosis	1
-cash	1
 dispossessed	1
 sentence	1
 destroying	1
@@ -1189,7 +1128,6 @@ arson	1
 wretch	1
 vermin	1
 presumptuous	1
-musical	1
 bitch	1
 retract	1
 shun	1
@@ -1241,5 +1179,4 @@ molestation	1
 disrespect	1
 melodrama	1
 terrorize	1
-damn	1
 hurt	1

@@ -9,7 +9,6 @@ nursery	1
 elated	1
 rapt	1
 glow	1
-swim	1
 enchanting	1
 heartily	1
 luck	1
@@ -27,7 +26,6 @@ worship	1
 devout	1
 accomplished	1
 wealth	1
-organ	1
 equality	1
 sanctification	1
 rejoice	1
@@ -37,7 +35,6 @@ reconciliation	1
 kind	1
 winning	1
 journey	1
-midwife	1
 cove	1
 embrace	1
 hero	1
@@ -94,13 +91,11 @@ yearning	1
 parade	1
 harmony	1
 harmoniously	1
-god	1
 reverend	1
 memorable	1
 orchestra	1
 banquet	1
 exceed	1
-teach	1
 bless	1
 vivacious	1
 ordination	1
@@ -195,7 +190,6 @@ gain	1
 vacation	1
 majestic	1
 spa	1
-feeling	1
 reward	1
 enchanted	1
 exciting	1
@@ -238,7 +232,6 @@ courtship	1
 aloha	1
 morals	1
 green	1
-church	1
 candid	1
 glad	1
 crescendo	1
@@ -355,7 +348,6 @@ completion	1
 inspired	1
 joker	1
 proud	1
-grandchildren	1
 cheer	1
 toast	1
 heavens	1
@@ -421,7 +413,6 @@ glimmer	1
 humorous	1
 radiant	1
 tickle	1
-create	1
 elegance	1
 deliverance	1
 destination	1
@@ -568,7 +559,6 @@ friend	1
 exhilaration	1
 revel	1
 exalt	1
-celebrity	1
 luxurious	1
 sunny	1
 hilarious	1

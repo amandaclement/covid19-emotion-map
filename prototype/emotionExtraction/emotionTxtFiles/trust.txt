@@ -2,9 +2,6 @@ judiciary	1
 consort	1
 convent	1
 cautious	1
-management	1
-cap	1
-official	1
 climax	1
 authoritative	1
 escort	1
@@ -44,18 +41,15 @@ leader	1
 account	1
 exaltation	1
 agreement	1
-dawn	1
 guru	1
 organization	1
 elders	1
 abacus	1
 endless	1
 invite	1
-county	1
 predominant	1
 prophet	1
 covenant	1
-horse	1
 undying	1
 captivate	1
 reconsideration	1
@@ -64,7 +58,6 @@ dutiful	1
 heartfelt	1
 deed	1
 facts	1
-marine	1
 proven	1
 butler	1
 optimism	1
@@ -88,8 +81,6 @@ sweet	1
 crowning	1
 aspiration	1
 worthy	1
-labor	1
-playground	1
 offering	1
 understanding	1
 dance	1
@@ -100,14 +91,11 @@ dame	1
 passion	1
 inspired	1
 endowment	1
-sir	1
 show	1
-police	1
 agreed	1
 evident	1
 proud	1
 cheer	1
-grandchildren	1
 pill	1
 garrison	1
 fugitive	1
@@ -231,7 +219,6 @@ brotherly	1
 suggest	1
 magnificent	1
 radar	1
-cosmopolitan	1
 sneaking	1
 allied	1
 commodore	1
@@ -280,7 +267,6 @@ usual	1
 transcript	1
 delightful	1
 entrust	1
-lamb	1
 perceive	1
 foresight	1
 depth	1
@@ -289,7 +275,6 @@ content	1
 trustee	1
 elucidate	1
 indivisible	1
-income	1
 cheerfulness	1
 apprentice	1
 considerate	1
@@ -320,7 +305,6 @@ mastery	1
 cohesive	1
 sage	1
 hug	1
-principal	1
 bargain	1
 tribe	1
 bequest	1
@@ -331,13 +315,10 @@ food	1
 succeeding	1
 praise	1
 salutary	1
-top	1
 expedient	1
 revival	1
 faith	1
 loyal	1
-deceiving	1
-explain	1
 prepared	1
 orthodoxy	1
 patrol	1
@@ -356,7 +337,6 @@ transaction	1
 strengthening	1
 wonderful	1
 bridegroom	1
-clean	1
 supporting	1
 jurist	1
 sympathetic	1
@@ -364,7 +344,6 @@ esteem	1
 accredited	1
 prudent	1
 wot	1
-follower	1
 durable	1
 romance	1
 puppy	1
@@ -391,7 +370,6 @@ generosity	1
 caretaker	1
 routine	1
 deserve	1
-interior	1
 assessment	1
 asserting	1
 pretty	1
@@ -411,7 +389,6 @@ star	1
 aspiring	1
 medal	1
 conveyancing	1
-remains	1
 soundness	1
 finally	1
 flagship	1
@@ -431,7 +408,6 @@ bursary	1
 bedrock	1
 invocation	1
 fundamental	1
-rave	1
 armory	1
 communion	1
 superstar	1
@@ -470,7 +446,6 @@ friendliness	1
 patriarchal	1
 goodness	1
 joyful	1
-oracle	1
 libel	1
 noble	1
 chemist	1
@@ -517,7 +492,6 @@ accurate	1
 bridesmaid	1
 proficiency	1
 possess	1
-grow	1
 competent	1
 genuine	1
 insure	1
@@ -559,7 +533,6 @@ perfect	1
 magnificence	1
 cooperative	1
 defended	1
-larger	1
 administrative	1
 unquestionable	1
 reliance	1
@@ -572,7 +545,6 @@ befriend	1
 friendship	1
 sappy	1
 axiom	1
-virgin	1
 budget	1
 neighbor	1
 truss	1
@@ -615,16 +587,13 @@ uplift	1
 worship	1
 devout	1
 guarantee	1
-wealth	1
 attest	1
-knickers	1
 sheriff	1
 forgiving	1
 parliament	1
 humility	1
 chairman	1
 wear	1
-cashier	1
 equality	1
 electorate	1
 insulation	1
@@ -652,7 +621,6 @@ frank	1
 diagnosis	1
 experienced	1
 merit	1
-level	1
 dominion	1
 commonwealth	1
 reputable	1
@@ -671,14 +639,10 @@ axiomatic	1
 depository	1
 sobriety	1
 nation	1
-hire	1
 enlightenment	1
-cop	1
 moat	1
 confide	1
 engaged	1
-machine	1
-thermometer	1
 matron	1
 unaccountable	1
 votive	1
@@ -687,7 +651,6 @@ credence	1
 reverie	1
 owing	1
 structural	1
-depend	1
 priesthood	1
 lettered	1
 advise	1
@@ -699,12 +662,10 @@ infallibility	1
 disposed	1
 heyday	1
 purely	1
-manual	1
 dogma	1
 colonel	1
 immaculate	1
 patronage	1
-law	1
 fully	1
 ordinance	1
 sterling	1
@@ -723,7 +684,6 @@ guidance	1
 philosopher	1
 mother	1
 recruits	1
-occupant	1
 save	1
 confirmation	1
 bloom	1
@@ -732,7 +692,6 @@ coalesce	1
 perennial	1
 devastating	1
 midwife	1
-laser	1
 verily	1
 protecting	1
 embrace	1
@@ -755,14 +714,11 @@ eminence	1
 nobleman	1
 mentor	1
 commanding	1
-medical	1
 accord	1
 credible	1
 determinate	1
 heavenly	1
-employ	1
 consul	1
-school	1
 synergistic	1
 stamina	1
 innocent	1
@@ -790,7 +746,6 @@ leaning	1
 sponsor	1
 magnet	1
 pavement	1
-legalized	1
 advised	1
 formula	1
 establish	1
@@ -818,7 +773,6 @@ harmony	1
 harmoniously	1
 parietal	1
 sincere	1
-god	1
 familiar	1
 memorable	1
 collectively	1
@@ -859,10 +813,8 @@ found	1
 loyalty	1
 rescue	1
 canons	1
-commonplace	1
 physician	1
 digit	1
-economy	1
 compliment	1
 phalanx	1
 therapeutic	1
@@ -870,10 +822,8 @@ sex	1
 privileged	1
 humanitarian	1
 prophylactic	1
-resources	1
 honeymoon	1
 ensemble	1
-gazette	1
 effective	1
 coexisting	1
 qualified	1
@@ -894,7 +844,6 @@ khan	1
 mortgagee	1
 bouquet	1
 stable	1
-automatic	1
 dependent	1
 blessing	1
 optimist	1
@@ -949,12 +898,10 @@ scientist	1
 assessor	1
 pedigree	1
 majestic	1
-spa	1
 mislead	1
 assure	1
 translation	1
 counsel	1
-feeling	1
 vouch	1
 bailiff	1
 excellent	1
@@ -980,8 +927,6 @@ responsive	1
 reporter	1
 divan	1
 barter	1
-cube	1
-carol	1
 cooperating	1
 arbiter	1
 physicist	1
@@ -995,7 +940,6 @@ protected	1
 definitive	1
 linguist	1
 efficient	1
-grammar	1
 comfort	1
 seniority	1
 admiral	1
@@ -1003,7 +947,6 @@ princely	1
 adviser	1
 cultivate	1
 illumination	1
-censor	1
 mule	1
 retirement	1
 planning	1
@@ -1011,22 +954,17 @@ cradle	1
 navigator	1
 pledge	1
 laureate	1
-label	1
 partnership	1
-attendant	1
 courtship	1
 green	1
 morals	1
-church	1
 tribune	1
 candid	1
 recommend	1
-gospel	1
 crescendo	1
 author	1
 achievement	1
 pact	1
-execution	1
 immunization	1
 dealings	1
 dermatologist	1
@@ -1046,7 +984,6 @@ credit	1
 governor	1
 modest	1
 dubious	1
-birth	1
 constantly	1
 intelligent	1
 affection	1
@@ -1054,7 +991,6 @@ meditate	1
 authentic	1
 watchman	1
 intimate	1
-ground	1
 indestructible	1
 constitutional	1
 center	1
@@ -1068,7 +1004,6 @@ congruence	1
 marry	1
 atone	1
 faculty	1
-rule	1
 framework	1
 visionary	1
 expertise	1
@@ -1109,7 +1044,6 @@ revere	1
 fireman	1
 correctness	1
 transcendence	1
-salary	1
 respect	1
 babysitter	1
 flirt	1
@@ -1174,7 +1108,6 @@ justice	1
 antifungal	1
 fort	1
 related	1
-enjoy	1
 patience	1
 benefactor	1
 gentry	1
@@ -1197,9 +1130,7 @@ apostolic	1
 fairly	1
 govern	1
 confessional	1
-neutral	1
 faithful	1
-picnic	1
 patron	1
 unreliable	1
 integrity	1
@@ -1214,7 +1145,6 @@ chocolate	1
 custodian	1
 diary	1
 friendly	1
-lace	1
 exhaustive	1
 creditable	1
 guardianship	1
@@ -1227,4 +1157,3 @@ determination	1
 auditor	1
 dignity	1
 presumption	1
-calls	1
