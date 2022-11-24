@@ -141,7 +141,6 @@ tickle	1
 tandem	1
 amortization	1
 testament	1
-continue	1
 elegance	1
 deliverance	1
 meritorious	1
@@ -308,10 +307,8 @@ hug	1
 bargain	1
 tribe	1
 bequest	1
-series	1
 voucher	1
 attorney	1
-food	1
 succeeding	1
 praise	1
 salutary	1
@@ -352,7 +349,6 @@ team	1
 contributor	1
 darling	1
 amen	1
-hospital	1
 coronation	1
 friend	1
 precedence	1
@@ -520,7 +516,6 @@ aunt	1
 charitable	1
 liberate	1
 godly	1
-pay	1
 maintenance	1
 angel	1
 bridal	1
@@ -593,7 +588,6 @@ forgiving	1
 parliament	1
 humility	1
 chairman	1
-wear	1
 equality	1
 electorate	1
 insulation	1
@@ -733,7 +727,6 @@ fulfillment	1
 consecration	1
 truthfulness	1
 probity	1
-confirmed	1
 omniscient	1
 clan	1
 exalted	1
@@ -803,7 +796,6 @@ conformity	1
 strength	1
 purify	1
 skillful	1
-money	1
 bodyguard	1
 deputy	1
 shopping	1
@@ -907,8 +899,6 @@ bailiff	1
 excellent	1
 mathematical	1
 jury	1
-general	1
-doubt	1
 benevolence	1
 father	1
 antiseptic	1
@@ -1037,7 +1027,6 @@ affirmatively	1
 paragon	1
 prefer	1
 reimbursement	1
-good	1
 hopeful	1
 instructor	1
 revere	1

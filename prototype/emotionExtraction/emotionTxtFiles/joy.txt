@@ -59,6 +59,7 @@ reverie	1
 childhood	1
 priesthood	1
 amazingly	1
+amazing     1
 sanctify	1
 joy	1
 sublimation	1
@@ -145,9 +146,6 @@ frolic	1
 playful	1
 purify	1
 glory	1
-money	1
-found	1
-shopping	1
 rescue	1
 unexpected	1
 compliment	1
@@ -273,7 +271,6 @@ benign	1
 paragon	1
 clown	1
 glide	1
-good	1
 hopeful	1
 celestial	1
 revere	1
@@ -315,8 +312,6 @@ excite	1
 exaltation	1
 dawn	1
 pride	1
-liquor	1
-organization	1
 endless	1
 invite	1
 miraculous	1
@@ -525,8 +520,6 @@ baptismal	1
 sonnet	1
 finally	1
 soundness	1
-child	1
-firstborn	1
 fortitude	1
 laughter	1
 lovely	1
@@ -659,7 +652,6 @@ smiling	1
 charitable	1
 liberate	1
 godly	1
-pay	1
 bridal	1
 angel	1
 revels	1

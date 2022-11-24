@@ -69,11 +69,8 @@ unexpected	1
 rescue	1
 shopping	1
 trepidation	1
-money	1
 incontinence	1
 playful	1
-expect	1
-break	1
 quickness	1
 chimera	1
 chicane	1
@@ -218,7 +215,6 @@ fright	1
 transcendence	1
 banger	1
 hopeful	1
-good	1
 overdue	1
 clown	1
 abrupt	1
@@ -411,7 +407,6 @@ manslaughter	1
 lovely	1
 laughter	1
 jolt	1
-urgent	1
 finally	1
 violent	1
 medal	1

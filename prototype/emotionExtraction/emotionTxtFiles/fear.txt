@@ -161,7 +161,6 @@ cannon	1
 attorney	1
 insidious	1
 violence	1
-government	1
 curse	1
 decay	1
 disfigured	1
@@ -436,7 +435,6 @@ disabled	1
 fugitive	1
 cult	1
 infanticide	1
-police	1
 eel	1
 madness	1
 instinctive	1
@@ -793,7 +791,6 @@ diabolical	1
 suicide	1
 devil	1
 foreigner	1
-feeling	1
 traumatic	1
 laxative	1
 ugliness	1
@@ -838,7 +835,6 @@ immigrant	1
 insecurity	1
 cadaver	1
 aggressive	1
-ill	1
 sectarian	1
 travesty	1
 dictator	1
@@ -1043,7 +1039,6 @@ dungeon	1
 discourage	1
 spank	1
 demon	1
-volunteer	1
 infidelity	1
 tumor	1
 infirmity	1
@@ -1300,7 +1295,6 @@ default	1
 scourge	1
 frightful	1
 operation	1
-death	1
 criminality	1
 lunacy	1
 counsellor	1
@@ -1382,7 +1376,6 @@ martyr	1
 cardiomyopathy	1
 austere	1
 prejudiced	1
-pandemic	1
 dwarfed	1
 insolvency	1
 contagion	1

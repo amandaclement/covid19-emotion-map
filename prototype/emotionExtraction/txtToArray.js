@@ -17,6 +17,7 @@ require("dotenv").config();
 
 const numTweetsToProcess = 3500;
 
+// necessary step? need to test with vs without
 const dictionary = {
   "aren't": "are not",
   "can't": "cannot",
@@ -95,27 +96,8 @@ let db = mongoose.connection;
 // prepare promise for reading files
 const {readFileSync, promises: fsPromises} = require('fs');
 
-// declare an array for each emotion
-let angerArray = [];
-let anticipationArray = [];
-let disgustArray = [];
-let fearArray = [];
-let joyArray = [];
-let sadnessArray = [];
-let surpriseArray = [];
-let trustArray = [];
-
-// store these arrays in an array
-let emotionsArray = [
-  angerArray, 
-  anticipationArray, 
-  disgustArray, 
-  fearArray, 
-  joyArray, 
-  sadnessArray, 
-  surpriseArray, 
-  trustArray
-];
+// stores an array for each emotion
+let emotionsArray = [];
 
 // array holding the txt files
 let files = [
@@ -147,31 +129,16 @@ const convertTolowerCase = text => {
   return text.toLowerCase();
 }
 
+// stem(): stems the textual data
+const stem = text => {
+  return natural.PorterStemmer.stem(text);  
+}
+
 // removeNonAlpha: removes all special characters and numerical tokens as we consider them noise 
 // (although they aren't truly just noise, but still need to decide how to handle them)
 const removeNonAlpha = text => {
   return text.replace(/[^a-zA-Z\s]+/g, '');   // replaces all non alphabets with empty string
 }
-
-// a list of words that I consider to be more neutral than emotional when used in discussions surrounding COVID-19, 
-// so ensure SentimentAnalyzer algorithm gives these words a neutral (0) value 
-const neutralWords = [
-  "disease", "diseases", "outbreak","outbreaks", "virus", "viruses", "pandemic", "pandemics",
-  "sick", "ill", "illness",
-  "spread", "spreads", "spreading",
-  "infect", "infects", "infected", "infection", "infections", 
-  "contamine", "contaminates", "contaminated", "contaminating",
-  "loss", "lose", "loses", "lost", // often used in non-emotionl context i.e. "lost my sense of smell"
-  "positive", "negative",          // often used in non-emotional context i.e. "i tested positive"
-  "death", "deaths", "fatality", "fatalities",  // often used in non-emotional context i.e. "500 new COVID-19 related deaths reported"    
-  "question", "questions", "questioning", // SentimentAnalyzer gives these a negative score 
-  "alert", "alerts", "alerted", "alerting", // often used in non-emotional context i.e. "Alert: 300 new COVID-19 cases reported in Montreal"   
-  "top", "back",  // some random words the SentimentAnalyzer gives a positive or negative score to, that should just be neutral  
-  "isolate", "isolated", "isolates", "isolating",
-  "new", "news", "right",
-  "increase", "increases", "increased", "increasing",
-  "decrease", "decreases", "decreased", "decreasing"
-];
      
 // array of common negation words
 const negationWords = [
@@ -194,35 +161,35 @@ for (let i = 0; i < negationWords.length; i++)
 
 // A Promise for each emotion, each responsible for reading its associated txt file
 let angerPromise = new Promise((resolve, reject) => {
-  const contents = fsPromises.readFile('emotionTxtFiles/anger.txt', 'utf-8');
+  const contents = fsPromises.readFile(files[0], 'utf-8');
   resolve(contents);
 });
 let anticipationPromise = new Promise((resolve, reject) => {
-  const contents = fsPromises.readFile('emotionTxtFiles/anticipation.txt', 'utf-8');
+  const contents = fsPromises.readFile(files[1], 'utf-8');
   resolve(contents);
 });
 let disgustPromise = new Promise((resolve, reject) => {
-  const contents = fsPromises.readFile('emotionTxtFiles/disgust.txt', 'utf-8');
+  const contents = fsPromises.readFile(files[2], 'utf-8');
   resolve(contents);
 });
 let fearPromise = new Promise((resolve, reject) => {
-  const contents = fsPromises.readFile('emotionTxtFiles/fear.txt', 'utf-8');
+  const contents = fsPromises.readFile(files[3], 'utf-8');
   resolve(contents);
 });
 let joyPromise = new Promise((resolve, reject) => {
-  const contents = fsPromises.readFile('emotionTxtFiles/joy.txt', 'utf-8');
+  const contents = fsPromises.readFile(files[4], 'utf-8');
   resolve(contents);
 });
 let sadnessPromise = new Promise((resolve, reject) => {
-  const contents = fsPromises.readFile('emotionTxtFiles/sadness.txt', 'utf-8');
+  const contents = fsPromises.readFile(files[5], 'utf-8');
   resolve(contents);
 });
 let surprisePromise = new Promise((resolve, reject) => {
-  const contents = fsPromises.readFile('emotionTxtFiles/surprise.txt', 'utf-8');
+  const contents = fsPromises.readFile(files[6], 'utf-8');
   resolve(contents);
 });
 let trustPromise = new Promise((resolve, reject) => {
-  const contents = fsPromises.readFile('emotionTxtFiles/trust.txt', 'utf-8');
+  const contents = fsPromises.readFile(files[7], 'utf-8');
   resolve(contents);
 });
 
@@ -257,20 +224,25 @@ Promise.all([angerPromise, anticipationPromise, disgustPromise, fearPromise, joy
     for (let i = 0; i < values.length; i++)
       emotionsArray[i] = (values[i]).split(/\r?[ \t][0-9][\n]/); // get full words instead of individual letters
 
-    // array of arrays, where each subarray hodls the following: [tweet, angerWord, anticipationWord, disgustWord, fearWord, joyWord, sadnessWord, surpriseWord, trustWord]
+    // stemming the emotion words // creates too many issues/inaccuracies
+    // for (let i = 0; i < emotionsArray.length; i++)
+    //   for (let j = 0; j < emotionsArray[i].length; j++)
+    //     emotionsArray[i][j] = natural.PorterStemmer.stem(emotionsArray[i][j]);
+
+    // array of arrays, where each subarray will hold: [tweet, angerWord, anticipationWord, disgustWord, fearWord, joyWord, sadnessWord, surpriseWord, trustWord]
     // if all emotion words are blank, it means the tweet is considered neutral
     // if one or many emotion words hold strings, that means the tweet is associated with that/those emotions
     let tweetData = [];
 
     // testing custom sentences instead of Tweets
-    let tests = [
-      "I'm happy",
-      "I'm not happy but i'm sad",
-      "You make me really angry",
-      "i'm happy"
-    ];
+    // let tests = [
+    //   "I'm happy",
+    //   "I'm not happy but i'm sad",
+    //   "You make me really angry",
+    //   "i'm happy"
+    // ];
 
-    for (let i = 0; i < 3; i++) // this iterates over numTweets
+    for (let i = 0; i < 100; i++) // this iterates over numTweets
     {
         // if word is found in the Tweet, that word gets assigned to its appropriate string(s)
         // only the first word related to a given emotion is retained (e.g. if there are two anger words in a Tweet, we only retain the one that comes first)
@@ -288,13 +260,24 @@ Promise.all([angerPromise, anticipationPromise, disgustPromise, fearPromise, joy
 
         // process the Tweet text
         // stem the words to increase matches with emotion words?
-        const lexData = convertToStandard(tests[i]);
-        // const lexData = convertToStandard(tweets[i]);
+        // const lexData = convertToStandard(tests[i]);
+        const lexData = convertToStandard(tweets[i]);
         const lowerCaseData = convertTolowerCase(lexData);
         const onlyAlpha = removeNonAlpha(lowerCaseData);
         const filteredData = stopwords.cleanText(onlyAlpha);
         const tokenConstructor = new natural.WordTokenizer();
         let tokenizedData = tokenConstructor.tokenize(filteredData);
+
+        console.log("TOKENIZED DATA PRE STEM: " + tokenizedData.length);
+
+        let tokenizedDataSize = tokenizedData.length;
+
+        // only add stemmed words to tokenizedData that aren't same as pre-stemmed version of word
+        for (let i = 0; i < tokenizedDataSize; i++)
+          if (tokenizedData[i] != natural.PorterStemmer.stem(tokenizedData[i]))
+            tokenizedData.push(natural.PorterStemmer.stem(tokenizedData[i]));
+
+            console.log("TOKENIZED DATA POST STEM: " + tokenizedData.length);
 
         // handle negations
         for (let j = 0; j < tokenizedData.length; j++)
@@ -305,8 +288,6 @@ Promise.all([angerPromise, anticipationPromise, disgustPromise, fearPromise, joy
               j = j - 2; // decrement by two as the tokenizedData array elements were shifted by two positions
                          // so we need to recheck the new values in these positions
             }
-
-        console.log(tokenizedData);
 
         // iterate over each Tweet's tokenized text to search for emotions (so for matches between Tweet tokens and words in txt files)
         // if a match is found, retain that word to be pushed into the tweetData array in its appropriate position within the subarray
@@ -320,21 +301,38 @@ Promise.all([angerPromise, anticipationPromise, disgustPromise, fearPromise, joy
           
           // push resulting array into tweetData
           // tweetData[i] = ([tweets[i], emotionWords[0], emotionWords[1], emotionWords[2], emotionWords[3], emotionWords[4], emotionWords[5], emotionWords[6], emotionWords[7]]);
-          tweetData[i] = ([tests[i], emotionWords[0], emotionWords[1], emotionWords[2], emotionWords[3], emotionWords[4], emotionWords[5], emotionWords[6], emotionWords[7]]);
+          tweetData[i] = ([tweets[i], emotionWords[0], emotionWords[1], emotionWords[2], emotionWords[3], emotionWords[4], emotionWords[5], emotionWords[6], emotionWords[7]]);
         }
     }
 
+    neutralCount = 0;
     // display tweetData array contents
-    for (let i = 0; i < 3; i++) {
-      console.log("TWEET: " + tweetData[i][0]);
-      console.log("ANGER: " + tweetData[i][1]);
-      console.log("ANTICIPATION: " + tweetData[i][2]);
-      console.log("DISGUST: " + tweetData[i][3]);
-      console.log("FEAR: " + tweetData[i][4]);
-      console.log("JOY: " + tweetData[i][5]);
-      console.log("SADNESS: " + tweetData[i][6]);
-      console.log("SURPRISE: " + tweetData[i][7]);
-      console.log("TRUST: " + tweetData[i][8] + "\n\n");
+    for (let i = 0; i < 100; i++) {
+      if (tweetData[i][0] != '') 
+        console.log("TWEET: " + tweetData[i][0]);
+      if (tweetData[i][1] == '' && tweetData[i][4] == '' && tweetData[i][5] == '' && tweetData[i][6] == '' && tweetData[i][8] == '') {
+        console.log("NEUTRAL");
+          neutralCount++;
+      }
+      if (tweetData[i][1] != '') 
+        console.log("ANGER: " + tweetData[i][1]);
+      // if (tweetData[i][2] != '') 
+      //   console.log("ANTICIPATION: " + tweetData[i][2]);
+      // if (tweetData[i][3] != '') 
+      //   console.log("DISGUST: " + tweetData[i][3]);
+      if (tweetData[i][4] != '') 
+        console.log("FEAR: " + tweetData[i][4]);
+      if (tweetData[i][5] != '') 
+        console.log("JOY: " + tweetData[i][5]);
+      if (tweetData[i][6] != '') 
+        console.log("SADNESS: " + tweetData[i][6]);
+      // if (tweetData[i][7] != '') 
+      //   console.log("SURPRISE: " + tweetData[i][7]);
+      if (tweetData[i][8] != '') 
+        console.log("TRUST: " + tweetData[i][8]);
+      
+      console.log("\n\n\n");
     }
+    console.log("Neutral count is " + neutralCount);
   });
 })

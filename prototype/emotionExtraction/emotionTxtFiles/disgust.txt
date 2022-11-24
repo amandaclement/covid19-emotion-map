@@ -864,8 +864,6 @@ rancid	1
 bigot	1
 discontent	1
 disrespectful	1
-pornography	1
-ill	1
 travesty	1
 antagonistic	1
 crap	1
