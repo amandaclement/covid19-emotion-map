@@ -1,16 +1,13 @@
 const mongoose = require("mongoose");
 
-// https://www.kaggle.com/datasets/gpreda/covid19-tweets
+// Dataset source: https://www.openicpsr.org/openicpsr/project/120321/version/V4/view?path=/openicpsr/120321/fcr:versions/V4/tweets_topics_sentiments_emotions&type=folder
 
 const TweetSchema = new mongoose.Schema({
-    user_location:String,
-    user_description:String,
-    user_created:String,
-    user_followers:Number,
-    user_friends:Number,
-    date:String,
-    text:String
+    created_at:String,
+    retweet_count:Number,
+    text:String,
+    user_location:String
 })
 
-const Tweets = mongoose.model("TWEET", TweetSchema, "COVID19Tweets");
+const Tweets = mongoose.model("TWEET", TweetSchema, "COVID19CanadianTweets");
 module.exports = Tweets;
