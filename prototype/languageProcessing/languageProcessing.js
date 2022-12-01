@@ -1,24 +1,8 @@
 // Import packages 
-const express = require('express');
 const natural = require("natural");
-const stopwords = require("n-stopwords")(['en']); // set stopword language to english
+const stopwords = require("n-stopwords")(['en']); // Set stopword language to english
 const mongoose = require("mongoose");
-
-// Port and host
-const portNumber = 4000;
-const host = "127.0.0.1";
-
-// Initialize the app
-const app = express();
-
-// Server
-const server = require("http").createServer(app);
 require("dotenv").config();
-
-// Provide middleware for parsing JSON, Text, URL-encoded and raw data sets over an HTTP request body
-let bodyParser = require('body-parser');
-app.use(bodyParser.json());                         // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 // .env file holds URL to connect to database via mongoDB compass
 const url = process.env.MONGODB_URI;
@@ -27,7 +11,7 @@ const { MongoClient } = require('mongodb');
 
 // Connect to database
 mongoose.connect(url);
-let db = mongoose.connection;
+mongoose.connection;
 
 // Prepare promise for reading files
 const {readFileSync, promises: fsPromises} = require('fs');
@@ -43,7 +27,7 @@ const files = [
 ];
 
 // Used for language processing, mainly to help handle negations by extracting simple negation words 
-// like "not" from words like "aren't"
+// e.g. "not" from words like "aren't"
 const dictionary = {
   "aren't": "are not",
   "can't": "cannot",
@@ -278,7 +262,7 @@ Promise.all([angerPromise, fearPromise, joyPromise, sadnessPromise, trustPromise
               country = countries[k][1]; 
               break;
             }
-        } // Closing locations loop
+        }
       
         // Push results into obj's tweets array
         obj.tweets.push({tweet: texts[i], anger: emotionFlags[0], fear: emotionFlags[1], joy: emotionFlags[2], sadness: emotionFlags[3], trust: emotionFlags[4], location: country, retweets: retweets[i]});
