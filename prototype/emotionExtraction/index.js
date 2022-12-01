@@ -15,7 +15,7 @@ const app = express();
 const server = require("http").createServer(app);
 require("dotenv").config();
 
-const numTweetsToProcess = 3500;
+const numTweetsToProcess = 500;
 
 // for conversion of contractions to standard lexicon
 // initial list taken from: https://www.geeksforgeeks.org/how-to-create-sentiment-analysis-application-using-node-js/

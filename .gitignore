@@ -3612,3 +3612,9 @@ prototype/.DS_Store
 .DS_Store
 .DS_Store
 .DS_Store
+prototype/emotionExtraction/languageProcessingFiles/processedTweetsSample.json
+prototype/emotionExtraction/languageProcessingFiles/processedTweets.json
+prototype/emotionExtraction/languageProcessingFiles/processedTweets.json
+prototype/emotionExtraction/languageProcessingFiles/processedTweets.json
+*.json
+*.json

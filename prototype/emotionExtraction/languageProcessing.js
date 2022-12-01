@@ -39,10 +39,11 @@ const files = [
   'languageProcessingFiles/joy.txt',           // [2]
   'languageProcessingFiles/sadness.txt',       // [3]
   'languageProcessingFiles/trust.txt',         // [4]
-  'languageProcessingFiles/provinces.txt'      // [5]
+  'languageProcessingFiles/countries.txt'      // [5]
 ];
 
-// Used for language processing, mainly to help handle negations by extracting simple negation words like "not" from words like "aren't"
+// Used for language processing, mainly to help handle negations by extracting simple negation words 
+// like "not" from words like "aren't"
 const dictionary = {
   "aren't": "are not",
   "can't": "cannot",
@@ -167,28 +168,27 @@ let trustPromise = new Promise((resolve, reject) => {
   const contents = fsPromises.readFile(files[4], 'utf-8');
   resolve(contents);
 });
-let provincesPromise = new Promise((resolve, reject) => {
+let countriesPromise = new Promise((resolve, reject) => {
   const contents = fsPromises.readFile(files[5], 'utf-8');
   resolve(contents);
 });
 
 // Promise.all() method takes an iterable of promises as input and returns a single Promise
-Promise.all([angerPromise, fearPromise, joyPromise, sadnessPromise, trustPromise, provincesPromise]).then((fileContents) => {
+Promise.all([angerPromise, fearPromise, joyPromise, sadnessPromise, trustPromise, countriesPromise]).then((fileContents) => {
   console.log("Read emotion files");
 
   // Promise responsible for fetching Tweets
   let tweetPromise = new Promise((resolve, reject) => {
+    // Find all english Tweets and fetch their retweet count, location and text
     // Get the text field value from each Tweet, store the response in a TweetObjects variable 
-      TweetsModule.find({}, { created_at: 4, retweet_count: 3, user_location: 2, text: 1, _id: 0 }).then((response)=>{ 
+      TweetsModule.find({lang: 'en'}, { retweet_count: 3, user_location: 2, text: 1, _id: 0 }).then((response)=>{ 
         const TweetObjects = response;
 
-        // Map these objects into arrays
+        // Map these objects into arrays, to then be stored in another array
         const TweetText = TweetObjects.map( (tweet) => tweet.text );
         const TweetLocation = TweetObjects.map( (tweet) => tweet.user_location );
         const TweetRetweet = TweetObjects.map( (tweet) => tweet.retweet_count );
-        const TweetDate = TweetObjects.map( (tweet) => tweet.created_at );
-
-        const allTweetInfo = [ TweetText, TweetLocation, TweetRetweet, TweetDate ];
+        const allTweetInfo = [ TweetText, TweetLocation, TweetRetweet ];
 
         // allTweetInfo array is what gets returned by the Promise (if resolved)
         resolve(allTweetInfo);
@@ -200,7 +200,6 @@ Promise.all([angerPromise, fearPromise, joyPromise, sadnessPromise, trustPromise
     let texts = tweets[0];
     let locations = tweets[1];
     let retweets = tweets[2];
-    let dates = tweets[3];
 
     // An array to hold all arrays (to simplify iteration process)
     let emotionsArray = [];
@@ -209,18 +208,14 @@ Promise.all([angerPromise, fearPromise, joyPromise, sadnessPromise, trustPromise
     for (let i = 0; i < fileContents.length - 1; i++)
       emotionsArray[i] = (fileContents[i]).split(/\r?[ \t][0-9][\n]/); // get full words instead of individual letters
 
-    // Last element in fileContents array is the list of provinces
-    // First split it based on line breaks so that we get elements like: montreal=qc
-    let provinces = (fileContents[fileContents.length - 1]).split(/\r?\n/);
+    // Last element in fileContents array is the list of countries
+    // First split it based on line breaks so that we get elements like: afghanistan=af
+    let countries = (fileContents[fileContents.length - 1]).split(/\r?\n/);
 
     // Then, split each element based on =
-    // Then, if word on LHS (province name) is found in the Tweet's user location, what actually gets stored in the array is the element on RHS (province code)
-    for (let i = 0; i < provinces.length; i++)
-      provinces[i] = (provinces[i]).split(/\r?=/);
-
-    // Array of arrays, where each subarray will hold: [tweet, angerWord, anticipationWord, disgustWord, fearWord, joyWord, sadnessWord, surpriseWord, trustWord]
-    // If all emotion words are blank, it means the tweet is considered neutral
-    let tweetData = [];
+    // Then, if word on LHS (country name) is found in the Tweet's user location, what actually gets stored in the array is the element on RHS (country code)
+    for (let i = 0; i < countries.length; i++)
+      countries[i] = (countries[i]).split(/\r?=/);
 
     // A variable that contains an array of Tweets (to be populated) for JSON file
     let obj = {
@@ -228,7 +223,7 @@ Promise.all([angerPromise, fearPromise, joyPromise, sadnessPromise, trustPromise
     };
 
     // Iterate over text from Tweets
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 1000; i++) {
         // If an emotion word (from one of the txt files) is found in the Tweet, its corresponding flag is set to true
         // [anger, fear, joy, sadness, trust]
         let emotionFlags = [false, false, false, false, false];
@@ -268,42 +263,30 @@ Promise.all([angerPromise, fearPromise, joyPromise, sadnessPromise, trustPromise
                   break;
                 }
         
-        // Province string is filled if a province name is recognized within the tweet location text
-        let province = '';
+        // Country string is filled if a country name or code is recognized within the tweet location text
+        let country = '';
 
         // Only execute the following loop if the location field is populated (so not undefined)
         if (typeof locations[i] != 'undefined') {
           // Convert tweet location to lowercase
           const lowercaseLocation = convertTolowerCase(locations[i]);
 
-          // Check if tweet location text includes a full province name from provinces.txt file
-          // If province name or city is found, assign the province code to the location variable
-          for (let k = 0; k < provinces.length; k++)
-            if ((provinces[k][0]).length > 1 && lowercaseLocation.includes(provinces[k][0])) {
-              province = provinces[k][1]; 
+          // Check if tweet location text includes a full country name from countries.txt file
+          // If country name or code is found, assign the country code to the location variable
+          for (let k = 0; k < countries.length; k++)
+            if ((countries[k][0]).length > 1 && lowercaseLocation.includes(countries[k][0])) {
+              country = countries[k][1]; 
               break;
             }
         } // Closing locations loop
+      
+        // Push results into obj's tweets array
+        obj.tweets.push({tweet: texts[i], anger: emotionFlags[0], fear: emotionFlags[1], joy: emotionFlags[2], sadness: emotionFlags[3], trust: emotionFlags[4], location: country, retweets: retweets[i]});
+    } 
 
-        // Month string holds the month extracted from the date string
-        // First date recorded in dataset is Jan 28 2020
-        let month = '';
-        if (dates[i].contains("Jan"))
-          month = "jan";
-        else if (dates[i].contains("Feb"))
-          month = "feb";
-        else if (dates[i].contains("Mar"))
-          month = "mar";
-
-              
-        // Push resulting array into tweetData array
-        tweetData[i] = ([texts[i], emotionFlags[0], emotionFlags[1], emotionFlags[2], emotionFlags[3], emotionFlags[4], province, retweets[i]]);
-        obj.tweets.push({tweet: texts[i], anger: emotionFlags[0], fear: emotionFlags[1], joy: emotionFlags[2], sadness: emotionFlags[3], trust: emotionFlags[4], location: province, retweets: retweets[i]});
-    } // Closing tweet processing loop
-
-    // Writing obj (which contains data from all processed tweets) to JSON output file
+    // Write obj (which contains data from all processed tweets) to JSON output file
     let json = JSON.stringify(obj);
     let fs = require('fs');
-    fs.writeFileSync('languageProcessingFiles/processedTweets.json', json);
+    fs.writeFileSync('languageProcessingFiles/processedTweetsSample.json', json);
   });
 })
