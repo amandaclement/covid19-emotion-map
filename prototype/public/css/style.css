@@ -27,7 +27,7 @@ h1
     margin: 50px auto;
 }
 
-#buttonAnger, #buttonFear, #buttonJoy, #buttonSadness, #buttonTrust, #buttonNeutral 
+#buttonAnger, #buttonFear, #buttonJoy, #buttonSadness, #buttonNeutral 
 {
     background-color: transparent;
     border: 0;
@@ -39,7 +39,7 @@ h1
     color: #FFF;
 }
 
-#buttonAnger:hover, #buttonFear:hover, #buttonJoy:hover, #buttonSadness:hover, #buttonTrust:hover, #buttonNeutral
+#buttonAnger:hover, #buttonFear:hover, #buttonJoy:hover, #buttonSadness:hover, #buttonNeutral:hover
 {
     transition: 0.2s;
     background-color: #FFF;
@@ -47,21 +47,23 @@ h1
 
 #anger, #buttonAnger:hover
 {
-    color: rgb(140, 82, 69);    
+    color: rgb(191, 101, 80);    
 }
 #buttonAnger 
 {
-    background-color: rgb(140, 82, 69);
-    border: 2px solid rgb(140, 82, 69);
-}
-#fear, #buttonFear:hover
-{
-    color: rgb(191, 101, 80);    
-}
-#buttonFear
-{
     background-color: rgb(191, 101, 80);
     border: 2px solid rgb(191, 101, 80);
+}
+
+#fear, #buttonFear:hover
+{
+    color: rgb(90, 140, 140);
+}
+
+#buttonFear
+{
+    background-color: rgb(90, 140, 140);
+    border: 2px solid rgb(90, 140, 140);
 }
 
 #joy, #buttonJoy:hover
@@ -82,17 +84,6 @@ h1
 {
     background-color: rgb(148, 200, 214);
     border: 2px solid rgb(148, 200, 214);
-}
-
-#trust, #buttonTrust:hover
-{
-    color: rgb(90, 140, 140);
-}
-
-#buttonTrust
-{
-    background-color: rgb(90, 140, 140);
-    border: 2px solid rgb(90, 140, 140);
 }
 
 #neutral, #buttonNeutral:hover
@@ -133,27 +124,6 @@ h1
     line-height: 25px;
     text-align: right;
     font-weight: 600;
-}
-
-#anger
-{
-    color: rgb(140, 82, 69);
-}
-#fear
-{
-    color: rgb(191, 101, 80);
-}
-#joy
-{
-    color: rgb(242, 212, 121);
-}
-#trust
-{
-    color: rgb(90, 140, 140);
-}
-#neutral
-{
-    color: rgb(192, 192, 192);
 }
 
 #sampleInfo

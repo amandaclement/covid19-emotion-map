@@ -28,9 +28,9 @@ mongoose.connect(url);
 mongoose.connection;
 
 // Promise responsible for fetching Tweets
-var promise = new Promise((resolve, reject) => {
+let promise = new Promise((resolve, reject) => {
   // Fetch the data from each Tweet, store the response in a TweetObjects variable, then map these objects into an array (TweetList)
-  TweetsModule.find({location: 'ca'}, { retweets: 8, location: 7, trust: 6, sadness: 5, joy: 4, fear: 3, anger: 2, tweet: 1, _id: 0 }).then((response) => { 
+  TweetsModule.find({location: 'ca'}, { retweets: 7, location: 6, sadness: 5, joy: 4, fear: 3, anger: 2, tweet: 1, _id: 0 }).then((response) => { 
     const TweetObjects = response;
 
     // Map these objects into arrays, to then be stored in another array
@@ -39,10 +39,9 @@ var promise = new Promise((resolve, reject) => {
     const TweetFear = TweetObjects.map( (tweets) => tweets.fear );
     const TweetJoy = TweetObjects.map( (tweets) => tweets.joy );
     const TweetSadness = TweetObjects.map( (tweets) => tweets.sadness );
-    const TweetTrust = TweetObjects.map( (tweets) => tweets.trust );
     const TweetLocation = TweetObjects.map( (tweets) => tweets.location );
     const TweetRetweet = TweetObjects.map( (tweets) => tweets.retweets );
-    const allTweetInfo = [ TweetText, TweetAnger, TweetFear, TweetJoy, TweetSadness, TweetTrust, TweetLocation, TweetRetweet ];
+    const allTweetInfo = [ TweetText, TweetAnger, TweetFear, TweetJoy, TweetSadness, TweetLocation, TweetRetweet ];
 
    // allTweetInfo array is what gets returned by the promise (if resolved)
    resolve(allTweetInfo);
@@ -59,9 +58,8 @@ promise.then((tweets) => {
       fearBools: tweets[2],
       joyBools: tweets[3],
       sadnessBools: tweets[4],
-      trustBools: tweets[5], 
-      locations: tweets[6],
-      retweets: tweets[7]
+      locations: tweets[5],
+      retweets: tweets[6]
     })
   });
 });

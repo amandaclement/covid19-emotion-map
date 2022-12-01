@@ -1,19 +1,7 @@
 // This file contains functions for writing/drawing to the HTML page
 
-let angerCount = 0;
-let fearCount = 0;
-let joyCount = 0;
-let sadnessCount = 0;
-let trustCount = 0;
-let neutralCount = 0;
-let totalCount = 0;
-
-let angerTweets = [];
-let fearTweets = [];
-let joyTweets = [];
-let sadnessTweets = [];
-let trustTweets = [];
-let neutralTweets = [];
+let angerCount = 0, fearCount = 0, joyCount = 0, sadnessCount = 0, neutralCount = 0, totalCount = 0;
+let allTweets = [];
 
 // Send POST request to server
 const options = {
@@ -32,40 +20,37 @@ fetch("/custom", options)
     const fearBools = tweets.fearBools;
     const joyBools = tweets.joyBools;
     const sadnessBools = tweets.sadnessBools;
-    const trustBools = tweets.trustBools;
-    const locations = tweets.locations;
+    const location = tweets.locations;
     const retweets = tweets.retweets;
     totalCount = texts.length;
-    console.log(totalCount);
 
     // Populate the appropriate arrays with the Tweet text
     for (let i = 0; i < totalCount; i++) {
+
+        allTweets[i] = [texts[i], angerBools[i], fearBools[i], joyBools[i], sadnessBools[i], location[i], retweets[i]];
+
         if (angerBools[i])
-            // angerTweets[angerCount++] = [texts[i], locations[i], retweets[i]];
-            angerTweets[angerCount++] = [texts[i], locations[i], retweets[i]];
+            angerCount++;
         if (fearBools[i])
-            fearTweets[fearCount++] = [texts[i], locations[i], retweets[i]];
+            fearCount++;
         if (joyBools[i])
-            joyTweets[joyCount++] = [texts[i], locations[i], retweets[i]];
+            joyCount++;
         if (sadnessBools[i])
-            sadnessTweets[sadnessCount++] = [texts[i], locations[i], retweets[i]];
-        if (trustBools[i])
-            trustTweets[trustCount++] = [texts[i], locations[i], retweets[i]];
-        // If not associated with any emotion, add to neutralTweets array
-        if (!angerBools[i] && !fearBools[i] && !joyBools[i] && !sadnessBools[i] && !trustBools[i])
-            neutralTweets[neutralCount++] = [texts[i], locations[i], retweets[i]];
+            sadnessCount++;
+        if (!angerBools[i] && !fearBools[i] && !joyBools[i] && !sadnessBools[i])
+            neutralCount++;
     } 
 }).catch(err => console.error("Error: ", err));
 
 // Declare variables
-let circlesAnger = [], circlesFear = [], circlesJoy = [], circlesSadness = [], circlesTrust = [], circlesNeutral = [];
-let legendAnger, legendFear, legendJoy, legendSadness, legendTrust, legendNeutral;
-let alphaAnger, alphaFear, alphaJoy, alphaSadness, alphaTrust, alphaNeutral;
-let buttonAnger, buttonFear, buttonJoy, buttonSadness, buttonTrust, buttonNeutral;
+let circlesAnger = [], circlesFear = [], circlesJoy = [], circlesSadness = [], circlesNeutral = [], circlesAll = [];
+let legendAnger, legendFear, legendJoy, legendSadness, legendNeutral;
+let alphaAnger = 180, alphaFear = 180, alphaJoy = 180, alphaSadness = 180, alphaNeutral = 180;
+let buttonAnger, buttonFear, buttonJoy, buttonSadness, buttonNeutral;
 let sampleInfo, textDiv;
 
 // Circle function (class) for drawing an ellipse
-function Circle(tweetText, tweetRetweets) {
+function Circle(tweetText, tweetAnger, tweetFear, tweetJoy, tweetSadness, tweetLocation, tweetRetweets) {
     // For positioning ellipses in larger ring
     this.theta = random(0, TWO_PI);                                
     this.h = randomGaussian(3.05); 
@@ -73,8 +58,28 @@ function Circle(tweetText, tweetRetweets) {
     this.x = (width/2 - 20) * this.r * cos(this.theta);
     this.y = (height/2 - 20) * this.r * sin(this.theta);
     this.ellipseSizeMax = 20;
+    
+    let potentialColors = [];
+    if (tweetAnger)
+        potentialColors.push([191, 101, 80]);
+    if (tweetFear) 
+        potentialColors.push([90, 140, 140]);
+    if (tweetJoy)
+        potentialColors.push([242, 212, 121]);
+    if (tweetSadness)
+        potentialColors.push([148, 200, 214]);
+    if (potentialColors.length == 0)
+        potentialColors.push([192, 192, 192]);
 
-    // Make ellipse size loosely based on # retweets
+    // Randomly selecting ellipse color based on emotion(s) its associated with
+    let colorIndex = random(potentialColors.length);
+    colorIndex = floor(colorIndex);
+
+    this.r = potentialColors[colorIndex][0];
+    this.g = potentialColors[colorIndex][1];
+    this.b = potentialColors[colorIndex][2];
+
+    // Make ellipse size is loosely based on # retweets
     if (tweetRetweets < 500)
         this.ellipseSizeDefault = 4 + tweetRetweets * 0.01;
     else if (tweetRetweets < 10000)
@@ -106,6 +111,15 @@ function Circle(tweetText, tweetRetweets) {
     
     // Draws the ellipse to the screen
     this.display = function() {
+        // Set appropriate alpha, based on ellipse's final color
+        let a;
+        if (this.r == 191)      a = alphaAnger;
+        else if (this.r == 90)  a = alphaFear;
+        else if (this.r == 242) a = alphaJoy;
+        else if (this.r == 148) a = alphaSadness;
+        else if (this.r == 192) a = alphaNeutral;
+        
+        fill(this.r, this.g, this.b, a);
         ellipse(this.x,this.y, this.ellipseSize);  
     }
 
@@ -136,12 +150,11 @@ function Circle(tweetText, tweetRetweets) {
 function setup() {
     // Log the # of tweets for each category along with their percentages
     console.log("Total " + totalCount + " tweets");
-    console.log("Anger " + angerCount + " tweets = " + (angerCount/totalCount)*100 + "%");
-    console.log("Fear " + fearCount + " tweets = " + (fearCount/totalCount)*100 + "%");
-    console.log("Joy " + joyCount + " tweets = " + (joyCount/totalCount)*100 + "%");
-    console.log("Sadness " + sadnessCount + " tweets = " + (sadnessCount/totalCount)*100 + "%");
-    console.log("Trust " + trustCount + " tweets = " + (trustCount/totalCount)*100 + "%");
-    console.log("Neutral " + neutralCount + " tweets = " + (neutralCount/totalCount)*100 + "%");
+    console.log("Anger " + angerCount + " tweets");
+    console.log("Fear " + fearCount + " tweets");
+    console.log("Joy " + joyCount + " tweets");
+    console.log("Sadness " + sadnessCount + " tweets");
+    console.log("Neutral " + neutralCount + " tweets");
 
     // Prepare canvas
     myCanvas = createCanvas(700, 700);
@@ -153,46 +166,106 @@ function setup() {
     textDiv = createDiv().parent('tweetText');
 
     // Set up the sentiment percentage legend
-    legendAnger = createDiv().parent('anger').html("Anger: " + Math.round((angerCount/totalCount*100) * 100)/100 + "%");
-    legendFear = createDiv().parent('fear').html("Fear: " + Math.round((fearCount/totalCount*100) * 100)/100 + "%");
-    legendJoy = createDiv().parent('joy').html("Joy: " + Math.round((joyCount/totalCount*100) * 100)/100 + "%");
-    legendSadness = createDiv().parent('sadness').html("Sadness: " + Math.round((sadnessCount/totalCount*100) * 100)/100 + "%");
-    legendTrust = createDiv().parent('trust').html("Trust: " + Math.round((trustCount/totalCount*100) * 100)/100 + "%");
-    legendNeutral = createDiv().parent('neutral').html("Neutral: " + Math.round((neutralCount/totalCount*100) * 100)/100 + "%");
+    legendAnger = createDiv().parent('anger').html("Anger: " + angerCount + " Tweets");
+    legendFear = createDiv().parent('fear').html("Fear: " + fearCount + " Tweets");
+    legendJoy = createDiv().parent('joy').html("Joy: " + joyCount + " Tweets");
+    legendSadness = createDiv().parent('sadness').html("Sadness: " + sadnessCount + " Tweets");
+    legendNeutral = createDiv().parent('neutral').html("Neutral: " + neutralCount + " Tweets");
     
     // Set up div to hold sample size
     sampleInfo = createDiv().parent('sampleInfo').html("Sample size: " + totalCount + " Tweets");
 
-    // Create arrays to hold different emotion-based sets of circles
-    for (let i = 0; i < angerCount; i++)
-        circlesAnger.push(new Circle(angerTweets[i][0], angerTweets[i][2]));
-    for (let i = 0; i < fearCount; i++)
-        circlesFear.push(new Circle(fearTweets[i][0], fearTweets[i][2]));
-    for (let i = 0; i < joyCount; i++)
-        circlesJoy.push(new Circle(joyTweets[i][0], joyTweets[i][2]));
-    for (let i = 0; i < sadnessCount; i++)
-        circlesSadness.push(new Circle(sadnessTweets[i][0], sadnessTweets[i][2]));
-    for (let i = 0; i < trustCount; i++)
-        circlesTrust.push(new Circle(trustTweets[i][0], trustTweets[i][2]));
-    for (let i = 0; i < neutralCount; i++)
-        circlesNeutral.push(new Circle(neutralTweets[i][0], neutralTweets[i][2]));
+    // Create a Circle for each Tweet and push it into circlesAll array
+    for (let i = 0; i < totalCount; i++)
+        circlesAll.push(new Circle(allTweets[i][0], allTweets[i][1], allTweets[i][2], allTweets[i][3], allTweets[i][4], allTweets[i][5], allTweets[i][6]));
 
     // Set up alphas for filtering
     alphaAnger = 180;
     alphaFear = 180;
     alphaJoy = 180;
     alphaSadness = 180;
-    alphaTrust = 180;
     alphaNeutral = 180;
 
     // Set up buttons
-    buttonAnger = createButton('anger').id('buttonAnger').position(75, 350).mouseOver(buttonAngerMouseOver).mouseOut(buttonAngerMouseOut).mousePressed(filterAnger);
-    buttonFear = createButton('fear').id('buttonFear').position(75, 400).mouseOver(buttonFearMouseOver).mouseOut(buttonFearMouseOut).mousePressed(filterFear);
-    buttonJoy = createButton('joy').id('buttonJoy').position(75, 450).mouseOver(buttonJoyMouseOver).mouseOut(buttonJoyMouseOut).mousePressed(filterJoy);
-    buttonSadness = createButton('sadness').id('buttonSadness').position(75, 500).mouseOver(buttonSadnessMouseOver).mouseOut(buttonSadnessMouseOut).mousePressed(filterSadness);
-    buttonTrust = createButton('trust').id('buttonTrust').position(75, 550).mouseOver(buttonTrustMouseOver).mouseOut(buttonTrustMouseOut).mousePressed(filterTrust);
-    buttonNeutral = createButton('neutral').id('buttonNeutral').position(75, 600).mouseOver(buttonNeutralMouseOver).mouseOut(buttonNeutralMouseOut).mousePressed(filterNeutral);
-    buttonReset = createButton('reset visualization').parent('reset').id('buttonReset').mousePressed(reset);
+    buttonAnger = createButton('anger').id('buttonAnger')
+                  .position(75, 350)
+                  .mouseOver(function() { 
+                    this.html('filter'); 
+                  }).mouseOut(function() {
+                    this.html('anger');
+                  }).mousePressed(function() { 
+                    if (alphaAnger == 180) 
+                        alphaAnger = 0;
+                    else 
+                        alphaAnger = 180;
+                  });
+
+    buttonFear = createButton('fear')
+                 .id('buttonFear')
+                 .position(75, 400)
+                 .mouseOver(function() { 
+                    this.html('filter'); 
+                 }).mouseOut(function() {
+                    this.html('fear');
+                 }).mousePressed(function() { 
+                    if (alphaFear == 180) 
+                        alphaFear = 0;
+                    else 
+                        alphaFear = 180;
+                 });
+
+    buttonJoy = createButton('joy')
+                .id('buttonJoy')
+                .position(75, 450)
+                .mouseOver(function() { 
+                    this.html('filter'); 
+                  }).mouseOut(function() {
+                    this.html('joy');
+                  }).mousePressed(function() { 
+                    if (alphaJoy == 180) 
+                        alphaJoy = 0;
+                    else 
+                        alphaJoy = 180;
+                  });
+
+    buttonJoy = createButton('sadness')
+                .id('buttonSadness')
+                .position(75, 500)
+                .mouseOver(function() { 
+                    this.html('filter'); 
+                }).mouseOut(function() {
+                    this.html('sadness');
+                }).mousePressed(function() { 
+                    if (alphaSadness == 180) 
+                        alphaSadness = 0;
+                    else 
+                        alphaSadness = 180;
+                });
+
+    buttonNeutral = createButton('neutral')
+                    .id('buttonNeutral')
+                    .position(75, 550)
+                    .mouseOver(function() { 
+                        this.html('filter'); 
+                    }).mouseOut(function() {
+                        this.html('neutral');
+                    }).mousePressed(function() { 
+                        if (alphaNeutral == 180) 
+                            alphaNeutral = 0;
+                        else 
+                            alphaNeutral = 180;
+                    });
+
+    buttonReset = createButton('reset visualization')
+                  .parent('reset')
+                  .id('buttonReset')
+                  .mousePressed(function() {
+                    alphaAnger = 180;
+                    alphaFear = 180;
+                    alphaJoy = 180;
+                    alphaSadness = 180;
+                    alphaNeutral = 180;
+                  });
 }
 
 // Draw to the canvas
@@ -200,110 +273,12 @@ function draw() {
     background(255);
     translate(width/2,height/2);
 
-    // Drawing ellipses
-    fill(140, 82, 69, alphaAnger); // Red
-    for (let i = 0; i < circlesAnger.length; i++) {
-        circlesAnger[i].display();
-        circlesAnger[i].move();
-        circlesAnger[i].interact();
-    }
-
-    fill(191, 101, 80, alphaFear); // Orange
-    for (let i = 0; i < circlesFear.length; i++) {
-        circlesFear[i].display();
-        circlesFear[i].move();
-        circlesFear[i].interact();
-    }
-
-    fill(242, 212, 121, alphaJoy); // Yellow
-    for (let i = 0; i < circlesJoy.length; i++) {
-        circlesJoy[i].display();
-        circlesJoy[i].move();
-        circlesJoy[i].interact();
-    }
-
-    fill(148, 200, 214, alphaSadness); // Blue
-    for (let i = 0; i < circlesSadness.length; i++) {
-        circlesSadness[i].display();
-        circlesSadness[i].move();
-        circlesSadness[i].interact();
-    }
-
-    fill(90, 140, 140, alphaTrust); // Green
-    for (let i = 0; i < circlesTrust.length; i++) {
-        circlesTrust[i].display();
-        circlesTrust[i].move();
-        circlesTrust[i].interact();
-    }
-
-    fill(192, 192, 192, alphaNeutral); // Grey
-    for (let i = 0; i < circlesNeutral.length; i++) {
-        circlesNeutral[i].display();
-        circlesNeutral[i].move();
-        circlesNeutral[i].interact();
+    for (let i = 0; i < circlesAll.length; i++) {
+        circlesAll[i].display();
+        circlesAll[i].move();
+        circlesAll[i].interact();
     }
 }
-
-// Manage filter buttons
-function filterAnger() {
-    if (alphaAnger == 180)
-        alphaAnger = 0;
-    else
-        alphaAnger = 180;
-}
-function filterFear() {
-    if (alphaFear == 180)
-        alphaFear = 0;
-    else
-        alphaFear = 180;
-}
-function filterJoy() {
-    if (alphaJoy == 180)
-        alphaJoy = 0;
-    else
-        alphaJoy = 180;
-}
-function filterSadness() {
-    if (alphaSadness == 180)
-        alphaSadness = 0;
-    else
-        alphaSadness = 180;
-}
-function filterTrust() {
-    if (alphaTrust == 180)
-        alphaTrust = 0;
-    else
-        alphaTrust = 180;
-}
-function filterNeutral() {
-    if (alphaNeutral == 180)
-        alphaNeutral = 0;
-    else
-        alphaNeutral = 180;
-}
-function reset() {
-    alphaAnger = 180;
-    alphaFear = 180;
-    alphaJoy = 180;
-    alphaSadness = 180;
-    alphaTrust = 180;
-    alphaNeutral = 180;
-}
-
-function buttonAngerMouseOver() { buttonAnger.html('filter'); }
-function buttonFearMouseOver() { buttonFear.html('filter'); }
-function buttonJoyMouseOver() { buttonJoy.html('filter'); }
-function buttonSadnessMouseOver() { buttonSadness.html('filter'); }
-function buttonJoyMouseOver() { buttonJoy.html('filter'); }
-function buttonTrustMouseOver() { buttonTrust.html('filter'); }
-function buttonNeutralMouseOver() { buttonNeutral.html('filter'); }
-
-function buttonAngerMouseOut() { buttonAnger.html('anger'); }
-function buttonFearMouseOut() { buttonFear.html('fear'); }
-function buttonJoyMouseOut() { buttonJoy.html('joy'); }
-function buttonSadnessMouseOut() { buttonSadness.html('sadness'); }
-function buttonTrustMouseOut() { buttonTrust.html('trust'); }
-function buttonNeutralMouseOut() { buttonNeutral.html('neutral'); }
 
 function showAbout() {
    var overlay = document.getElementById("overlay");
