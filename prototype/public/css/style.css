@@ -27,50 +27,85 @@ h1
     margin: 50px auto;
 }
 
-#buttonPositive, #buttonNegative, #buttonNeutral 
+#buttonAnger, #buttonFear, #buttonJoy, #buttonSadness, #buttonTrust, #buttonNeutral 
 {
     background-color: transparent;
     border: 0;
     border-radius: 10px;
-    width: 130px;
-    height: 40px;
-    font-size: 14px;
+    width: 120px;
+    height: 35px;
+    font-size: 13px;
     font-weight: 500;
     color: #FFF;
 }
-#buttonPositive
-{
-    background-color: rgb(255, 204, 100);
-    border: 2px solid rgb(255, 204, 100);
-}
-#buttonPositive:hover
+
+#buttonAnger:hover, #buttonFear:hover, #buttonJoy:hover, #buttonSadness:hover, #buttonTrust:hover, #buttonNeutral
 {
     transition: 0.2s;
-    color: rgb(255, 204, 100);
     background-color: #FFF;
 }
-#buttonNegative
+
+#anger, #buttonAnger:hover
 {
-    background-color: rgb(152, 204, 255);
-    border: 2px solid rgb(152, 204, 255);
+    color: rgb(140, 82, 69);    
 }
-#buttonNegative:hover
+#buttonAnger 
 {
-    transition: 0.2s;
-    color: rgb(152, 204, 255);
-    background-color: #FFF;
+    background-color: rgb(140, 82, 69);
+    border: 2px solid rgb(140, 82, 69);
 }
+#fear, #buttonFear:hover
+{
+    color: rgb(191, 101, 80);    
+}
+#buttonFear
+{
+    background-color: rgb(191, 101, 80);
+    border: 2px solid rgb(191, 101, 80);
+}
+
+#joy, #buttonJoy:hover
+{
+    color: rgb(242, 212, 121);    
+}
+#buttonJoy
+{
+    background-color: rgb(242, 212, 121);
+    border: 2px solid rgb(242, 212, 121);
+}
+
+#sadness, #buttonSadness:hover 
+{
+    color: rgb(148, 200, 214);
+}
+#buttonSadness
+{
+    background-color: rgb(148, 200, 214);
+    border: 2px solid rgb(148, 200, 214);
+}
+
+#trust, #buttonTrust:hover
+{
+    color: rgb(90, 140, 140);
+}
+
+#buttonTrust
+{
+    background-color: rgb(90, 140, 140);
+    border: 2px solid rgb(90, 140, 140);
+}
+
+#neutral, #buttonNeutral:hover
+{
+    color: rgb(192, 192, 192);
+}
+
 #buttonNeutral
 {
     background-color: rgb(192, 192, 192);
     border: 2px solid rgb(192, 192, 192);
 }
-#buttonNeutral:hover
-{
-    transition: 0.2s;
-    color: rgb(192, 192, 192);
-    background-color: #FFF;
-}
+
 #reset 
 {
     position: absolute;
@@ -100,16 +135,22 @@ h1
     font-weight: 600;
 }
 
-#positive 
+#anger
 {
-    color: rgb(255, 204, 100);
+    color: rgb(140, 82, 69);
 }
-
-#negative
+#fear
 {
-    color: rgb(152, 204, 255);
+    color: rgb(191, 101, 80);
 }
-
+#joy
+{
+    color: rgb(242, 212, 121);
+}
+#trust
+{
+    color: rgb(90, 140, 140);
+}
 #neutral
 {
     color: rgb(192, 192, 192);

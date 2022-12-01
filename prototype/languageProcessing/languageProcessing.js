@@ -164,7 +164,6 @@ Promise.all([angerPromise, fearPromise, joyPromise, sadnessPromise, trustPromise
   // Promise responsible for fetching Tweets
   let tweetPromise = new Promise((resolve, reject) => {
     // Find all english Tweets and fetch their retweet count, location and text
-    // Get the text field value from each Tweet, store the response in a TweetObjects variable 
       TweetsModule.find({lang: 'en'}, { retweet_count: 3, user_location: 2, text: 1, _id: 0 }).then((response)=>{ 
         const TweetObjects = response;
 

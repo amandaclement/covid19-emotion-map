@@ -1,16 +1,17 @@
 const mongoose = require("mongoose");
 
-// https://www.kaggle.com/datasets/gpreda/covid19-tweets
+// Dataset contains the processed March 11 Tweets SAMPLE
 
 const TweetSchema = new mongoose.Schema({
-    user_location:String,
-    user_description:String,
-    user_created:String,
-    user_followers:Number,
-    user_friends:Number,
-    date:String,
-    text:String
+    tweet:String,
+    anger:Boolean,
+    fear:Boolean,
+    joy:Boolean,
+    sadness:Boolean,
+    trust:Boolean,
+    location:String,
+    retweets:Number
 })
 
-const Tweets = mongoose.model("TWEET", TweetSchema, "COVID19Tweets");
+const Tweets = mongoose.model("TWEET", TweetSchema, "COVID19TweetsMarch11ProcessedSample");
 module.exports = Tweets;
