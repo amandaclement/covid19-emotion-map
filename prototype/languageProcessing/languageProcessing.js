@@ -223,7 +223,7 @@ Promise.all([angerPromise, fearPromise, joyPromise, sadnessPromise, trustPromise
     };
 
     // Iterate over text from Tweets
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 1000; i++) { // Set to 1000 for sample gathering
         // If an emotion word (from one of the txt files) is found in the Tweet, its corresponding flag is set to true
         // [anger, fear, joy, sadness, trust]
         let emotionFlags = [false, false, false, false, false];

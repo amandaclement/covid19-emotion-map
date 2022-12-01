@@ -3618,3 +3618,7 @@ prototype/emotionExtraction/languageProcessingFiles/processedTweets.json
 prototype/emotionExtraction/languageProcessingFiles/processedTweets.json
 *.json
 *.json
+prototype/emotionExtraction/languageProcessingFiles/processedTweets.json
+prototype/languageProcessing/.env
+prototype/emotionExtraction/.env
+prototype/emotionExtraction/.env
