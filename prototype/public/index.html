@@ -14,7 +14,7 @@
 
     <link rel="stylesheet" type="text/css" href="/css/style.css">
   
-    <title>COVID-19 Sentiment Analysis Using Tweets</title>
+    <title>COVID-19 Emotion Analysis Using Tweets</title>
 </head>
 
 <body>
@@ -26,7 +26,7 @@
             <p>A paragraph about the data - where it comes from, why it was collected, who collected it, when it was collected, how/why I manipulated it in the ways that I did (this paragraph is not yet written as the dataset is subject to change).</p><br>
             <p id="tip">Note: Press and hold down on an ellipse to view the associated Tweet.</p>
         </div>
-        <h1>COVID-19<br>Sentiment<br>Analysis</h1>
+        <h1>COVID-19<br>Emotion<br>Analysis</h1>
         <button onclick="showAbout()" id="about">About the<br>Project</button>
     </header>   
     <div id="legend">
@@ -35,6 +35,15 @@
         <div id="joy"></div>
         <div id="sadness"></div>
         <div id="neutral"></div>
+    </div>
+
+    <div id="introScreen">
+        <h2 id="intro">Emotion analysis of Tweets posted on March 11th 2020,<br>the day the WHO declared the COVID-19 outbreak a global pandemic.</h2>
+
+        <div id="form">
+            <input type="number" min="500" max="1000" id="inputNum" value="500">
+            <button id="submit">&rarr;</button>
+        </div>
     </div>
 
     <!-- to hold P5 canvas -->

@@ -5,6 +5,10 @@
     font-family: 'Karla', sans-serif;
 }
 
+body {
+    overflow: hidden;
+}
+
 header 
 {
     position: absolute;
@@ -205,4 +209,67 @@ h1
 #tip
 {
     color: rgb(255, 204, 100);
+}
+
+header 
+{
+    position: absolute;
+    width: 100%;
+}
+
+#introScreen {
+    background-color: rgb(90, 140, 140);
+    margin-top: -50px;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    color: #FFF;
+    z-index: 10;
+    text-align: center;
+    transition: 1s opacity;
+}
+
+#introScreen h2 {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 30px;
+}
+
+#intro {
+    margin-top: 300px; 
+    transition: 1s opacity;
+}
+
+#form {
+    opacity: 0;
+    transition: 1s opacity; 
+    margin-top: 20px;
+}
+
+#inputNum {
+    border-radius: 4px;
+    width: 150px;
+    height: 40px;
+    border: 0;
+    text-align: center;
+    font-size: 20px;
+    color: rgb(90, 140, 140);
+}
+
+#submit {
+    border: 2px #FFF solid;
+    background-color: transparent;
+    border-radius: 15px;
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #FFF;
+    margin-left: 10px;
+}
+
+#submit:hover {
+    transition: 0.2s;
+    background-color: #FFF;
+    color: rgb(90, 140, 140);
 }

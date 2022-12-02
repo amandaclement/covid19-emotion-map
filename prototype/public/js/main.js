@@ -1,49 +1,82 @@
 // This file contains functions for writing/drawing to the HTML page
 
+const intro = document.getElementById('intro');
+const form = document.getElementById('form');
+const introScreen = document.getElementById("introScreen");
+const feedback = document.getElementById("inputNum");
+const submit = document.getElementById("submit");
+
+// Fade out intro text 6 seconds after page load, then update h2 text and fade in form
+window.onload = function() {
+    window.setTimeout(function() {
+        intro.style.opacity = '0'; 
+    }, 6000);
+    window.setTimeout(function() {
+        intro.textContent = "Please enter the number of Tweets you wish to be featured in the visualization (between 500 and 50,000):";
+        intro.style.opacity = '1'; 
+        form.style.opacity = '1';  
+    }, 7000);
+}
+
+let started = false;
+
 let angerCount = 0, fearCount = 0, joyCount = 0, sadnessCount = 0, neutralCount = 0, totalCount = 0;
 let allTweets = [];
 
-// Send POST request to server
-const options = {
-    method : "POST",
-    headers : new Headers({
-        'Content-Type' : "application/json"
-    })
-}
+let promise = new Promise(function(resolve, reject) {
+    submit.addEventListener("click",() => {
+        // Fade out intro screen, and then hide it
+        setTimeout(function() { introScreen.style.opacity = '0'; }, 1000);
+        introScreen.style.display = 'none'; 
 
-// Use fetch to request server
-fetch("/custom", options)
-.then(res => res.json())
-.then((tweets) => {
-    const texts = tweets.texts;
-    const angerBools = tweets.angerBools;
-    const fearBools = tweets.fearBools;
-    const joyBools = tweets.joyBools;
-    const sadnessBools = tweets.sadnessBools;
-    const location = tweets.locations;
-    const retweets = tweets.retweets;
-    totalCount = texts.length;
+        // Send POST request to server
+        const options = {
+            method: "POST",
+            body: JSON.stringify({
+                feedback: feedback.value
+            }),
+            headers: new Headers({
+                'Content-Type' : "application/json"
+            })
+        }
 
-    // Populate the appropriate arrays with the Tweet text
-    for (let i = 0; i < totalCount; i++) {
+        // Use fetch to request server
+        fetch("/custom", options)
+        .then(res => res.json())
+        .then((tweets) => {
+            const texts = tweets.texts;
+            const angerBools = tweets.angerBools;
+            const fearBools = tweets.fearBools;
+            const joyBools = tweets.joyBools;
+            const sadnessBools = tweets.sadnessBools;
+            const location = tweets.locations;
+            const retweets = tweets.retweets;
+            totalCount = texts.length;
+            console.log("totalCount is " + totalCount);
 
-        allTweets[i] = [texts[i], angerBools[i], fearBools[i], joyBools[i], sadnessBools[i], location[i], retweets[i]];
+            // Populate the appropriate arrays with the Tweet text
+            for (let i = 0; i < totalCount; i++) {
 
-        if (angerBools[i])
-            angerCount++;
-        if (fearBools[i])
-            fearCount++;
-        if (joyBools[i])
-            joyCount++;
-        if (sadnessBools[i])
-            sadnessCount++;
-        if (!angerBools[i] && !fearBools[i] && !joyBools[i] && !sadnessBools[i])
-            neutralCount++;
-    } 
-}).catch(err => console.error("Error: ", err));
+                allTweets[i] = [texts[i], angerBools[i], fearBools[i], joyBools[i], sadnessBools[i], location[i], retweets[i]];
+
+                if (angerBools[i])
+                    angerCount++;
+                if (fearBools[i])
+                    fearCount++;
+                if (joyBools[i])
+                    joyCount++;
+                if (sadnessBools[i])
+                    sadnessCount++;
+                if (!angerBools[i] && !fearBools[i] && !joyBools[i] && !sadnessBools[i])
+                    neutralCount++;
+            } 
+            setTimeout(resolve, 500); // Delay of 0.5 seconds before resolving promise
+        }).catch(err => console.error("Error: ", err));
+    }); // Closing event listener
+}); // Closing promise
 
 // Declare variables
-let circlesAnger = [], circlesFear = [], circlesJoy = [], circlesSadness = [], circlesNeutral = [], circlesAll = [];
+let circlesAll = [];
 let legendAnger, legendFear, legendJoy, legendSadness, legendNeutral;
 let alphaAnger = 180, alphaFear = 180, alphaJoy = 180, alphaSadness = 180, alphaNeutral = 180;
 let buttonAnger, buttonFear, buttonJoy, buttonSadness, buttonNeutral;
@@ -147,14 +180,18 @@ function Circle(tweetText, tweetAnger, tweetFear, tweetJoy, tweetSadness, tweetL
 }
 
 // Set up the canvas
-function setup() {
+async function setup() {
+    // Await for promise to return
+    await promise;
+    started = true;
+    
     // Log the # of tweets for each category along with their percentages
-    console.log("Total " + totalCount + " tweets");
-    console.log("Anger " + angerCount + " tweets");
-    console.log("Fear " + fearCount + " tweets");
-    console.log("Joy " + joyCount + " tweets");
-    console.log("Sadness " + sadnessCount + " tweets");
-    console.log("Neutral " + neutralCount + " tweets");
+    console.log("Total " + totalCount);
+    console.log("Anger " + angerCount);
+    console.log("Fear " + fearCount);
+    console.log("Joy " + joyCount);
+    console.log("Sadness " + sadnessCount);
+    console.log("Neutral " + neutralCount);
 
     // Prepare canvas
     myCanvas = createCanvas(700, 700);
@@ -166,11 +203,11 @@ function setup() {
     textDiv = createDiv().parent('tweetText');
 
     // Set up the sentiment percentage legend
-    legendAnger = createDiv().parent('anger').html("Anger: " + angerCount + " Tweets");
-    legendFear = createDiv().parent('fear').html("Fear: " + fearCount + " Tweets");
-    legendJoy = createDiv().parent('joy').html("Joy: " + joyCount + " Tweets");
-    legendSadness = createDiv().parent('sadness').html("Sadness: " + sadnessCount + " Tweets");
-    legendNeutral = createDiv().parent('neutral').html("Neutral: " + neutralCount + " Tweets");
+    legendAnger = createDiv().parent('anger').html("Anger: " + angerCount);
+    legendFear = createDiv().parent('fear').html("Fear: " + fearCount);
+    legendJoy = createDiv().parent('joy').html("Joy: " + joyCount);
+    legendSadness = createDiv().parent('sadness').html("Sadness: " + sadnessCount);
+    legendNeutral = createDiv().parent('neutral').html("Neutral: " + neutralCount);
     
     // Set up div to hold sample size
     sampleInfo = createDiv().parent('sampleInfo').html("Sample size: " + totalCount + " Tweets");
@@ -179,14 +216,7 @@ function setup() {
     for (let i = 0; i < totalCount; i++)
         circlesAll.push(new Circle(allTweets[i][0], allTweets[i][1], allTweets[i][2], allTweets[i][3], allTweets[i][4], allTweets[i][5], allTweets[i][6]));
 
-    // Set up alphas for filtering
-    alphaAnger = 180;
-    alphaFear = 180;
-    alphaJoy = 180;
-    alphaSadness = 180;
-    alphaNeutral = 180;
-
-    // Set up buttons
+    // Manage buttons
     buttonAnger = createButton('anger').id('buttonAnger')
                   .position(75, 350)
                   .mouseOver(function() { 
@@ -270,13 +300,15 @@ function setup() {
 
 // Draw to the canvas
 function draw() { 
-    background(255);
-    translate(width/2,height/2);
+    if (started) {
+        background(255);
+        translate(width/2,height/2);
 
-    for (let i = 0; i < circlesAll.length; i++) {
-        circlesAll[i].display();
-        circlesAll[i].move();
-        circlesAll[i].interact();
+        for (let i = 0; i < circlesAll.length; i++) {
+            circlesAll[i].display();
+            circlesAll[i].move();
+            circlesAll[i].interact();
+        }
     }
 }
 

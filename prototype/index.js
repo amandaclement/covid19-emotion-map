@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require("mongoose");
 
 // Port and host
-const portNumber = 5200;
+const portNumber = 5500;
 const host = "127.0.0.1";
 
 // Initiale the app
@@ -27,10 +27,22 @@ const { MongoClient } = require('mongodb');
 mongoose.connect(url);
 mongoose.connection;
 
+app.post("/custom", (request, response) => {
+
+  // Default size (defaults to this if user inputs an integer beyond the allotted range)
+  let sampleSize = 500;
+
+  // If user inputted a valid integer, use that instead
+  if (parseInt(request.body.feedback) > 500 && parseInt(request.body.feedback) <= 10000)
+    sampleSize = parseInt(request.body.feedback);
+
 // Promise responsible for fetching Tweets
 let promise = new Promise((resolve, reject) => {
+  TweetsModule.aggregate (
+    [ { $sample: { size: sampleSize } } ]
+  ).then((response) => { 
   // Fetch the data from each Tweet, store the response in a TweetObjects variable, then map these objects into an array (TweetList)
-  TweetsModule.find({location: 'ca'}, { retweets: 7, location: 6, sadness: 5, joy: 4, fear: 3, anger: 2, tweet: 1, _id: 0 }).then((response) => { 
+  // TweetsModule.find({location: 'ca'}, { retweets: 7, location: 6, sadness: 5, joy: 4, fear: 3, anger: 2, tweet: 1, _id: 0 }).then((response) => { 
     const TweetObjects = response;
 
     // Map these objects into arrays, to then be stored in another array
@@ -51,7 +63,6 @@ let promise = new Promise((resolve, reject) => {
 // Once promise returns, pass results along /custom route via POST request, to be used in main.js
 promise.then((tweets) => {
   console.log("Promise returned");
-  app.post("/custom",(request,response) => {
     response.status(200).json({
       texts: tweets[0],
       angerBools: tweets[1],
@@ -60,9 +71,10 @@ promise.then((tweets) => {
       sadnessBools: tweets[4],
       locations: tweets[5],
       retweets: tweets[6]
-    })
   });
 });
+
+}); // close POST request
 
 // Connect frontend with server, so that all the static HTML, CSS and JS files will be served at / route
 app.use("/", express.static(__dirname + "/public"));
