@@ -31,7 +31,7 @@ h1
     margin: 50px auto;
 }
 
-#buttonAnger, #buttonFear, #buttonJoy, #buttonSadness, #buttonNeutral 
+#buttonAnger, #buttonFear, #buttonJoy, #buttonSadness, #buttonNeutral, #buttonCluster
 {
     background-color: transparent;
     border: 0;
@@ -43,7 +43,7 @@ h1
     color: #FFF;
 }
 
-#buttonAnger:hover, #buttonFear:hover, #buttonJoy:hover, #buttonSadness:hover, #buttonNeutral:hover
+#buttonAnger:hover, #buttonFear:hover, #buttonJoy:hover, #buttonSadness:hover, #buttonNeutral:hover, #buttonCluster:hover
 {
     transition: 0.2s;
     background-color: #FFF;
@@ -99,6 +99,17 @@ h1
 {
     background-color: rgb(192, 192, 192);
     border: 2px solid rgb(192, 192, 192);
+}
+
+#buttonCluster:hover
+{
+    color: rgb(54, 69, 79);
+}
+
+#buttonCluster
+{
+    background-color: rgb(54, 69, 79);
+    border: 2px solid rgb(54, 69, 79);
 }
 
 #reset 
@@ -272,4 +283,8 @@ header
     transition: 0.2s;
     background-color: #FFF;
     color: rgb(90, 140, 140);
+}
+
+.countryCode {
+    font-family: 'Karla', sans-serif;
 }
