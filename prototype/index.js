@@ -3,10 +3,10 @@ const express = require('express');
 const mongoose = require("mongoose");
 
 // Port and host
-const portNumber = 5500;
+const portNumber = 4200;
 const host = "127.0.0.1";
 
-// Initiale the app
+// Initialize the app
 const app = express();
 
 // Server
@@ -33,16 +33,16 @@ app.post("/custom", (request, response) => {
   let sampleSize = 500;
 
   // If user inputted a valid integer, use that instead
-  if (parseInt(request.body.feedback) > 500 && parseInt(request.body.feedback) <= 10000)
+  if (parseInt(request.body.feedback) > 500 && parseInt(request.body.feedback) <= 50000)
     sampleSize = parseInt(request.body.feedback);
 
 // Promise responsible for fetching Tweets
 let promise = new Promise((resolve, reject) => {
   TweetsModule.aggregate (
+    // Randomly selected sample of Tweets
     [ { $sample: { size: sampleSize } } ]
   ).then((response) => { 
-  // Fetch the data from each Tweet, store the response in a TweetObjects variable, then map these objects into an array (TweetList)
-  // TweetsModule.find({location: 'ca'}, { retweets: 7, location: 6, sadness: 5, joy: 4, fear: 3, anger: 2, tweet: 1, _id: 0 }).then((response) => { 
+    // Store the response in TweetObjects
     const TweetObjects = response;
 
     // Map these objects into arrays, to then be stored in another array

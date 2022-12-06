@@ -27,9 +27,16 @@ let allTweets = [], countryClusters = [];
 
 let promise = new Promise(function(resolve, reject) {
     submit.addEventListener("click",() => {
-        // Fade out intro screen, and then hide it
-        setTimeout(function() { introScreen.style.opacity = '0'; }, 1000);
-        introScreen.style.display = 'none'; 
+        // Fade out intro text, then fade in loading text
+        setTimeout(function() { 
+            intro.style.opacity = '0'; 
+            form.style.opacity = '0'
+        }, 100);
+
+        setTimeout(function() { 
+            intro.textContent = "Loading . . ."; 
+            intro.style.opacity = '1'; 
+        }, 1100); 
 
         // Send POST request to server
         const options = {
@@ -54,7 +61,6 @@ let promise = new Promise(function(resolve, reject) {
             const location = tweets.locations;
             const retweets = tweets.retweets;
             totalCount = texts.length;
-            console.log("totalCount is " + totalCount);
 
             // Populate the appropriate arrays with the Tweet text
             for (let i = 0; i < totalCount; i++) {
@@ -64,7 +70,6 @@ let promise = new Promise(function(resolve, reject) {
                 // If Tweet has a location, add the country code to the first dimension of countryClusters array if it isn't already in there
                 // Increment second dimension counter accordingly 
                 let duplicateFlag = false;
-                let count = 0;
                 if (location[i].length > 1) {
                         for (let k = 0; k < countryClusters.length; k++)
                             if (location[i] == countryClusters[k][0]) {
@@ -119,11 +124,10 @@ let promise = new Promise(function(resolve, reject) {
                     }
                 }
             } 
-
             setTimeout(resolve, 500); // Delay of 0.5 seconds before resolving promise
         }).catch(err => console.error("Error: ", err));
-    }); // Closing event listener
-}); // Closing promise
+    });
+});
 
 // Declare variables
 let circlesAll = [], clustersAll = [];
@@ -190,8 +194,7 @@ function Circle(tweetText, tweetAnger, tweetFear, tweetJoy, tweetSadness, tweetR
     this.move = function() {
         this.angle = this.angle + this.angleIncrement;
         this.x = this.x + this.scalar * cos(this.angle) * this.speed * this.direction;
-        this.y = this.y + this.scalar * sin(this.angle) * this.speed * this.direction;
-        
+        this.y = this.y + this.scalar * sin(this.angle) * this.speed * this.direction;   
     } 
     
     // Draws the ellipse to the screen
@@ -240,33 +243,44 @@ function Cluster(countryCode, count, emotion) {
     this.y = random(-height/2 + 50, height/2 - 50);
     this.emotion = emotion;
     this.count = count;
-    this.angle = 0;
-    this.angleIncrement = random(0.01, 0.05);
+    this.angle = 3;
+    this.angleIncrement = random(0.04, 0.1);
     this.scalar = random(10, 20);
     this.direction = random([-1, 1]); // Always returns -1 or 1 for determining if ellipse rotates clockwise or counterclock wise
-    this.defaultSpeed = random(0.002, 0.006);
+    this.defaultSpeed = random(0.004, 0.008);
     this.speed = this.defaultSpeed;
+    this.textAlpha;
 
     // Draws the cluster to the screen
     this.display = function() { 
-        if (this.emotion == 2)              // 2 = anger
-            fill(191, 101, 80, 200);
-        else if (this.emotion == 3)         // 3 = fear
-            fill(90, 140, 140, 200);
-        else if (this.emotion == 4)         // 4 = joy
-            fill(242, 212, 121, 200);
-        else if (this.emotion == 5)         // 5 = sadness
-            fill(148, 200, 214, 200);
-        else if (this.emotion == 6)         // 6 = neutral
-            fill(192, 192, 192, 200);
+        if (this.emotion == 2) {            // 2 = anger
+            fill(191, 101, 80, alphaAnger);
+            this.textAlpha = alphaAnger;
+        }
+        else if (this.emotion == 3) {        // 3 = fear
+            fill(90, 140, 140, alphaFear);
+            this.textAlpha = alphaFear;
+        }
+        else if (this.emotion == 4) {        // 4 = joy
+            fill(242, 212, 121, alphaJoy);
+            this.textAlpha = alphaJoy
+        }
+        else if (this.emotion == 5) {         // 5 = sadness
+            fill(148, 200, 214, alphaSadness);
+            this.textAlpha = alphaSadness;
+        }
+        else if (this.emotion == 6) {         // 6 = neutral
+            fill(192, 192, 192, alphaNeutral);
+            this.textAlpha = alphaNeutral;
+        }
 
         ellipse(this.x, this.y, this.size);
-        fill(255, 255, 255);
         textAlign(CENTER);
+        fill(255, 255, 255, this.textAlpha);
         textFont('Karla');
         textSize(24);
         text(this.countryCode, this.x, this.y);
-        fill(255, 255, 255, 180);
+        fill(255, 255, 255, this.textAlpha);
         textSize(14);
         text('Tweets: ' + this.count, this.x, this.y + 20);
     }
@@ -283,6 +297,10 @@ function Cluster(countryCode, count, emotion) {
 async function setup() {
     // Await for promise to return
     await promise;
+
+    // Fade out loading screen
+    setTimeout(function() { introScreen.style.opacity = '0'; }, 1000);
+    introScreen.style.display = 'none';
     started = true;
     
     // Log the # of tweets for each category along with their percentages
@@ -318,8 +336,8 @@ async function setup() {
 
         // Create a Cluster for each country and push it into clustersAll array
     for (let i = 0; i < countryClusters.length; i++) {
-        // Only form cluster if there are over 10 Tweets associated with that country
-        if (countryClusters[i][1] > 10) {
+        // Only form cluster if there are over 5 Tweets associated with that country
+        if (countryClusters[i][1] > 5) {
             // Find the country's predominant emotion, and pass its associated array position as a parameter to Cluster function
             let predominantEmotion = countryClusters[i][2];
             let emotionPosition = 2;
@@ -451,6 +469,7 @@ function draw() {
     }
 }
 
+// Manage opening/closing of About page
 function showAbout() {
    let overlay = document.getElementById("overlay");
    overlay.style.display = "block";

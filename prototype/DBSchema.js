@@ -13,5 +13,5 @@ const TweetSchema = new mongoose.Schema({
     retweets:Number
 })
 
-const Tweets = mongoose.model("TWEET", TweetSchema, "COVID19TweetsMarch11ProcessedSample");
+const Tweets = mongoose.model("TWEET", TweetSchema, "COVID19TweetsMarch11Processed");
 module.exports = Tweets;

@@ -14,20 +14,23 @@
 
     <link rel="stylesheet" type="text/css" href="/css/style.css">
   
-    <title>COVID-19 Emotion Analysis Using Tweets</title>
+    <title>COVID-19 Emotion Analysis</title>
 </head>
 
 <body>
     <header>
+        <h1>COVID-19<br>Emotion<br>Analysis</h1>
+        <button onclick="showAbout()" id="about">About the<br>Project</button>
         <div id="overlay">
             <button onclick="hideAbout()" id="x">x</button>
             <h2>About the<br>Project</h2>
-            <p>This prototype is an interactive data visualization that illustrates sentiment-based trends related to the COVID-19 pandemic. The data surrounding this global crisis, such as reported cases and death tolls, is predominantly numerical. This quantitative data, although crucial to our understanding of the virus’ spread, can be difficult to engage with and to relate to, and gives no information about the public’s emotional response to the pandemic. As such, my goal is to explore and analyze the collective sentiments associated with the COVID-19 crisis by extracting sentiment scores from Twitter posts. By organizing this data into an interactive visualization, I aim to make the findings more approachable and digestible than numerical statistics.</p><br>
-            <p>A paragraph about the data - where it comes from, why it was collected, who collected it, when it was collected, how/why I manipulated it in the ways that I did (this paragraph is not yet written as the dataset is subject to change).</p><br>
-            <p id="tip">Note: Press and hold down on an ellipse to view the associated Tweet.</p>
+            <p>This prototype is an interactive data visualization that illustrates the emotional impact of the COVID-19 pandemic. Each dot represents a Tweet posted on March 11th, 2020, which is the day the WHO declared the COVID-19 outbreak a global pandemic. COVID-19 related hashtag usage spiked on that day.</p>
+            <p>The initial data set used for this visualization was a list of 1,145,287 COVID-19-related Tweet IDs from March 11th, 2020 was collected from the following GitHub repository: <a href="https://github.com/echen102/COVID-19-TweetIDs" target="_blank">https://github.com/echen102/COVID-19-TweetIDs</a>. These IDs were passed through the Hydrator app which uses Twitter’s API to return the corresponding Tweet information. 701,747 Tweets were successfully hydrated. All non-English Tweets were discarded, leaving 380,505 Tweets to be processed. </p><br>
+            <p>The following language processing steps were executed on each Tweet: normalizing the text, removing special characters, removing stopwords, tokenization, stemming, and handling negations. Then, emotions were searched for in the remaining tokens using lists of English words and their associations with the emotions of interest (<span class="angerColor">anger</span>, <span class="fearColor">fear</span>, <span class="joyColor">joy</span>, and <span class="sadnessColor">sadness</span>) from the NRC Emotion Lexicon: <a href="https://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm" target="_blank">https://saifmohammad.com/WebPages/NRC-Emotion-Lexicon</a>. These lists were slightly modified to remove certain words that, in the context of this project, felt misclassified. Finally, country names and codes, as well as states and provinces, were searched for in the Tweet’s location text.</p><br>
+            <p>The visualization was then created using these findings, with each dot representing a Tweet that’s coloured based on the emotion it’s associated with and sized based on the number of retweets it received. For Tweets linked to multiple emotions, the dot’s colour is randomly chosen from the set of colours of its associated emotions. Neutral (<span class="neutralColor">grey</span>) dots represent Tweets that aren’t linked to any of the four target emotions. </p><br>
+            <p>The corresponding post is revealed when a dot is pressed down on. The buttons to the left of the visualization can be used for filtering by emotion or to arrange the data based on the Tweet locations. When arranged by location, only countries that have at least 10 associated Tweets are considered. These dots are coloured based on the prevailing emotion found in the collection of Tweets tagged with that country.</p><br>
+            <p class="fearColor">Next update: language processing algorithm will be refined and duplicate Tweets will be removed.</p><br>
         </div>
-        <h1>COVID-19<br>Emotion<br>Analysis</h1>
-        <button onclick="showAbout()" id="about">About the<br>Project</button>
     </header>   
     <div id="legend">
         <div id="anger"></div>
@@ -46,9 +49,9 @@
         </div>
     </div>
 
-    <!-- to hold P5 canvas -->
+    <!-- To hold P5 canvas -->
     <div id="myCanvas"></div>
-    <div><div id="tweetText"></div>
+    <div id="tweetText"></div>
     <div id="sampleInfo"></div>
     <div id="reset"></div>
      
