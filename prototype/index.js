@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require("mongoose");
 
 // Port and host
-const portNumber = 4200;
+const portNumber = 4000;
 const host = "127.0.0.1";
 
 // Initialize the app
