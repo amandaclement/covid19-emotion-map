@@ -22,8 +22,17 @@ window.onload = function() {
 let started = false;
 
 // Variables to store Tweet results in
-let angerCount = 0, fearCount = 0, joyCount = 0, sadnessCount = 0, neutralCount = 0, totalCount = 0;
-let allTweets = [], countryClusters = [];
+let totalTweets = 0;
+let tweets = {
+    anger: [],
+    fear: [],
+    joy: [],
+    sadness: [],
+    neutral: []
+};
+let countryClusters = [];
+let locations = {};
+const locationPercentageMin = 0.01;
 
 let promise = new Promise(function(resolve, reject) {
     submit.addEventListener("click",() => {
@@ -52,76 +61,43 @@ let promise = new Promise(function(resolve, reject) {
         // Use fetch to request server
         fetch("/custom", options)
         .then(res => res.json())
-        .then((tweets) => {
-            const texts = tweets.texts;
-            const angerBools = tweets.angerBools;
-            const fearBools = tweets.fearBools;
-            const joyBools = tweets.joyBools;
-            const sadnessBools = tweets.sadnessBools;
-            const location = tweets.locations;
-            const retweets = tweets.retweets;
-            totalCount = texts.length;
+        .then(tweetData => {
+            totalTweets = tweetData.length;
 
-            // Populate the appropriate arrays with the Tweet text
-            for (let i = 0; i < totalCount; i++) {
+            // Iterate over Tweets, updating tweets and locations dicts
+            for (let i = 0; i < totalTweets; i++) {
+                const tweet = tweetData[i];
 
-                allTweets[i] = [texts[i], angerBools[i], fearBools[i], joyBools[i], sadnessBools[i], retweets[i], location[i]];
-                
-                // If Tweet has a location, add the country code to the first dimension of countryClusters array if it isn't already in there
-                // Increment second dimension counter accordingly 
-                let duplicateFlag = false;
-                if (location[i].length > 1) {
-                        for (let k = 0; k < countryClusters.length; k++)
-                            if (location[i] == countryClusters[k][0]) {
-                                // Since this country's cluster already exists, assign this cluster number to the Tweet
-                                countryClusters[k][1]++;
-                                if (angerBools[i]) { 
-                                    angerCount++; 
-                                    countryClusters[k][2]++; 
-                                }
-                                if (fearBools[i]) {
-                                    fearCount++;
-                                    countryClusters[k][3]++;
-                                }
-                                if (joyBools[i]) {
-                                    joyCount++;
-                                    countryClusters[k][4]++;
-                                }
-                                if (sadnessBools[i]) {
-                                    sadnessCount++;
-                                    countryClusters[k][5]++;
-                                }
-                                if (!angerBools[i] && !fearBools[i] && !joyBools[i] && !sadnessBools[i]) {
-                                    neutralCount++;
-                                    countryClusters[k][6]++;
-                                }
-                                duplicateFlag = true;
-                                break;
-                            }
-                    if (!duplicateFlag) {
-                        countryClusters.push([location[i], 1, 0, 0, 0, 0]);
-                        countryClusters[countryClusters.length - 1][1]++;
-                        if (angerBools[i]) { 
-                            angerCount++; 
-                            countryClusters[countryClusters.length - 1][2]++; 
-                        }
-                        if (fearBools[i]) {
-                            fearCount++;
-                            countryClusters[countryClusters.length - 1][3]++;
-                        }
-                        if (joyBools[i]) {
-                            joyCount++;
-                            countryClusters[countryClusters.length - 1][4]++;
-                        }
-                        if (sadnessBools[i]) {
-                            sadnessCount++;
-                            countryClusters[countryClusters.length - 1][5]++;
-                        }
-                        if (!angerBools[i] && !fearBools[i] && !joyBools[i] && !sadnessBools[i]) {
-                            neutralCount++;
-                            countryClusters[countryClusters.length - 1][6]++;
-                        }
+                // Update tweets (emotions) dict
+                let associatedEmotions = [];  // Array to hold emotions associated with the Tweet
+                let finalEmotion = "neutral"; // Default is neutral, in case no emotions are associated
+                for (const emotion in tweets) {
+                    if (tweet.emotions[emotion]) {
+                        associatedEmotions.push(emotion);
+                        finalEmotion = emotion;
                     }
+                }
+                // If Tweet is associated with multiple emotions, choose one at random from the array
+                if (associatedEmotions.length > 1) {
+                    const randomIndex = Math.floor(Math.random() * associatedEmotions.length);
+                    finalEmotion = associatedEmotions[randomIndex];
+                } 
+                // Push tweet to the approriate array within tweets dict
+                tweets[finalEmotion].push({ text: tweetData[i].text, retweets: tweetData[i].retweets });
+
+                // If Tweet location is available and isn't yet present in the locations dict, add it
+                if (tweet.location !== undefined && tweet.location.length > 0) {
+                    if (!(tweet.location in locations)) {
+                        locations[tweet.location] = {
+                            anger: 0,
+                            fear: 0,
+                            joy: 0,
+                            sadness: 0,
+                            neutral: 0
+                        };
+                    } 
+                    // Update the emotion count for the specific location
+                    locations[tweet.location][finalEmotion]++;
                 }
             } 
             setTimeout(resolve, 500); // Delay of 0.5 seconds before resolving promise
@@ -130,15 +106,23 @@ let promise = new Promise(function(resolve, reject) {
 });
 
 // Declare variables
-let circlesAll = [], clustersAll = [];
+let clustersAll = [];
 let legendAnger, legendFear, legendJoy, legendSadness, legendNeutral;
-let alphaAnger = 180, alphaFear = 180, alphaJoy = 180, alphaSadness = 180, alphaNeutral = 180;
 let buttonAnger, buttonFear, buttonJoy, buttonSadness, buttonNeutral, buttonReset, buttonCluster;
 let sampleInfo, textDiv;
 let displayClusters = false, displayCircles = true;
 
+let emotionGroups = {
+    anger: {circles: [], display: true},
+    fear: {circles: [], display: true},
+    joy: {circles: [], display: true},
+    sadness: {circles: [], display: true},
+    neutral: {circles: [], display: true} 
+};
+let clusters = [];
+
 // Circle function (class) for drawing an ellipse
-function Circle(tweetText, tweetAnger, tweetFear, tweetJoy, tweetSadness, tweetRetweets) {
+function Circle(text, retweets, emotion) {
     // For positioning ellipses in larger ring   
     this.theta = random(0, TWO_PI);                          
     this.h = randomGaussian(3.05); 
@@ -146,34 +130,14 @@ function Circle(tweetText, tweetAnger, tweetFear, tweetJoy, tweetSadness, tweetR
     this.x = (width/2 - 20) * this.r * cos(this.theta);
     this.y = (height/2 - 20) * this.r * sin(this.theta);
     this.ellipseSizeMax = 20;
-    
-    let potentialColors = [];
-    if (tweetAnger)
-        potentialColors.push([191, 101, 80]);
-    if (tweetFear) 
-        potentialColors.push([90, 140, 140]);
-    if (tweetJoy)
-        potentialColors.push([242, 212, 121]);
-    if (tweetSadness)
-        potentialColors.push([148, 200, 214]);
-    if (potentialColors.length == 0)
-        potentialColors.push([192, 192, 192]);
-
-    // Randomly selecting ellipse color based on emotion(s) its associated with
-    let colorIndex = random(potentialColors.length);
-    colorIndex = floor(colorIndex);
-
-    this.red = potentialColors[colorIndex][0];
-    this.green = potentialColors[colorIndex][1];
-    this.blue = potentialColors[colorIndex][2];
 
     // Make ellipse size is loosely based on # retweets
-    if (tweetRetweets < 500)
-        this.ellipseSizeDefault = 4 + tweetRetweets * 0.01;
-    else if (tweetRetweets < 10000)
-        this.ellipseSizeDefault = 4 + tweetRetweets * 0.0015;
-    else if (tweetRetweets < 100000)
-        this.ellipseSizeDefault = 4 + tweetRetweets * 0.0002;
+    if (retweets < 500)
+        this.ellipseSizeDefault = 4 + retweets * 0.01;
+    else if (retweets < 10000)
+        this.ellipseSizeDefault = 4 + retweets * 0.0015;
+    else if (retweets < 100000)
+        this.ellipseSizeDefault = 4 + retweets * 0.0002;
     else 
         this.ellipseSizeDefault = this.ellipseSizeMax;
 
@@ -188,7 +152,23 @@ function Circle(tweetText, tweetAnger, tweetFear, tweetJoy, tweetSadness, tweetR
     this.direction = random([-1, 1]); // Always returns -1 or 1 for determining if ellipse rotates clockwise or counterclock wise
     this.defaultSpeed = random(0.07, 0.9);
     this.speed = this.defaultSpeed;
-    this.text = tweetText;
+    this.text = text;
+
+    this.alpha = 180;
+
+    this.setColor = function() {
+        // Map emotions to corresponding RGB colors
+        const emotionColors = {
+            anger: [191, 101, 80],
+            fear: [90, 140, 140],
+            joy: [242, 212, 121],
+            sadness: [148, 200, 214],
+            neutral: [192, 192, 192]
+        };
+        
+        // Initialize RGB values
+        [this.red, this.green, this.blue] = emotionColors[emotion];
+    }
 
     // Manage the ellipse's movements
     this.move = function() {
@@ -199,15 +179,8 @@ function Circle(tweetText, tweetAnger, tweetFear, tweetJoy, tweetSadness, tweetR
     
     // Draws the ellipse to the screen
     this.display = function() {
-        // Set appropriate alpha, based on ellipse's final color
-        let a;
-        if (this.red == 191)      a = alphaAnger;
-        else if (this.red == 90)  a = alphaFear;
-        else if (this.red == 242) a = alphaJoy;
-        else if (this.red == 148) a = alphaSadness;
-        else if (this.red == 192) a = alphaNeutral;
-        
-        fill(this.red, this.green, this.blue, a);
+        this.setColor();
+        fill(this.red, this.green, this.blue, this.alpha);
         ellipse(this.x, this.y, this.ellipseSize); 
     }
 
@@ -223,7 +196,7 @@ function Circle(tweetText, tweetAnger, tweetFear, tweetJoy, tweetSadness, tweetR
             this.ellipseSize = this.ellipseSizeDefault;
 
         if (dist(mouseX - width/2, mouseY - height/2, this.x, this.y) <= this.ellipseSize && mouseIsPressed) {
-            textDiv.html(tweetText);
+            textDiv.html(text);
             this.speed = 0;
         }
 
@@ -237,7 +210,7 @@ function Circle(tweetText, tweetAnger, tweetFear, tweetJoy, tweetSadness, tweetR
 // Cluster function (class) for drawing clusters
 function Cluster(countryCode, count, emotion) {
     this.countryCode = countryCode.toUpperCase();
-    this.percentage = (count/totalCount)*100;
+    this.percentage = (count/totalTweets)*100;
     this.size = 100; // Minimum size (can grow based on Tweet count associated with that country)
     this.x = random(-width/2 + 50, width/2 - 50);
     this.y = random(-height/2 + 50, height/2 - 50);
@@ -251,27 +224,29 @@ function Cluster(countryCode, count, emotion) {
     this.speed = this.defaultSpeed;
     this.textAlpha;
 
+    this.alpha = 180;
+
     // Draws the cluster to the screen
     this.display = function() { 
-        if (this.emotion == 2) {            // 2 = anger
-            fill(191, 101, 80, alphaAnger);
-            this.textAlpha = alphaAnger;
+        if (this.emotion == 'anger') {
+            fill(191, 101, 80, this.alpha);
+            this.textAlpha = this.alpha;
         }
-        else if (this.emotion == 3) {        // 3 = fear
-            fill(90, 140, 140, alphaFear);
-            this.textAlpha = alphaFear;
+        else if (this.emotion == 'fear') {
+            fill(90, 140, 140, this.alpha);
+            this.textAlpha = this.alpha;
         }
-        else if (this.emotion == 4) {        // 4 = joy
-            fill(242, 212, 121, alphaJoy);
-            this.textAlpha = alphaJoy
+        else if (this.emotion == 'joy') {
+            fill(242, 212, 121, this.alpha);
+            this.textAlpha = this.alpha
         }
-        else if (this.emotion == 5) {         // 5 = sadness
-            fill(148, 200, 214, alphaSadness);
-            this.textAlpha = alphaSadness;
+        else if (this.emotion == 'sadness') {
+            fill(148, 200, 214, this.alpha);
+            this.textAlpha = this.alpha;
         }
-        else if (this.emotion == 6) {         // 6 = neutral
-            fill(192, 192, 192, alphaNeutral);
-            this.textAlpha = alphaNeutral;
+        else if (this.emotion == 'neutral') {   
+            fill(192, 192, 192, this.alpha);
+            this.textAlpha = this.alpha;
         }
 
         ellipse(this.x, this.y, this.size);
@@ -304,12 +279,10 @@ async function setup() {
     started = true;
     
     // Log the # of tweets for each category along with their percentages
-    console.log("Total " + totalCount);
-    console.log("Anger " + angerCount);
-    console.log("Fear " + fearCount);
-    console.log("Joy " + joyCount);
-    console.log("Sadness " + sadnessCount);
-    console.log("Neutral " + neutralCount);
+    for (const emotion in tweets) {
+        console.log(tweets[emotion].length);
+    }
+    console.log("Total " + totalTweets);
 
     // Prepare canvas
     const myCanvas = createCanvas(700, 700);
@@ -320,35 +293,44 @@ async function setup() {
     // Create a div for displaying the Tweet text, and make it a child of the tweetText div
     textDiv = createDiv().parent('tweetText');
 
-    // Set up the sentiment percentage legend
-    legendAnger = createDiv().parent('anger').html("Anger: " + angerCount);
-    legendFear = createDiv().parent('fear').html("Fear: " + fearCount);
-    legendJoy = createDiv().parent('joy').html("Joy: " + joyCount);
-    legendSadness = createDiv().parent('sadness').html("Sadness: " + sadnessCount);
-    legendNeutral = createDiv().parent('neutral').html("Neutral: " + neutralCount);
+    // Set up the emotion percentage legend
+    legendAnger = createDiv().parent('anger').html("Anger: " + tweets.anger.length);
+    legendFear = createDiv().parent('fear').html("Fear: " + tweets.fear.length);
+    legendJoy = createDiv().parent('joy').html("Joy: " + tweets.joy.length);
+    legendSadness = createDiv().parent('sadness').html("Sadness: " + tweets.sadness.length);
+    legendNeutral = createDiv().parent('neutral').html("Neutral: " + tweets.neutral.length);
     
     // Set up div to hold sample size
-    sampleInfo = createDiv().parent('sampleInfo').html("Sample size: " + totalCount + " Tweets");
+    sampleInfo = createDiv().parent('sampleInfo').html("Sample size: " + totalTweets + " Tweets");
 
-    // Create a Circle for each Tweet and push it into circlesAll array
-    for (let i = 0; i < totalCount; i++)
-        circlesAll.push(new Circle(allTweets[i][0], allTweets[i][1], allTweets[i][2], allTweets[i][3], allTweets[i][4], allTweets[i][5], allTweets[i][6]));
+    // Create a Circle for each Tweet, adding it to circles array
+    for (const emotion in tweets) {
+        tweets[emotion].forEach(tweet => {
+            emotionGroups[emotion].circles.push(new Circle(tweet.text, tweet.retweets, emotion));
+        });
+    }
 
-        // Create a Cluster for each country and push it into clustersAll array
-    for (let i = 0; i < countryClusters.length; i++) {
-        // Only form cluster if there are over 5 Tweets associated with that country
-        if (countryClusters[i][1] > 5) {
-            // Find the country's predominant emotion, and pass its associated array position as a parameter to Cluster function
-            let predominantEmotion = countryClusters[i][2];
-            let emotionPosition = 2;
+    // Create a Cluster for each location, adding it to clusters array
+    for (const location in locations) {
+        const emotionCounts = locations[location];
+        let predominantEmotion, predominantEmotionCount = 0;
+        let total = 0;
 
-            for (let k = 3; k < 7; k++)
-                if (predominantEmotion > countryClusters[i][k]) {
-                    predominantEmotion = countryClusters[i][k];
-                    emotionPosition = k;
-                }
+        // Find the predominant emotion and total Tweet count associated with this location
+        for (const emotion in emotionCounts) {
+            const count = emotionCounts[emotion];
+            total += count;
 
-            clustersAll.push(new Cluster(countryClusters[i][0], countryClusters[i][1], emotionPosition));
+            if (predominantEmotionCount < count) {
+                predominantEmotionCount = count;
+                predominantEmotion = emotion;
+            }
+        }
+
+        // Add current location to clusters array only if its total count meets the minimum threshold
+        if (total/totalTweets > locationPercentageMin) {
+            console.log("location is " + location);
+            clusters.push(new Cluster(location, total, predominantEmotion));
         }
     }
 
@@ -360,10 +342,7 @@ async function setup() {
                   }).mouseOut(function() {
                     this.html('anger');
                   }).mousePressed(function() { 
-                    if (alphaAnger == 180) 
-                        alphaAnger = 0;
-                    else 
-                        alphaAnger = 180;
+                    emotionGroups.anger.display = !emotionGroups.anger.display;
                   });
 
     buttonFear = createButton('fear')
@@ -374,10 +353,7 @@ async function setup() {
                  }).mouseOut(function() {
                     this.html('fear');
                  }).mousePressed(function() { 
-                    if (alphaFear == 180) 
-                        alphaFear = 0;
-                    else 
-                        alphaFear = 180;
+                    emotionGroups.fear.display = !emotionGroups.fear.display;
                  });
 
     buttonJoy = createButton('joy')
@@ -388,10 +364,7 @@ async function setup() {
                   }).mouseOut(function() {
                     this.html('joy');
                   }).mousePressed(function() { 
-                    if (alphaJoy == 180) 
-                        alphaJoy = 0;
-                    else 
-                        alphaJoy = 180;
+                    emotionGroups.joy.display = !emotionGroups.joy.display;
                   });
 
     buttonJoy = createButton('sadness')
@@ -402,10 +375,7 @@ async function setup() {
                 }).mouseOut(function() {
                     this.html('sadness');
                 }).mousePressed(function() { 
-                    if (alphaSadness == 180) 
-                        alphaSadness = 0;
-                    else 
-                        alphaSadness = 180;
+                    emotionGroups.sadness.display = !emotionGroups.sadness.display;
                 });
 
     buttonNeutral = createButton('neutral')
@@ -416,10 +386,7 @@ async function setup() {
                     }).mouseOut(function() {
                         this.html('neutral');
                     }).mousePressed(function() { 
-                        if (alphaNeutral == 180) 
-                            alphaNeutral = 0;
-                        else 
-                            alphaNeutral = 180;
+                        emotionGroups.neutral.display = !emotionGroups.neutral.display;
                     });
 
     buttonCluster = createButton('country cluster')
@@ -440,11 +407,11 @@ async function setup() {
                   .mousePressed(function() {
                     displayCircles = true;
                     displayClusters = false;
-                    alphaAnger = 180;
-                    alphaFear = 180;
-                    alphaJoy = 180;
-                    alphaSadness = 180;
-                    alphaNeutral = 180;
+                    emotionGroups.anger.display = true;
+                    emotionGroups.fear.display = true;
+                    emotionGroups.joy.display = true;
+                    emotionGroups.sadness.display = true;
+                    emotionGroups.neutral.display = true;
                   });
 }
 
@@ -453,17 +420,27 @@ function draw() {
     if (started) {
         background(255);
         translate(width/2,height/2);
+
         if (displayCircles) {
-            for (let i = 0; i < circlesAll.length; i++) {
-                circlesAll[i].display();
-                circlesAll[i].move();
-                circlesAll[i].interact();
+            // Display each group (emotion) of circles on canvas
+            for (const emotion in emotionGroups) {
+                const group = emotionGroups[emotion];
+                // Display only if not filtered out
+                if (group.display) {
+                    for (let i = 0; i < group.circles.length; i++) {
+                        const circle = group.circles[i];
+                        circle.display();
+                        circle.move();
+                        circle.interact();
+                    }
+                }
             }
         }
         if (displayClusters) {
-            for (let i = 0; i < clustersAll.length; i++) {
-                clustersAll[i].display();
-                clustersAll[i].move();
+            // Display location clusters on canvas
+            for (let i = 0; i < clusters.length; i++) {
+                clusters[i].display();
+                clusters[i].move();
             }
         }
     }

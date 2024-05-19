@@ -64,15 +64,29 @@ async function fetchTweetSample(sampleSize) {
 
 // Constructs the structured data for response
 function constructResponseData(tweets) {
-  return {
-    texts: tweets.map(tweet => tweet.tweet),
-    angerBools: tweets.map(tweet => tweet.anger),
-    fearBools: tweets.map(tweet => tweet.fear),
-    joyBools: tweets.map(tweet => tweet.joy),
-    sadnessBools: tweets.map(tweet => tweet.sadness),
-    locations: tweets.map(tweet => tweet.location),
-    retweets: tweets.map(tweet => tweet.retweets)
-  };
+    let tweetArray = [];
+  
+    // Iterate over each tweet to populate the arrays
+    tweets.forEach(tweet => {
+      // Construct an object representing the tweet data
+      const tweetData = {
+        text: tweet.tweet,
+        emotions: {
+          anger: tweet.anger,
+          fear: tweet.fear,
+          joy: tweet.joy,
+          sadness: tweet.sadness
+        },
+        location: tweet.location,
+        retweets: tweet.retweets
+      };
+
+      // Push the tweet object to the array
+      tweetArray.push(tweetData);
+  });
+
+  // Return the array containing all the tweet objects
+  return tweetArray;
 } 
 
 // Handle POST requests to the /custom endpoint
