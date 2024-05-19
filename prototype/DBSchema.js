@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose"; // For MongoDB interaction
 
 // Dataset contains the processed March 11 Tweets SAMPLE
 
@@ -13,5 +13,5 @@ const TweetSchema = new mongoose.Schema({
     retweets:Number
 })
 
-const Tweets = mongoose.model("TWEET", TweetSchema, "COVID19TweetsMarch11Processed");
-module.exports = Tweets;
+const TweetsModule = mongoose.model("TWEET", TweetSchema, "COVID19TweetsMarch11Processed");
+export default TweetsModule;

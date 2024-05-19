@@ -1,10 +1,20 @@
-// Import packages 
-const express = require('express');
-const mongoose = require("mongoose");
-const bodyParser = require('body-parser');
+// Import packages
+import express from 'express';
+import mongoose from 'mongoose';      // For MongoDB interaction
+import bodyParser from 'body-parser'; // For parsing incoming request bodies
+import dotenv from 'dotenv';          // For environment variable management
+import { fileURLToPath } from 'url';  // For converting a file URL to a file path
+import { dirname } from 'path';       // For getting the directory name of a file path
+
+// Import the Mongoose Tweet schema
+import TweetsModule from './DBSchema.js';
 
 // Load environment variables from .env file
-require("dotenv").config();
+dotenv.config();
+
+// Get the filename and directory name of the current module file
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Port and host configuration
 const portNumber = 4000;
@@ -13,19 +23,25 @@ const host = "127.0.0.1";
 // Initialize the Express app
 const app = express();
 
-// Middleware for parsing different types of request bodies
-app.use(bodyParser.json());                         // Support JSON encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // Support URL-encoded bodies
+// Parse incoming request bodies
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // .env file holds URL to connect to the MongoDB database
 const url = process.env.MONGODB_URI;
 
-// Import the Mongoose Tweet schema
-const TweetsModule = require("./DBSchema.js");
-
 // Connect to MongoDB database
 mongoose.connect(url);
-mongoose.connection;
+mongoose.connection.on('connected', () => {
+  console.log('Connected to MongoDB');
+  // Start the Express server after successful connection
+  app.listen(portNumber, host, () => {
+    console.log(`Server is running on http://${host}:${portNumber}`);
+  });
+});
+mongoose.connection.on('error', (err) => {
+  console.error('MongoDB connection error:', err);
+});
 
 // Sample size variables
 const defaultSampleSize = 500;
@@ -90,9 +106,4 @@ app.get('/index', (req, res) => {
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('An error occurred');
-});
-
-// Start the server and listen on the specified port and host
-app.listen(portNumber, host, () => {
-  console.log(`Server is running on http://${host}:${portNumber}`);
 });

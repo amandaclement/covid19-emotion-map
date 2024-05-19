@@ -312,7 +312,7 @@ async function setup() {
     console.log("Neutral " + neutralCount);
 
     // Prepare canvas
-    myCanvas = createCanvas(700, 700);
+    const myCanvas = createCanvas(700, 700);
     myCanvas.parent('myCanvas');
     background(255);
     noStroke();
@@ -479,4 +479,8 @@ function hideAbout() {
     let overlay = document.getElementById("overlay");
     overlay.style.display = "none";
 }
+
+// p5 functions like setup and draw are searched for by p5 in the global scope, but since this is a module, p5 can't see these functions so they must be explicitly exposed to the window within the module
+window.setup = setup;
+window.draw = draw;
 
