@@ -1,5 +1,7 @@
 // This file contains functions for writing/drawing to the HTML page
 
+import Circle from './classes/Circle.js';
+
 const intro = document.getElementById('intro');
 const form = document.getElementById('form');
 const introScreen = document.getElementById("introScreen");
@@ -121,92 +123,6 @@ let emotionGroups = {
 };
 let clusters = [];
 
-// Circle function (class) for drawing an ellipse
-function Circle(text, retweets, emotion) {
-    // For positioning ellipses in larger ring   
-    this.theta = random(0, TWO_PI);                          
-    this.h = randomGaussian(3.05); 
-    this.r = (exp(this.h) - 1) / (exp(this.h) + 1);        
-    this.x = (width/2 - 20) * this.r * cos(this.theta);
-    this.y = (height/2 - 20) * this.r * sin(this.theta);
-    this.ellipseSizeMax = 20;
-
-    // Make ellipse size is loosely based on # retweets
-    if (retweets < 500)
-        this.ellipseSizeDefault = 4 + retweets * 0.01;
-    else if (retweets < 10000)
-        this.ellipseSizeDefault = 4 + retweets * 0.0015;
-    else if (retweets < 100000)
-        this.ellipseSizeDefault = 4 + retweets * 0.0002;
-    else 
-        this.ellipseSizeDefault = this.ellipseSizeMax;
-
-    // For sizing the ellipses (which changes dynamically based on user interactions)
-    this.ellipseSizeExpanded = this.ellipseSizeDefault + 12;
-    this.ellipseSize = this.ellipseSizeDefault;
-    
-    // For managing movement of ellipses
-    this.angle = 0;
-    this.angleIncrement = random(0.01, 0.1);
-    this.scalar = random(0.06, 0.3);
-    this.direction = random([-1, 1]); // Always returns -1 or 1 for determining if ellipse rotates clockwise or counterclock wise
-    this.defaultSpeed = random(0.07, 0.9);
-    this.speed = this.defaultSpeed;
-    this.text = text;
-
-    this.alpha = 180;
-
-    this.setColor = function() {
-        // Map emotions to corresponding RGB colors
-        const emotionColors = {
-            anger: [191, 101, 80],
-            fear: [90, 140, 140],
-            joy: [242, 212, 121],
-            sadness: [148, 200, 214],
-            neutral: [192, 192, 192]
-        };
-        
-        // Initialize RGB values
-        [this.red, this.green, this.blue] = emotionColors[emotion];
-    }
-
-    // Manage the ellipse's movements
-    this.move = function() {
-        this.angle = this.angle + this.angleIncrement;
-        this.x = this.x + this.scalar * cos(this.angle) * this.speed * this.direction;
-        this.y = this.y + this.scalar * sin(this.angle) * this.speed * this.direction;   
-    } 
-    
-    // Draws the ellipse to the screen
-    this.display = function() {
-        this.setColor();
-        fill(this.red, this.green, this.blue, this.alpha);
-        ellipse(this.x, this.y, this.ellipseSize); 
-    }
-
-    // Manages how the user can interact with the ellipse
-    // If the user hovers over it, it expands in size and shrinks back to regular size when they hover off
-    // If the user holds their mouse down on it, the ellipse expands in size and freezes, and the Tweet text associated 
-    // with that ellipse appears in the center of the ring and disappears when they released their mouse
-    this.interact = function() {
-        if (dist(mouseX - width/2, mouseY - height/2, this.x, this.y) <= this.ellipseSize)
-            this.ellipseSize = this.ellipseSizeExpanded;
-
-        else if (dist(mouseX - width/2, mouseY - height/2, this.x, this.y) > this.ellipseSize && !mouseIsPressed)
-            this.ellipseSize = this.ellipseSizeDefault;
-
-        if (dist(mouseX - width/2, mouseY - height/2, this.x, this.y) <= this.ellipseSize && mouseIsPressed) {
-            textDiv.html(text);
-            this.speed = 0;
-        }
-
-        if (!mouseIsPressed) {
-            this.speed = this.defaultSpeed;
-            textDiv.html('');
-        }
-    }
-}
-
 // Cluster function (class) for drawing clusters
 function Cluster(countryCode, count, emotion) {
     this.countryCode = countryCode.toUpperCase();
@@ -306,7 +222,7 @@ async function setup() {
     // Create a Circle for each Tweet, adding it to circles array
     for (const emotion in tweets) {
         tweets[emotion].forEach(tweet => {
-            emotionGroups[emotion].circles.push(new Circle(tweet.text, tweet.retweets, emotion));
+            emotionGroups[emotion].circles.push(new Circle(tweet.text, textDiv, tweet.retweets, emotion));
         });
     }
 
