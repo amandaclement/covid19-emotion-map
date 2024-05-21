@@ -1,6 +1,7 @@
 // This file contains functions for writing/drawing to the HTML page
 
 import Circle from './classes/Circle.js';
+import Cluster from './classes/Cluster.js';
 
 const intro = document.getElementById('intro');
 const form = document.getElementById('form');
@@ -32,7 +33,6 @@ let tweets = {
     sadness: [],
     neutral: []
 };
-let countryClusters = [];
 let locations = {};
 const locationPercentageMin = 0.01;
 
@@ -108,81 +108,18 @@ let promise = new Promise(function(resolve, reject) {
 });
 
 // Declare variables
-let clustersAll = [];
 let legendAnger, legendFear, legendJoy, legendSadness, legendNeutral;
 let buttonAnger, buttonFear, buttonJoy, buttonSadness, buttonNeutral, buttonReset, buttonCluster;
 let sampleInfo, textDiv;
 let displayClusters = false, displayCircles = true;
 
 let emotionGroups = {
-    anger: {circles: [], display: true},
-    fear: {circles: [], display: true},
-    joy: {circles: [], display: true},
-    sadness: {circles: [], display: true},
-    neutral: {circles: [], display: true} 
+    anger: {circles: [], clusters: [], display: true},
+    fear: {circles: [], clusters: [], display: true},
+    joy: {circles: [], clusters: [], display: true},
+    sadness: {circles: [], clusters: [], display: true},
+    neutral: {circles: [], clusters: [], display: true} 
 };
-let clusters = [];
-
-// Cluster function (class) for drawing clusters
-function Cluster(countryCode, count, emotion) {
-    this.countryCode = countryCode.toUpperCase();
-    this.percentage = (count/totalTweets)*100;
-    this.size = 100; // Minimum size (can grow based on Tweet count associated with that country)
-    this.x = random(-width/2 + 50, width/2 - 50);
-    this.y = random(-height/2 + 50, height/2 - 50);
-    this.emotion = emotion;
-    this.count = count;
-    this.angle = 3;
-    this.angleIncrement = random(0.04, 0.1);
-    this.scalar = random(10, 20);
-    this.direction = random([-1, 1]); // Always returns -1 or 1 for determining if ellipse rotates clockwise or counterclock wise
-    this.defaultSpeed = random(0.004, 0.008);
-    this.speed = this.defaultSpeed;
-    this.textAlpha;
-
-    this.alpha = 180;
-
-    // Draws the cluster to the screen
-    this.display = function() { 
-        if (this.emotion == 'anger') {
-            fill(191, 101, 80, this.alpha);
-            this.textAlpha = this.alpha;
-        }
-        else if (this.emotion == 'fear') {
-            fill(90, 140, 140, this.alpha);
-            this.textAlpha = this.alpha;
-        }
-        else if (this.emotion == 'joy') {
-            fill(242, 212, 121, this.alpha);
-            this.textAlpha = this.alpha
-        }
-        else if (this.emotion == 'sadness') {
-            fill(148, 200, 214, this.alpha);
-            this.textAlpha = this.alpha;
-        }
-        else if (this.emotion == 'neutral') {   
-            fill(192, 192, 192, this.alpha);
-            this.textAlpha = this.alpha;
-        }
-
-        ellipse(this.x, this.y, this.size);
-        textAlign(CENTER);
-        fill(255, 255, 255, this.textAlpha);
-        textFont('Karla');
-        textSize(24);
-        text(this.countryCode, this.x, this.y);
-        fill(255, 255, 255, this.textAlpha);
-        textSize(14);
-        text('Tweets: ' + this.count, this.x, this.y + 20);
-    }
-
-    // Manage the ellipse's movements
-    this.move = function() {
-        this.angle = this.angle + this.angleIncrement;
-        this.x = this.x + this.scalar * cos(this.angle) * this.speed * this.direction;
-        this.y = this.y + this.scalar * sin(this.angle) * this.speed * this.direction;      
-    } 
-}
 
 // Set up the canvas
 async function setup() {
@@ -245,8 +182,7 @@ async function setup() {
 
         // Add current location to clusters array only if its total count meets the minimum threshold
         if (total/totalTweets > locationPercentageMin) {
-            console.log("location is " + location);
-            clusters.push(new Cluster(location, total, predominantEmotion));
+            emotionGroups[predominantEmotion].clusters.push(new Cluster(location, total, predominantEmotion));
         }
     }
 
@@ -337,26 +273,27 @@ function draw() {
         background(255);
         translate(width/2,height/2);
 
-        if (displayCircles) {
-            // Display each group (emotion) of circles on canvas
-            for (const emotion in emotionGroups) {
-                const group = emotionGroups[emotion];
-                // Display only if not filtered out
-                if (group.display) {
+        // Display each group (emotion) on canvas
+        for (const emotion in emotionGroups) {
+            const group = emotionGroups[emotion];
+            // Display emotion group only if not filtered out
+            if (group.display) {
+                if (displayCircles) {
+                    // Display Tweet circles
                     for (let i = 0; i < group.circles.length; i++) {
                         const circle = group.circles[i];
                         circle.display();
                         circle.move();
                         circle.interact();
                     }
+                } else if (displayClusters) {
+                    // Display location clusters
+                    for (let i = 0; i < group.clusters.length; i++) {
+                        const cluster = group.clusters[i];
+                        cluster.display();
+                        cluster.move();
+                    }
                 }
-            }
-        }
-        if (displayClusters) {
-            // Display location clusters on canvas
-            for (let i = 0; i < clusters.length; i++) {
-                clusters[i].display();
-                clusters[i].move();
             }
         }
     }

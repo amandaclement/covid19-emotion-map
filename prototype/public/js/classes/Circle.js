@@ -1,11 +1,4 @@
-// Maps emotions to RGB values
-const EMOTION_COLORS = {
-    anger: [191, 101, 80, 180],
-    fear: [90, 140, 140, 180],
-    joy: [242, 212, 121, 180],
-    sadness: [148, 200, 214, 180],
-    neutral: [192, 192, 192, 180]
-};
+import { EMOTION_COLORS } from '../data.js';
 
 // For ellipse sizing
 const BASE_SIZE = 4, MAX_SIZE = 20, EXPANSION_SIZE = 12;
