@@ -44,26 +44,6 @@ h1 {
     background-color: #FFF;
 }
 
-#anger {
-    color: rgb(191, 101, 80);    
-}
-
-#fear {
-    color: rgb(90, 140, 140);
-}
-
-#joy {
-    color: rgb(242, 212, 121);    
-}
-
-#sadness {
-    color: rgb(148, 200, 214);
-}
-
-#neutral {
-    color: rgb(192, 192, 192);
-}
-
 #legend {
     font-size: 14px;
     position: absolute;
