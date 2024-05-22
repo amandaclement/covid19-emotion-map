@@ -1,4 +1,4 @@
-import { EMOTION_COLORS } from '../data.js';
+import { COLOR_MAP } from '../data.js';
 
 const FONT = 'Karla'
 const ELLIPSE_SIZE = 100;
@@ -18,7 +18,7 @@ export default class Cluster {
 
     // Initialize RGB values
     setColor() {
-        [this.red, this.green, this.blue, this.alpha] = EMOTION_COLORS[this.emotion];
+        [this.red, this.green, this.blue, this.alpha] = COLOR_MAP[this.emotion];
     }
 
     // Set the cluster's initial position parameters

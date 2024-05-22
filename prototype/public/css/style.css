@@ -28,7 +28,7 @@ h1 {
     margin: 50px auto;
 }
 
-#buttonAnger, #buttonFear, #buttonJoy, #buttonSadness, #buttonNeutral, #buttonCluster {
+.filterButton {
     background-color: transparent;
     border: 0;
     border-radius: 10px;
@@ -39,76 +39,29 @@ h1 {
     color: #FFF;
 }
 
-#buttonAnger:hover, #buttonFear:hover, #buttonJoy:hover, #buttonSadness:hover, #buttonNeutral:hover, #buttonCluster:hover {
+.filterButton:hover {
     transition: 0.2s;
     background-color: #FFF;
 }
 
-#anger, #buttonAnger:hover {
+#anger {
     color: rgb(191, 101, 80);    
 }
-#buttonAnger {
-    background-color: rgb(191, 101, 80);
-    border: 2px solid rgb(191, 101, 80);
-}
 
-#fear, #buttonFear:hover {
+#fear {
     color: rgb(90, 140, 140);
 }
 
-#buttonFear {
-    background-color: rgb(90, 140, 140);
-    border: 2px solid rgb(90, 140, 140);
-}
-
-#joy, #buttonJoy:hover {
+#joy {
     color: rgb(242, 212, 121);    
 }
-#buttonJoy {
-    background-color: rgb(242, 212, 121);
-    border: 2px solid rgb(242, 212, 121);
-}
 
-#sadness, #buttonSadness:hover {
+#sadness {
     color: rgb(148, 200, 214);
 }
 
-#buttonSadness {
-    background-color: rgb(148, 200, 214);
-    border: 2px solid rgb(148, 200, 214);
-}
-
-#neutral, #buttonNeutral:hover {
+#neutral {
     color: rgb(192, 192, 192);
-}
-
-#buttonNeutral {
-    background-color: rgb(192, 192, 192);
-    border: 2px solid rgb(192, 192, 192);
-}
-
-#buttonCluster:hover {
-    color: rgb(54, 69, 79);
-}
-
-#buttonCluster {
-    background-color: rgb(54, 69, 79);
-    border: 2px solid rgb(54, 69, 79);
-}
-
-#reset {
-    position: absolute;
-    left: 65px;
-    bottom: 45px;
-}
-#buttonReset {
-    border: 0;
-    background-color: transparent;
-    color: #C3C3C3;
-}
-#buttonReset:hover {
-    transition: 0.2s;
-    color: #292929;
 }
 
 #legend {
@@ -181,26 +134,6 @@ h1 {
     background-color: transparent;
     border: 0;
     font-weight: 600;
-}
-
-.angerColor {
-    color:rgb(191, 101, 80);
-}
-
-.joyColor {
-    color: rgb(242, 212, 121);
-}
-
-.fearColor {
-    color: rgb(90, 140, 140);
-}
-
-.sadnessColor {
-    color: rgb(148, 200, 214);
-}
-
-.neutralColor {
-    color: rgb(192, 192, 192);
 }
 
 #x {

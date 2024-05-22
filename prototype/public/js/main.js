@@ -2,12 +2,15 @@
 
 import Circle from './classes/Circle.js';
 import Cluster from './classes/Cluster.js';
+import FilterButton from './classes/Button.js';
 
 const intro = document.getElementById('intro');
 const form = document.getElementById('form');
 const introScreen = document.getElementById("introScreen");
 const feedback = document.getElementById("inputNum");
 const submit = document.getElementById("submit");
+
+const BUTTON_POS_X = 75, BUTTON_POS_Y = 350, BUTTON_Y_OFFSET = 50;
 
 // Fade out intro text 6 seconds after page load, then update title text and fade in form
 window.onload = function() {
@@ -121,6 +124,37 @@ let emotionGroups = {
     neutral: {circles: [], clusters: [], display: true} 
 };
 
+// Display all emotion content
+function resetEmotionFilters() {
+    for (const emotion in emotionGroups) {
+        emotionGroups[emotion].display = true;
+    }
+}
+
+// Initialize canvas buttons
+function initializeButtons() {
+    // Tweet filter buttons
+    let buttonIndex = 0;
+    for (const emotion in emotionGroups) {
+        new FilterButton(emotion, BUTTON_POS_X, BUTTON_POS_Y + BUTTON_Y_OFFSET * buttonIndex++, () => {
+            emotionGroups[emotion].display = !emotionGroups[emotion].display
+        });
+    }
+
+    // Cluster button
+    new FilterButton('country cluster', BUTTON_POS_X, BUTTON_POS_Y + BUTTON_Y_OFFSET * buttonIndex++, () => {
+        displayCircles = !displayCircles;
+        displayClusters = !displayClusters;
+    });
+
+    // Reset button
+    new FilterButton('reset', BUTTON_POS_X, BUTTON_POS_Y + BUTTON_Y_OFFSET * buttonIndex++, () => {
+        displayCircles = true;
+        displayClusters = false;
+        resetEmotionFilters();
+    });
+}
+
 // Set up the canvas
 async function setup() {
     // Await for promise to return
@@ -186,85 +220,7 @@ async function setup() {
         }
     }
 
-    // Manage buttons
-    buttonAnger = createButton('anger').id('buttonAnger')
-                  .position(75, 350)
-                  .mouseOver(function() { 
-                    this.html('filter'); 
-                  }).mouseOut(function() {
-                    this.html('anger');
-                  }).mousePressed(function() { 
-                    emotionGroups.anger.display = !emotionGroups.anger.display;
-                  });
-
-    buttonFear = createButton('fear')
-                 .id('buttonFear')
-                 .position(75, 400)
-                 .mouseOver(function() { 
-                    this.html('filter'); 
-                 }).mouseOut(function() {
-                    this.html('fear');
-                 }).mousePressed(function() { 
-                    emotionGroups.fear.display = !emotionGroups.fear.display;
-                 });
-
-    buttonJoy = createButton('joy')
-                .id('buttonJoy')
-                .position(75, 450)
-                .mouseOver(function() { 
-                    this.html('filter'); 
-                  }).mouseOut(function() {
-                    this.html('joy');
-                  }).mousePressed(function() { 
-                    emotionGroups.joy.display = !emotionGroups.joy.display;
-                  });
-
-    buttonJoy = createButton('sadness')
-                .id('buttonSadness')
-                .position(75, 500)
-                .mouseOver(function() { 
-                    this.html('filter'); 
-                }).mouseOut(function() {
-                    this.html('sadness');
-                }).mousePressed(function() { 
-                    emotionGroups.sadness.display = !emotionGroups.sadness.display;
-                });
-
-    buttonNeutral = createButton('neutral')
-                    .id('buttonNeutral')
-                    .position(75, 550)
-                    .mouseOver(function() { 
-                        this.html('filter'); 
-                    }).mouseOut(function() {
-                        this.html('neutral');
-                    }).mousePressed(function() { 
-                        emotionGroups.neutral.display = !emotionGroups.neutral.display;
-                    });
-
-    buttonCluster = createButton('country cluster')
-                    .id('buttonCluster')
-                    .position(75, 600)
-                    .mouseOver(function() { 
-                      this.html('filter'); 
-                    }).mouseOut(function() {
-                      this.html('country cluster');
-                    }).mousePressed(function() {
-                      displayCircles = !displayCircles;
-                      displayClusters = !displayClusters;
-                    });
-
-    buttonReset = createButton('reset visualization')
-                  .parent('reset')
-                  .id('buttonReset')
-                  .mousePressed(function() {
-                    displayCircles = true;
-                    displayClusters = false;
-                    emotionGroups.anger.display = true;
-                    emotionGroups.fear.display = true;
-                    emotionGroups.joy.display = true;
-                    emotionGroups.sadness.display = true;
-                    emotionGroups.neutral.display = true;
-                  });
+    initializeButtons();
 }
 
 // Draw to the canvas
