@@ -221,79 +221,109 @@ function displayEmotionGroups() {
     }
 }
 
-/**************************************************************
- * MAIN EXECUTION
- **************************************************************/
+// Process individual Tweet
+function processTweet(tweet) {
+    // Get emotions associated with the Tweet
+    const emotionKeys = Object.keys(tweet.emotions);
+    const associatedEmotions = emotionKeys.filter(emotion => tweet.emotions[emotion]);
 
-// Fade out intro text page load, then update title text and fade in form
-window.onload = () => {
+    // Generate a random index within range of associated emotions and use it to randomly select an emotion for this Tweet. Default to "neutral" if no emotions are associated
+    const randomIndex = Math.floor(Math.random() * associatedEmotions.length);
+    const finalEmotion = associatedEmotions.length > 0 ? associatedEmotions[randomIndex] : "neutral";
+
+    // Update tweets dict by pushing entry into appropriate emotion array
+    tweets[finalEmotion].push({ text: tweet.text, retweets: tweet.retweets });
+    
+    // If Tweet location is available and key isn't already in locations dict, add it
+    if (tweet.location) {
+        if (!locations[tweet.location]) {
+            locations[tweet.location] = { anger: 0, fear: 0, joy: 0, sadness: 0, neutral: 0 };
+        }
+        // Update the emotion count for the specific location 
+        locations[tweet.location][finalEmotion]++;
+    }
+}
+
+// Handle response from server
+function handleResponse(response, resolve) {
+    if (!response.ok) {
+        throw new Error("Network response error");
+    }
+
+    // Parse JSON response into an object
+    return response.json()
+        // Once parsing complete, process each Tweet and resolve promise after delay
+        .then(tweetData => {
+            totalTweets = tweetData.length;
+            tweetData.forEach(tweet => processTweet(tweet));
+            setTimeout(resolve, 500);
+        });
+}
+
+// Log error to console
+function handleError(error) {
+    console.error("Error: ", error);
+}
+
+// Configure POST request options
+function configurePostOptions() {
+    return {
+        method: "POST",
+        body: JSON.stringify({
+            feedback: feedback.value
+        }),
+        headers: new Headers({
+            'Content-Type': "application/json"
+        })
+    };
+}
+
+// Fetch Tweet data
+function fetchTweetData(options, resolve) {
+    fetch("/custom", options)
+    .then(response => handleResponse(response, resolve))
+    .catch(error => handleError(error));   
+}
+
+// Send POST request
+function sendPostRequest(resolve) {
+    const options = configurePostOptions();
+    fetchTweetData(options, resolve);
+}
+
+// Display form intro form
+function displayIntroForm() {
+    // Fade out intro, update text to prompt user to choose # Tweets to fetch, then fade intro and form in
     fadeOut([intro], 6000);
     updateText(intro, 7000, `Please enter the number of Tweets you wish to be featured in the visualization (between ${MIN_TWEETS} and ${MAX_TWEETS}):`);
     fadeIn([intro, form], 7000);
 }
 
- let promise = new Promise(function(resolve, reject) {
+// Display load screen
+function displayLoad() {
+    // Fade out intro and form, update text to loading, then fade intro back in
+    fadeOut([intro, form], 100);
+    updateText(intro, 1100, 'Loading . . .');
+    fadeIn([intro], 1100);
+}
+
+/**************************************************************
+ * MAIN EXECUTION
+ **************************************************************/
+
+// Display intro form on load
+window.onload = () => {
+    displayIntroForm();
+}
+
+// Promise for fetching Tweet data via POST request
+let tweetFetchPromise = new Promise(resolve => {
     submit.addEventListener("click",() => {
-        // Fade out intro text, then fade in loading text
-        fadeOut([intro, form], 100);
-        updateText(intro, 1100, 'Loading . . .');
-        fadeIn([intro], 1100);
+        // Display loading screen
+        displayLoad();
 
-        // Send POST request to server
-        const options = {
-            method: "POST",
-            body: JSON.stringify({
-                feedback: feedback.value
-            }),
-            headers: new Headers({
-                'Content-Type' : "application/json"
-            })
-        }
-
-        // Use fetch to request server
-        fetch("/custom", options)
-        .then(res => res.json())
-        .then(tweetData => {
-            totalTweets = tweetData.length;
-
-            // Iterate over Tweets, updating tweets and locations dicts
-            for (let i = 0; i < totalTweets; i++) {
-                const tweet = tweetData[i];
-
-                // Update tweets (emotions) dict
-                let associatedEmotions = [];  // Array to hold emotions associated with the Tweet
-                let finalEmotion = "neutral"; // Default is neutral, in case no emotions are associated
-                for (const emotion in tweets) {
-                    if (tweet.emotions[emotion]) {
-                        associatedEmotions.push(emotion);
-                        finalEmotion = emotion;
-                    }
-                }
-                // If Tweet is associated with multiple emotions, choose one at random from the array
-                if (associatedEmotions.length > 1) {
-                    const randomIndex = Math.floor(Math.random() * associatedEmotions.length);
-                    finalEmotion = associatedEmotions[randomIndex];
-                } 
-                // Push tweet to the approriate array within tweets dict
-                tweets[finalEmotion].push({ text: tweetData[i].text, retweets: tweetData[i].retweets });
-
-                // If Tweet location is available and isn't yet present in the locations dict, add it
-                if (tweet.location !== undefined && tweet.location.length > 0) {
-                    if (!(tweet.location in locations)) {
-                        locations[tweet.location] = {
-                            anger: 0,
-                            fear: 0,
-                            joy: 0,
-                            sadness: 0,
-                            neutral: 0
-                        };
-                    } 
-                    // Update the emotion count for the specific location
-                    locations[tweet.location][finalEmotion]++;
-                }
-            } 
-            setTimeout(resolve, 500); // Delay of 0.5 seconds before resolving promise
-        }).catch(err => console.error("Error: ", err));
+        // Sent POST request to server
+        sendPostRequest(resolve);
     });
 });
 
@@ -304,7 +334,7 @@ window.onload = () => {
 
 async function setup() {
     // Await for promise to return
-    await promise;
+    await tweetFetchPromise;
 
     // Fade out loading screen
     fadeOut([introScreen]);
