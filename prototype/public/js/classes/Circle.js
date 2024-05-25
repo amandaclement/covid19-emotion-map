@@ -61,7 +61,7 @@ export default class Circle {
     initializePosition() {
         this.theta = random(0, TWO_PI);                        // Random angle
         this.h = randomGaussian(3.05);                         // Random Gaussion value
-        this.r = (exp(this.h) - 1) / (exp(this.h) + 1);        // Radius
+        this.r = (exp(this.h) - 1) / (exp(this.h) + 1) * 10;   // Radius
         this.x = (width / 2 - 20) * this.r * cos(this.theta);  // Initial x-coordinate
         this.y = (height / 2 - 20) * this.r * sin(this.theta); // Initial y-coordinate
     }
@@ -106,10 +106,10 @@ export default class Circle {
         // If the ellipse is hovered + mouse is pressed, stop movement and show the Tweet text. Once mouse is released, reset speed and clear text
         if (isHovered && mouseIsPressed) {
             this.speed = 0;
-            this.textDiv.html(this.text);
+            this.textDiv.innerHTML = this.text;
         } else if (!mouseIsPressed) {
             this.speed = this.defaultSpeed;
-            this.textDiv.html('');
+            this.textDiv.innerHTML = '';
         }
     }
 }

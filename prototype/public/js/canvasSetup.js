@@ -1,25 +1,17 @@
 // This file contains logic for setting up canvas
 
-import Circle from './classes/Circle.js';
 import Cluster from './classes/Cluster.js';
 import Button from './classes/Button.js';
 import { fadeOut, getColorNoAlpha } from './utils.js';
-import { totalTweets, tweets, locations } from './processTweets.js';
+import { totalTweets, emotions, locations } from './processTweets.js';
 
 const legendElement = document.getElementById('legend');
 const introScreen = document.getElementById('introScreen');
+const sampleInfo = document.getElementById('sampleInfo');
 const BUTTON_POS_X = 75, BUTTON_POS_Y = 350, BUTTON_Y_OFFSET = 50;
 const LOCATION_PERCENTAGE_MIN = 0.01;
-let textDiv;
 let displayCircles = true, displayClusters = false;
 let started = false;
-let emotionGroups = {
-    anger: {circles: [], clusters: [], display: true},
-    fear: {circles: [], clusters: [], display: true},
-    joy: {circles: [], clusters: [], display: true},
-    sadness: {circles: [], clusters: [], display: true},
-    neutral: {circles: [], clusters: [], display: true} 
-};
 
 // Set up p5 canvas
 function prepareCanvas(x, y, parentName, backgroundColor) {
@@ -29,18 +21,11 @@ function prepareCanvas(x, y, parentName, backgroundColor) {
     noStroke(); 
 }
 
-// Create child div
-function createChildDiv(parentName, text) {
-    return createDiv()
-        .parent(parentName)
-        .html(text);
-}
-
 // Create legend in format category:total (percentage)
 function createLegend() {
-    for (const emotion in tweets) {
+    for (const emotion in emotions) {
         // Get # Tweet associated with this emotion
-        const emotionTotal = tweets[emotion].length;
+        const emotionTotal = emotions[emotion].circles.length;
 
         // Calculate emotion percentage, rounded to nearest whole #
         const emotionPercentage = Math.round((emotionTotal / totalTweets) * 100);
@@ -57,8 +42,8 @@ function createLegend() {
 
 // Display all emotion content
 function resetEmotionFilters() {
-    for (const emotion in emotionGroups) {
-        emotionGroups[emotion].display = true;
+    for (const emotion in emotions) {
+        emotions[emotion].display = true;
     }
 }
 
@@ -66,9 +51,9 @@ function resetEmotionFilters() {
 function createButtons() {
     // Filter buttons
     let buttonIndex = 0;
-    for (const group in emotionGroups) {
+    for (const group in emotions) {
         new Button(group, BUTTON_POS_X, BUTTON_POS_Y + BUTTON_Y_OFFSET * buttonIndex++, () => {
-            emotionGroups[group].display = !emotionGroups[group].display
+            emotions[group].display = !emotions[group].display
         });
     }
 
@@ -84,15 +69,6 @@ function createButtons() {
         displayClusters = false;
         resetEmotionFilters();
     });
-}
-
-// Create a Circle for each Tweet, adding it to circles array
-function createCircles() {
-    for (const emotion in tweets) {
-        tweets[emotion].forEach(tweet => {
-            emotionGroups[emotion].circles.push(new Circle(tweet.text, textDiv, tweet.retweets, emotion));
-        });
-    }
 }
 
 // Create a Cluster for each location, adding it to clusters array
@@ -115,7 +91,7 @@ function createClusters() {
 
         // Add current location to clusters array only if its total count meets the minimum threshold
         if (total/totalTweets > LOCATION_PERCENTAGE_MIN) {
-            emotionGroups[predominantEmotion].clusters.push(new Cluster(location, total, predominantEmotion));
+            emotions[predominantEmotion].clusters.push(new Cluster(location, total, predominantEmotion));
         }
     }   
 }
@@ -130,16 +106,14 @@ function setupCanvas() {
     // Create p5 canvas
     prepareCanvas(700, 700, 'myCanvas', 255);
 
-    // Create divs for Tweet text and sample size
-    textDiv = createChildDiv('tweetText', '');
-    createChildDiv('sampleInfo', 'Sample size: ' + totalTweets + ' Tweets');
+    // Populate sample size element
+    sampleInfo.innerHTML = 'Sample size: ' + totalTweets + ' Tweets';
 
-    // Create emotion legend, Tweet circles, location clusters, and buttons
+    // Create emotion legend, location clusters, and buttons
     createLegend();
-    createCircles();
     createClusters();
     createButtons();
 }
 
-export { emotionGroups, displayCircles, displayClusters, started, setupCanvas };
+export { displayCircles, displayClusters, started, setupCanvas };
 

@@ -1,6 +1,7 @@
 // This file contains logic for drawing to canvas
 
-import { emotionGroups, displayCircles, displayClusters } from './canvasSetup.js';
+import { emotions } from './processTweets.js';
+import { displayCircles, displayClusters } from './canvasSetup.js';
 
 // Draw objects of a given type
 function drawObjects(objects) {
@@ -17,14 +18,14 @@ function drawObjects(objects) {
 
 // Display emotion groups by drawing appropriate objects to canvas
 function drawEmotionGroups() {
-    for (const emotion in emotionGroups) {
-        const group = emotionGroups[emotion];
+    for (const emotion in emotions) {
+        const emotionGroup = emotions[emotion];
         // Display emotion group only if not filtered out
-        if (group.display) {
+        if (emotionGroup.display) {
             if (displayCircles) {
-                drawObjects(group.circles);  // Draw Tweet circles
+                drawObjects(emotionGroup.circles);  // Draw Tweet circles
             } else if (displayClusters) {
-                drawObjects(group.clusters); // Draw location clusters
+                drawObjects(emotionGroup.clusters); // Draw location clusters
             }
         }
     }

@@ -1,18 +1,20 @@
 // This file contains logic for fetching/processing Tweets
 
+import Circle from './classes/Circle.js';
 import { fadeOut, fadeIn, updateText } from './utils.js';
 
 const feedback = document.getElementById('inputNum');
 const submit = document.getElementById('submit');
-let totalTweets = 0;
-let tweets = {
-    anger: [],
-    fear: [],
-    joy: [],
-    sadness: [],
-    neutral: []
+const tweetTextDiv = document.getElementById('tweetText');
+let emotions = {
+    anger: {circles: [], clusters: [], display: true},
+    fear: {circles: [], clusters: [], display: true},
+    joy: {circles: [], clusters: [], display: true},
+    sadness: {circles: [], clusters: [], display: true},
+    neutral: {circles: [], clusters: [], display: true} 
 };
 let locations = {};
+let totalTweets = 0;
 
 // Process individual Tweet
 function processTweet(tweet) {
@@ -24,8 +26,8 @@ function processTweet(tweet) {
     const randomIndex = Math.floor(Math.random() * associatedEmotions.length);
     const finalEmotion = associatedEmotions.length > 0 ? associatedEmotions[randomIndex] : "neutral";
 
-    // Update tweets dict by pushing entry into appropriate emotion array
-    tweets[finalEmotion].push({ text: tweet.text, retweets: tweet.retweets });
+    // Update emotions dict by pushing entry into appropriate emotion array
+    emotions[finalEmotion].circles.push(new Circle(tweet.text, tweetTextDiv, tweet.retweets, finalEmotion));
     
     // If Tweet location is available and key isn't already in locations dict, add it
     if (tweet.location) {
@@ -103,4 +105,4 @@ let tweetFetchPromise = new Promise(resolve => {
     });
 });
 
-export { totalTweets, tweets, locations, tweetFetchPromise };
+export { totalTweets, emotions, locations, tweetFetchPromise };
