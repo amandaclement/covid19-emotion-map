@@ -20,9 +20,9 @@
 <body>
     <header>
         <h1>COVID-19<br>Emotion<br>Analysis</h1>
-        <button onclick="showAbout()" id="about">About the<br>Project</button>
+        <button class="aboutButton" id="about">About the<br>Project</button>
         <div id="overlay">
-            <button onclick="hideAbout()" id="x">x</button>
+            <button class="aboutButton" id="x">x</button>
             <h2>About the<br>Project</h2>
             <p>This prototype is an interactive data visualization that illustrates the emotional impact of the COVID-19 pandemic. Each dot represents a Tweet posted on March 11th, 2020, which is the day the WHO declared the COVID-19 outbreak a global pandemic. COVID-19 related hashtag usage spiked on that day.</p>
             <p>The initial data set used for this visualization was a list of 1,145,287 COVID-19-related Tweet IDs from March 11th, 2020 was collected from the following GitHub repository: <a href="https://github.com/echen102/COVID-19-TweetIDs" target="_blank">https://github.com/echen102/COVID-19-TweetIDs</a>. These IDs were passed through the Hydrator app which uses Twitter’s API to return the corresponding Tweet information. 701,747 Tweets were successfully hydrated. All non-English Tweets were discarded, leaving 380,505 Tweets to be processed. </p><br>

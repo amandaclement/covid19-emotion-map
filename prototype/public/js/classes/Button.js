@@ -1,4 +1,4 @@
-import { COLOR_MAP } from '../data.js';
+import { getColorNoAlpha } from '../utils.js';
 
 // Canvas button
 export default class Button {
@@ -6,21 +6,15 @@ export default class Button {
       this.label = label;
       this.positionX = positionX;
       this.positionY = positionY;
-      this.color = this.getColor();
+      this.color = color(getColorNoAlpha(this.label));
       this.button = this.createButton();
       this.updateCanvas = updateCanvas;
-    }
-
-    // Get emotion color
-    getColor() {
-        const [red, green, blue] = COLOR_MAP[this.label];
-        return color(red, green, blue); 
     }
 
     // Handle button hover
     handleHover(button) {
         button.mouseOver(() => { 
-            button.style('color', this.color)
+            button.style('color', color(this.color))
                   .style('background', 'white')
                   .style('border', `2px solid ${this.color}`)
                   .html('filter');

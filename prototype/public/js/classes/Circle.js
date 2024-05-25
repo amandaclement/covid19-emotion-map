@@ -1,14 +1,11 @@
-import { COLOR_MAP } from '../data.js';
+import { getColor } from '../utils.js';
 
-// For ellipse sizing
 const BASE_SIZE = 4, MAX_SIZE = 20, EXPANSION_SIZE = 12;
 const SIZE_COEFFICIENTS = {
     low: 0.01,
     medium: 0.0015,
     high: 0.0002
 };
-
-// Thresholds for retweet counts to determine size coefficient
 const RETWEET_THRESHOLDS = {
     low: 500,
     medium: 10000,
@@ -30,7 +27,7 @@ export default class Circle {
 
     // Initialize RGB values
     setColor() {
-        [this.red, this.green, this.blue, this.alpha] = COLOR_MAP[this.emotion];
+        [this.red, this.green, this.blue, this.alpha] = getColor(this.emotion);
     }
 
     // Ellipse size is based on # retweets

@@ -1,6 +1,6 @@
-import { COLOR_MAP } from '../data.js';
+import { getColor } from '../utils.js';
 
-const FONT = 'Karla'
+const FONT = 'Karla';
 const ELLIPSE_SIZE = 100;
 const COUNTRY_FONT_SIZE = 24, COUNT_FONT_SIZE = 14, COUNT_Y_OFFSET = 20;
 
@@ -18,7 +18,7 @@ export default class Cluster {
 
     // Initialize RGB values
     setColor() {
-        [this.red, this.green, this.blue, this.alpha] = COLOR_MAP[this.emotion];
+        [this.red, this.green, this.blue, this.alpha] = getColor(this.emotion);
     }
 
     // Set the cluster's initial position parameters
